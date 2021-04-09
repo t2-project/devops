@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: uibackend
+  name: uibackend
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: uibackend
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: uibackend
+  name: uibackend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uibackend
+  template:
+    metadata:
+      labels:
+        app: uibackend
+    spec:
+      containers:
+        - name: uibackend
+          imagePullPolicy: Never
+          env:
+            - name: T2_ORCHESTRATOR_URL
+              value: http://orchestrator-cs
+            - name: T2_CART_URL
+              value: http://cart-cs/cart
+            - name: T2_INVENTORY_URL
+              value: http://inventory-cs/inventory
+          image: uibackend
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: cdcservice
+  name: cdcservice
+spec:
+  ports:
+    - name: "8099"
+      port: 8099
+      targetPort: 8080
+  selector:
+    app: cdcservice
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cdcservice
+  name: cdcservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cdcservice
+  template:
+    metadata:
+      labels:
+        app: cdcservice
+    spec:
+      containers:
+        - env:
+            - name: EVENTUATELOCAL_CDC_READER_NAME
+              value: PostgresPollingReader
+            - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka-hs:9093
+            - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
+              value: zk-hs:2181
+            - name: JAVA_OPTS
+              value: -Xmx64m
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: org.postgresql.Driver
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: eventuate
+            - name: SPRING_DATASOURCE_TEST_ON_BORROW
+              value: "true"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres/eventuate
+            - name: SPRING_DATASOURCE_USERNAME
+              value: eventuate
+            - name: SPRING_DATASOURCE_VALIDATION_QUERY
+              value: SELECT 1
+            - name: SPRING_PROFILES_ACTIVE
+              value: EventuatePolling
+          image: eventuateio/eventuate-cdc-service
+          name: cdcservice
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

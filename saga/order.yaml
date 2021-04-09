@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: order
+  name: order
+spec:
+  ports:
+    - port: 8082
+      targetPort: 8080
+  selector:
+    app: order
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: order
+  name: order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      labels:
+        app: order
+    spec:
+      containers:
+        - name: order
+          imagePullPolicy: Never
+          env:
+            - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka-hs:9093
+            - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
+              value: zk-hs:2181
+            - name: MONGO_URL
+              value: mongo-hs
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: org.postgresql.Driver
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: eventuate
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres/eventuate
+            - name: SPRING_DATASOURCE_USERNAME
+              value: eventuate
+          image: order
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

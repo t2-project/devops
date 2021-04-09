@@ -1,0 +1,58 @@
+# it's kind of difficult to replicate postgres, they say. i'll just not replicate it :x 
+# in case i _have_ to, i can still switch to mysql, follow this tutorial: https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/ and also fix the schema of the database.
+# (there's also a tutorial for replicated postgress, but it links to a non existing folder in some git-hub repo)
+# also there are others, but i don't trust them because the just... replicate the db pod and i'm pretty sure that they are missing some point about keeping the db pods in sync.
+apiVersion: v1
+kind: Service # headless (c.f. clusterIP : none)
+metadata:
+  labels:
+    app: postgres
+  name: postgres # won't rename to postgres-hs becuase im lazy
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  clusterIP: None
+  selector:
+    app: postgres
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+spec:
+  serviceName: postgres # match service name :)
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: eventuateio/eventuate-tram-sagas-postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              value: eventuate
+            - name: POSTGRES_USER
+              value: eventuate
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+          - name: postgredb
+            mountPath: /var/lib/postgresql/data
+            subPath: postgres # i dont kwon what this is. i copied from the internet.
+      restartPolicy: Always
+  volumeClaimTemplates:
+  - metadata:
+      name: postgredb
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 3Gi
