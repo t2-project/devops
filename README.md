@@ -14,7 +14,7 @@ still better than any other tutorial out there :)
 ### service
 * kafka-hs : headless service for the kafka. kafka (currently) listens to 9093. (which was kind of confusing at first, but i guess who ever wrote the example had their reasons.)
 * zk-hs : headless service for the zookeeper 
-* zk-cs : not se headless service for zookeeper. this is where other services talk to the zookeeper. (i don't know why though :x)
+* zk-cs : not so headless service for zookeeper. this is where other services talk to the zookeeper. (i don't know why though :x)
 
 
 ## db  
