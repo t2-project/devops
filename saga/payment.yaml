@@ -29,10 +29,10 @@ spec:
     spec:
       containers:
         - name: payment
-          image: payment
+          image: stiesssh/payment:v0.1.0
           ports:
             - containerPort: 8080
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
               value: kafka-hs:9093

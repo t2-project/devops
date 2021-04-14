@@ -6,7 +6,7 @@ metadata:
   name: orchestrator-cs
 spec:
   selector:
-    app: inventory
+    app: orchestrator
   ports:
   - port: 80
     targetPort: 8080
@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
         - name: orchestrator
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
               value: kafka-hs:9093
@@ -57,7 +57,7 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
-          image: orchestrator
+          image: stiesssh/orchestrator:v0.1.0
           ports:
             - containerPort: 8080
       restartPolicy: Always

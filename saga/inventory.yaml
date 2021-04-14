@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
         - name: inventory
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
               value: kafka-hs:9093
@@ -51,6 +51,8 @@ spec:
               value: zk-hs:2181
             - name: INVENTORY_SIZE
               value: "15"
+            - name: T2_CART_URL
+              value: http://cart-cs/cart
             - name: MONGO_URL
               value: mongo-hs
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
@@ -61,7 +63,7 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
-          image: inventory
+          image: stiesssh/inventory:v0.1.0
           ports:
             - containerPort: 8080
       restartPolicy: Always

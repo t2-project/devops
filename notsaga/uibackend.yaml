@@ -30,15 +30,17 @@ spec:
     spec:
       containers:
         - name: uibackend
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: T2_ORCHESTRATOR_URL
-              value: http://orchestrator-cs
+              value: http://orchestrator-cs/order/
             - name: T2_CART_URL
-              value: http://cart-cs/cart
+              value: http://cart-cs/cart/
             - name: T2_INVENTORY_URL
-              value: http://inventory-cs/inventory
-          image: uibackend
+              value: http://inventory-cs/inventory/
+            - name: T2_RESERVATION_ENDPOINT
+              value: reservation
+          image: stiesssh/uibackend:v0.1.0
           ports:
             - containerPort: 8080
       restartPolicy: Always

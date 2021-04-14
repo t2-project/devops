@@ -43,11 +43,11 @@ spec:
     spec:
       containers:
         - name: cart
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: MONGO_URL
               value: mongo-hs
-          image: cart
+          image: stiesssh/cart:v0.1.0
           ports:
             - containerPort: 8080
       restartPolicy: Always
