@@ -44,15 +44,15 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-          - name: postgredb
+          - name: datadir
             mountPath: /var/lib/postgresql/data
             subPath: postgres # i dont kwon what this is. i copied from the internet.
       restartPolicy: Always
   volumeClaimTemplates:
   - metadata:
-      name: postgredb
+      name: datadir
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 3Gi
+          storage: 1Gi
