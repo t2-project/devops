@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: provider-cs
+  name: provider-cs
+spec:
+  selector:
+    app: provider
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: provider-ext
+  name: provider-ext
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: provider
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: provider
+  name: provider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: provider
+  template:
+    metadata:
+      labels:
+        app: provider
+    spec:
+      containers:
+        - name: provider
+          imagePullPolicy: Always
+          image: stiesssh/provider:v0.1.0
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

@@ -46,4 +46,6 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
+            - name: PAYMENT_PROVIDER_DUMMY_URL
+              value: provider-cs:80
       restartPolicy: Always
