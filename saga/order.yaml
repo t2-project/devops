@@ -6,7 +6,7 @@ metadata:
   name: order
 spec:
   ports:
-    - port: 8082
+    - port: 80
       targetPort: 8080
   selector:
     app: order

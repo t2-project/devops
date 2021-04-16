@@ -2,15 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: uibackend
-  name: uibackend
+    app: uibackend-cs
+  name: uibackend-cs
 spec:
   ports:
-    - port: 8080
+    - port: 80
       targetPort: 8080
   selector:
     app: uibackend
-  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment

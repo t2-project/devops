@@ -126,6 +126,7 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: /var/lib/zookeeper
+# guess this is kinda important. if i remove it zoo refuses to find is pvc.
       securityContext:
         runAsUser: 1000
         fsGroup: 1000

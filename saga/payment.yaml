@@ -6,7 +6,7 @@ metadata:
   name: payment
 spec:
   ports:
-    - port: 8083
+    - port: 80
       targetPort: 8080
   selector:
     app: payment
