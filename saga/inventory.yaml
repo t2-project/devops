@@ -36,10 +36,10 @@ spec:
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: zk-hs:2181
             - name: INVENTORY_SIZE
-              value: "15"
+              value: 15
             - name: T2_CART_URL
               value: http://cart-cs/cart
-            - name: MONGO_URL
+            - name: MONGO_HOST
               value: mongo-hs
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
@@ -49,6 +49,8 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
+            - name: SPRING_PROFILE_ACTIVE
+              value: saga
           image: stiesssh/inventory:v0.1.0
           ports:
             - containerPort: 8080

@@ -35,7 +35,7 @@ spec:
               value: kafka-hs:9093
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: zk-hs:2181
-            - name: MONGO_URL
+            - name: MONGO_HOST
               value: mongo-hs
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
