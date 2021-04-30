@@ -36,9 +36,13 @@ spec:
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: zk-hs:2181
             - name: INVENTORY_SIZE
-              value: 15
+              value: "15"
             - name: T2_CART_URL
               value: http://cart-cs/cart
+            - name: T2_INVENTORY_TASKRATE
+              value: "0"
+            - name: T2_INVENTORY_TTL
+              value: "0"
             - name: MONGO_HOST
               value: mongo-hs
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME

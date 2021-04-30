@@ -47,5 +47,5 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
             - name: PAYMENT_PROVIDER_DUMMY_URL
-              value: provider-cs:80
+              value: http://provider-cs/pay
       restartPolicy: Always

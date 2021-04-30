@@ -8,8 +8,8 @@ spec:
   selector:
     app: cart
   ports:
-  - port: 80
-    targetPort: 8080
+    - port: 80
+      targetPort: 8080
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -33,6 +33,10 @@ spec:
           env:
             - name: MONGO_HOST
               value: mongo-hs
+            - name: T2_CART_TTL
+              value: "0"
+            - name: T2_CART_TASKRATE
+              value: "0"
           image: stiesssh/cart:v0.1.0
           ports:
             - containerPort: 8080
