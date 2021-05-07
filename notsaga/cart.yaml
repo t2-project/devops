@@ -31,8 +31,8 @@ spec:
         - name: cart
           imagePullPolicy: Always
           env:
-            - name: MONGO_URL
-              value: mongodb://mongo-hs:27017/data
+            - name: MONGO_HOST
+              value: mongo-hs
             - name: T2_CART_TTL
               value: "0"
             - name: T2_CART_TASKRATE

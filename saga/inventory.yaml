@@ -43,8 +43,8 @@ spec:
               value: "0"
             - name: T2_INVENTORY_TTL
               value: "0"
-            - name: MONGO_URL
-              value: mongodb://mongo-hs:27017/data
+            - name: MONGO_HOST
+              value: mongo-hs
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
             - name: SPRING_DATASOURCE_PASSWORD

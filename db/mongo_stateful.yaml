@@ -50,6 +50,7 @@ spec:
           name: datadir
         spec:
 #          storageClassName: "fast"
+# nix angeben in meinem fall richtig
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
