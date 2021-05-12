@@ -106,25 +106,27 @@ spec:
           --max_session_timeout=40000 \
           --min_session_timeout=4000 \
           --log_level=INFO"
-        readinessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - "zookeeper-ready 2181"
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        livenessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - "zookeeper-ready 2181"
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+# fuck them bc they kill me bc im slow.
+#        readinessProbe:
+#          exec:
+#            command:
+#            - sh
+#            - -c
+#            - "zookeeper-ready 2181"
+#          initialDelaySeconds: 20
+#          timeoutSeconds: 10
+#        livenessProbe:
+#          exec:
+#            command:
+#            - sh
+#            - -c
+#            - "zookeeper-ready 2181"
+#          initialDelaySeconds: 20
+#          timeoutSeconds: 10
         volumeMounts:
         - name: datadir
           mountPath: /var/lib/zookeeper
+# guess this is kinda important. if i remove it zoo refuses to find is pvc.
       securityContext:
         runAsUser: 1000
         fsGroup: 1000

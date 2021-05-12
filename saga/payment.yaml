@@ -6,7 +6,7 @@ metadata:
   name: payment
 spec:
   ports:
-    - port: 8083
+    - port: 80
       targetPort: 8080
   selector:
     app: payment
@@ -29,10 +29,10 @@ spec:
     spec:
       containers:
         - name: payment
-          image: payment
+          image: stiesssh/payment:v0.1.0
           ports:
             - containerPort: 8080
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
               value: kafka-hs:9093
@@ -46,4 +46,8 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
+            - name: T2_PAYMENT_PROVIDER_DUMMY_URL
+              value: http://provider-cs/pay
+            - name: T2_PAYMENT_PROVIDER_TIMEOUT
+              value: "5"
       restartPolicy: Always

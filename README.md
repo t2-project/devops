@@ -37,14 +37,12 @@ current setup uses postgress db and kafka (+ zookeeper), like this: https://gith
 the saga participants. only work if messaging, dbs and cdc are running.
 
 ### orchestrator 
-- orchestrator-ext : LoadBalancer service because i wanted to talk to orchestrator.
 - orchestrator-cs : normal (cluster?) service because other services (uibackend) want to talk to orchestrator, too.
 
 ### payment and order
 - the have a service each, but i don't know wether they acutally need them.
 
 ### inventory 
-- inventory-ext : LoadBalancer service because i wanted to talk to inventory (check whether db is populated as i want it)
 - inventory-cs : normal service because other services (uibackend) want to talk to inventory, too.
 
 
@@ -56,8 +54,13 @@ services that are not part of the saga.
 requires the mongo db
 ### uibackend
 requires the inventory, the cart and the orchestrator.
+*  uibackend-cs : cluster service to talk to ui backend from within the cluster
+* uibackend-ingress : exists for _the cluster_. maps to uibackend-cs.
 
 
+## on branch main... are some left overs :X 
+- inventory-ext : LoadBalancer service because i wanted to talk to inventory (check whether db is populated as i want it)  
+- orchestrator-ext : LoadBalancer service because i wanted to talk to orchestrator
 
 ## utility
 pods that are useful for debugging.

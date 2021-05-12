@@ -36,7 +36,7 @@ spec:
           ports:
             - containerPort: 27017
           volumeMounts:
-            - name: mongo-persistent-storage
+            - name: datadir
               mountPath: /data/db
 # they say i need this in case i replicate...
         - name: mongo-sidecar
@@ -47,11 +47,12 @@ spec:
       restartPolicy: Always
   volumeClaimTemplates:
       - metadata:
-          name: mongo-persistent-storage
+          name: datadir
         spec:
 #          storageClassName: "fast"
+# nix angeben in meinem fall richtig
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 10Gi #100Gi #why so much? o_o
+              storage: 1Gi #100Gi #why so much? o_o
   

@@ -11,20 +11,6 @@ spec:
   - port: 80
     targetPort: 8080
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: inventory-ext
-  name: inventory-ext
-spec:
-  ports:
-    - port: 8081
-      targetPort: 8080
-  selector:
-    app: inventory
-  type: LoadBalancer
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,7 +29,7 @@ spec:
     spec:
       containers:
         - name: inventory
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           env:
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
               value: kafka-hs:9093
@@ -51,7 +37,13 @@ spec:
               value: zk-hs:2181
             - name: INVENTORY_SIZE
               value: "15"
-            - name: MONGO_URL
+            - name: T2_CART_URL
+              value: http://cart-cs/cart
+            - name: T2_INVENTORY_TASKRATE
+              value: "0"
+            - name: T2_INVENTORY_TTL
+              value: "0"
+            - name: MONGO_HOST
               value: mongo-hs
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
@@ -61,7 +53,9 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
-          image: inventory
+            - name: SPRING_PROFILE_ACTIVE
+              value: saga
+          image: stiesssh/inventory:v0.1.0
           ports:
             - containerPort: 8080
       restartPolicy: Always

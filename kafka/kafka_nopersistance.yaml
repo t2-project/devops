@@ -14,7 +14,7 @@ metadata:
   name: kafka
 spec:
   serviceName: kafka-hs
-  replicas: 2 # they say 3 is reasonable minimum. i go for 2 because default topic replica is 2
+  replicas: 1 # they say 3 is reasonable minimum. i go for 2 because default topic replica is 2
   selector:
     matchLabels:
       app: kafka
@@ -53,6 +53,12 @@ spec:
       - name: k8skafka
         imagePullPolicy: Always
         image: gcr.io/google_containers/kubernetes-kafka:1.0-10.2.1
+# what is this? i think i breaks things?
+#        env:
+#        resources:
+#          requests:
+#            memory: "1Gi"
+#            cpu: "0.5"
         ports:
         - containerPort: 9093
           name: server
@@ -62,8 +68,8 @@ spec:
         - "exec kafka-server-start.sh /opt/kafka/config/server.properties --override broker.id=${HOSTNAME##*-} \
           --override listeners=PLAINTEXT://:9093 \
           --override zookeeper.connect=zk-cs.default.svc.cluster.local:2181 \
-          --override log.dir=/var/lib/kafka/data \
           --override log.dirs=/var/lib/kafka/data \
+          --override log.dir=/var/lib/kafka/data \
           --override auto.create.topics.enable=true \
           --override auto.leader.rebalance.enable=true \
           --override background.threads=10 \
@@ -153,9 +159,11 @@ spec:
           value : "-Xmx512M -Xms512M"
         - name: KAFKA_OPTS
           value: "-Dlogging.level=DEBUG"
-        volumeMounts:
-        - name: datadir
-          mountPath: /var/lib/kafka
+# lets skip this for now...
+#        volumeMounts:
+#        - name: datadir
+#          mountPath: /var/lib/kafka
+#
 # i hate who ever put this here because it breaks things (pod stuck at ' 0/1 running', which means 'up, but not ryet ready, i guess??
 #        readinessProbe:
 #          exec:
@@ -163,14 +171,17 @@ spec:
 #            - sh
 #            - -c
 #            - "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server=localhost:9093"
-      securityContext:
-        runAsUser: 1000
-        fsGroup: 1000
-  volumeClaimTemplates:
-  - metadata:
-      name: datadir
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi #10Gi
+# may be this is reason for 'premission denied'? 
+# yep, apparently it was.
+#      securityContext:
+#        runAsUser: 1000
+#        fsGroup: 1000
+# also skip this....
+#  volumeClaimTemplates:
+#  - metadata:
+#      name: datadir
+#    spec:
+#      accessModes: [ "ReadWriteOnce" ]
+#      resources:
+#        requests:
+#          storage: 1Gi #10Gi
