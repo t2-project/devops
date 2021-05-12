@@ -46,6 +46,8 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
+            - name: MONGO_HOST
+              value: mongo-hs
             - name: SPRING_MONGO_URL
               value: mongodb://mongo-hs:27017/data
             - name: T2_ORCHESTRATOR_URL
