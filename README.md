@@ -6,13 +6,13 @@ a somewhat working kubernetes set up for the t2 store, including the messaging, 
 | ----------------- | ------- |
 | [./cdc/](cdc)     | deployment  | 
 | [./db/](db)       | kube files for the databases |
-| ./kafka/          | kube files for the message broker | 
-| ./notsaga/        | kube files for the T2 services that are not part of the saga |  
-| ./saga/           | kube files for the T2 services that participate in the saga |   
-| ./testsetup/      | kube files for the e2e test service and kube files for ui backend and payment in test mode |
-| ./loadprofiles/   | load profiles for the Apache jMeter load generator |   
-| ./prometheusfiles/| config / rules / alerts for prometheus |   
-| ./setenv.sh       | export environment variables required do build the T2 store locally |
+| [./kafka/](kafka)          | kube files for the message broker | 
+| [./notsaga/](notsaga)        | kube files for the T2 services that are not part of the saga |  
+| [./saga/](saga)           | kube files for the T2 services that participate in the saga |   
+| [./testsetup/](testsetup)     | kube files for the e2e test service and kube files for ui backend and payment in test mode |
+| [./loadprofiles/](loadprofiles)   | load profiles for the Apache jMeter load generator |   
+| [./prometheusfiles/](prometheusfiles)| config / rules / alerts for prometheus |   
+| [./setenv.sh](setenv.sh)       | export environment variables required do build the T2 store locally |
 
 ## kafka
 The T2 Store uses Kafka (with Zookeeper) as message broker.
