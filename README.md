@@ -1,74 +1,78 @@
 # kube
 a somewhat working kubernetes set up for the t2 store, including the messaging, the databases and the cdc.
 
-## kafka  
-the kafka and its zookeeper.
-a meshup of those tutorials:
+## Directory structure
+| directory / file  | content |
+| ----------------- | ------- |
+| [./cdc/](cdc)     | deployment  | 
+| [./db/](db)       | kube files for the databases |
+| ./kafka/          | kube files for the message broker | 
+| ./notsaga/        | kube files for the T2 services that are not part of the saga |  
+| ./saga/           | kube files for the T2 services that participate in the saga |   
+| ./testsetup/      | kube files for the e2e test service and kube files for ui backend and payment in test mode |
+| ./loadprofiles/   | load profiles for the Apache jMeter load generator |   
+| ./prometheusfiles/| config / rules / alerts for prometheus |   
+| ./setenv.sh       | export environment variables required do build the T2 store locally |
+
+## kafka
+The T2 Store uses Kafka (with Zookeeper) as message broker.
+The kube file is a mesh up of these tutorials:
 * https://kubernetes.io/docs/tutorials/stateful-application/zookeeper/
 * https://kubernetes.io/blog/2017/09/kubernetes-statefulsets-daemonsets/
     
-however they seem a bit outdated. 
-also the example is missing a service and the readiness probe is broken. 
-still better than any other tutorial out there :)
+The tutorials seem to be a bit outdated and the example is missing a service and the readiness probe is broken. 
+However they are still very helpful.
 
-### service
-* kafka-hs : headless service for the kafka. kafka (currently) listens to 9093. (which was kind of confusing at first, but i guess who ever wrote the example had their reasons.)
-* zk-hs : headless service for the zookeeper 
-* zk-cs : not so headless service for zookeeper. this is where other services talk to the zookeeper. (i don't know why though :x)
+### Services
+
+The kube files define three services for the message broker:
+
+* **kafka-hs** : a headless service for the Kafka. The kafka listens to port 9093. (Which was kind of confusing at first, but i guess the person who wrote the tutorials had their reasons.)
+* **zk-hs** : headless service for the zookeeper. 
+* **zk-cs** : cluster service for the zookeeper. Other services use this service to talk to the zookeeper.
 
 
 ## db  
-the postgress db for the cdc and the mongo db for the domain data.
+The T2 store needs a postgres database for the cdc service and mongoDB databases for the domain data.
 
-mongo is loosely based on this tutorial: https://kubernetes.io/blog/2017/01/running-mongodb-on-kubernetes-with-statefulsets/
+The deployment for the mongoDB is loosely based on this tutorial: https://kubernetes.io/blog/2017/01/running-mongodb-on-kubernetes-with-statefulsets/
 
-took hints on where to plug the storgae for the postgress db in from this tutorial: https://www.bmc.com/blogs/kubernetes-postgresql/
-i ignored the rest though and did it like with the mongo db.
+I took hints on where to plug the storage into the postgres database from this tutorial: https://www.bmc.com/blogs/kubernetes-postgresql/
+(I ignored the rest though and did it like with the mongoDB.)
 
 ## cdc  
-the cdc from eventuate tram (https://eventuate.io/docs/manual/eventuate-tram/latest/getting-started-eventuate-tram.html)
+The [eventuate tram CDC service](https://eventuate.io/docs/manual/eventuate-tram/latest/getting-started-eventuate-tram.html).
 
-requires a db and a mom.
+It requires the postgres database and the message broker to be up.
 
-current setup uses postgress db and kafka (+ zookeeper), like this: https://github.com/eventuate-tram/eventuate-tram-sagas-examples-customers-and-orders/blob/master/docker-compose-postgres.yml (but in kubernetes)
-
+The kube file for the CDC service is derived from this docker-compose file: https://github.com/eventuate-tram/eventuate-tram-sagas-examples-customers-and-orders/blob/master/docker-compose-postgres.yml
 
 ## saga  
-the saga participants. only work if messaging, dbs and cdc are running.
+The T2 Stores saga participants. 
+They require the message broker, the databases and the CDC service to work properly.
+The Payment Service also requires a the payment provider.
 
-### orchestrator 
-- orchestrator-cs : normal (cluster?) service because other services (uibackend) want to talk to orchestrator, too.
-
-### payment and order
-- the have a service each, but i don't know wether they acutally need them.
-
-### inventory 
-- inventory-cs : normal service because other services (uibackend) want to talk to inventory, too.
+### Services
+- **orchestrator-cs** : cluster service such that other services can talk to the Orchestrator.
+- **inventory-cs** : cluster service such that other services can talk to the Inventory.
 
 
 ## notsaga  
-services that are not part of the saga. 
-(they are not that important, you can also talk directly to the orchstrator.)
+The T2 Store services that are not part of the saga.
 
-### cart
-requires the mongo db
-### uibackend
-requires the inventory, the cart and the orchestrator.
-*  uibackend-cs : cluster service to talk to ui backend from within the cluster
-* uibackend-ingress : exists for _the cluster_. maps to uibackend-cs.
+The Cart Service requires the mondoDB database and the UI Backend requires the Orchestrator, Inventory and Cart Service to work properly.
 
+### Services
+*  provider-cs : cluster service to talk to the payment provider.
+*  uibackend-cs : cluster service to talk to the ui backend.
+*  uibackend-ingress : exists such that you can talk to the UI Backend from outside of _the cluster_.
 
-## on branch main... are some left overs :X 
-- inventory-ext : LoadBalancer service because i wanted to talk to inventory (check whether db is populated as i want it)  
-- orchestrator-ext : LoadBalancer service because i wanted to talk to orchestrator
 
 ## utility
-pods that are useful for debugging.
-- dnsutils : what the title says 
+Kube files for Pods that are useful for debugging.
+They are not part of the T2 Store.
+- **dnsutils** : what the title says 
     - usage (and source) : https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/)
-- pod-test/pod-test2 : kafka commandline consumer / producer to check kafka
-    - usage : https://kafka.apache.org/quickstart (a bit outdated. but that's oke because the commondline guys provide help themselves)
+- **pod-test** : kafka commandline consumer / producer to check kafka
+    - usage : https://kafka.apache.org/quickstart (a bit outdated. but that's okey because the commondline guys provide help themselves)
     - source : https://imti.co/kafka-kubernetes/setting-up-kafka-on-kubernetes (rest of that post sucks though)
-
-## TODO : a graph because i like graphs and they are mostly helpful. 
-
