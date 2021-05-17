@@ -1,0 +1,29 @@
+groups:
+- name: creditinstitute-alerts
+  rules:
+#
+  - alert: availability_v1
+    expr: creditinstitute:success_failure_rate1m_v1 < 9
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      summary: "Too many request fail on {{ $labels.instance }}"
+      description: "{{ $labels.instance }} less than 9 request succeed (current value: {{ $value }})"
+#
+  - alert: availability_v2
+    expr: creditinstitute:success_failure_rate1m_v2 < 9
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      summary: "Too many request fail on {{ $labels.instance }}"
+      description: "{{ $labels.instance }} less than 9 request succeed (current value: {{ $value }})"
+
+#
+  - alert: APIHighRequestLatency
+    expr: http_server_requests_seconds{quantile="0.5"} > 1.5
+    for: 10m
+    annotations:
+      summary: "High request latency on {{ $labels.instance }}"
+      description: "{{ $labels.instance }} has a median request latency above 1.5s (current value: {{ $value }}s)"
