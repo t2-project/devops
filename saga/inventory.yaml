@@ -55,6 +55,12 @@ spec:
               value: eventuate
             - name: SPRING_PROFILE_ACTIVE
               value: saga
+            - name: JAEGER_SERVICE_NAME
+              value: inventory
+            - name: JAEGER_ENABLE
+              value: "TRUE"
+            - name: JAEGER_HOST
+              value: jaeger-agent
           image: stiesssh/inventory:v0.1.0
           ports:
             - containerPort: 8080

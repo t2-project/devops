@@ -43,6 +43,12 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
+            - name: JAEGER_SERVICE_NAME
+              value: orchestrator
+            - name: JAEGER_ENABLE
+              value: "TRUE"
+            - name: JAEGER_HOST
+              value: jaeger-agent
           image: stiesssh/orchestrator:v0.1.0
           ports:
             - containerPort: 8080

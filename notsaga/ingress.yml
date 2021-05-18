@@ -12,9 +12,26 @@ spec:
       - path: /
         # referenced service endpoint to which the traffic will be forwarded to.
         backend:
-          serviceName: uibackend-cs # of referenced service
-          servicePort: 80           # of referenced service
+          serviceName: jaeger-query
+          servicePort: 80           
       - path: /actuator/prometheus
         backend:
           serviceName: provider-cs
           servicePort: 80
+     # ui backend path by path :(
+      - path: /products
+        pathType: Prefix
+        backend:
+          serviceName: uibackend-cs # of referenced service
+          servicePort: 80   
+      - path: /cart
+        pathType: Prefix
+        backend:
+          serviceName: uibackend-cs # of referenced service
+          servicePort: 80  
+      - path: /confirm
+        pathType: Prefix
+        backend:
+          serviceName: uibackend-cs # of referenced service
+          servicePort: 80  
+
