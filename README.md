@@ -65,6 +65,7 @@ The Cart Service requires the mondoDB database and the UI Backend requires the O
 ### Services
 *  provider-cs : cluster service to talk to the payment provider.
 *  uibackend-cs : cluster service to talk to the ui backend.
+*  ui-cs : cluster service to talk to the ui.
 
 ### Ingress
 exists such that you can talk to the UI Backend from outside of _the cluster_.

@@ -9,8 +9,16 @@ spec:
   rules:
   - http:
       paths:
+    # ui frontend paths
+      - path: /ui/
+        pathType: Prefix
+        backend:
+          serviceName: ui-cs # of referenced service
+          servicePort: 80
+
+    #
       - path: /
-        # referenced service endpoint to which the traffic will be forwarded to.
+    # referenced service endpoint to which the traffic will be forwarded to.
         backend:
           serviceName: jaeger-query
           servicePort: 80           
@@ -18,7 +26,7 @@ spec:
         backend:
           serviceName: provider-cs
           servicePort: 80
-     # ui backend path by path :(
+    # ui backend path by path :(
       - path: /products
         pathType: Prefix
         backend:
@@ -33,5 +41,4 @@ spec:
         pathType: Prefix
         backend:
           serviceName: uibackend-cs # of referenced service
-          servicePort: 80  
-
+          servicePort: 80 
