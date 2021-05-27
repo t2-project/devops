@@ -16,12 +16,13 @@ spec:
           serviceName: ui-cs # of referenced service
           servicePort: 80
 
-    #
-      - path: /
-    # referenced service endpoint to which the traffic will be forwarded to.
-        backend:
-          serviceName: jaeger-query
-          servicePort: 80           
+# most sadly this one eats the prometheus BBE in the other namespace :( :( 
+    # jaeger
+#      - path: /
+#        backend: # service endpoint to forward to 
+#          serviceName: jaeger-query
+#          servicePort: 80           
+    # prometheus responsetime metrics
       - path: /actuator/prometheus
         backend:
           serviceName: provider-cs
@@ -41,4 +42,4 @@ spec:
         pathType: Prefix
         backend:
           serviceName: uibackend-cs # of referenced service
-          servicePort: 80 
+          servicePort: 80
