@@ -72,8 +72,7 @@ exists such that you can talk to the UI Backend from outside of _the cluster_.
 
 
 ## utility
-Kube files for Pods that are useful for debugging.
-They are not part of the T2 Store.
+Kube files for Pods that are useful but not part of the T2 Store.
 - **dnsutils** : what the title says 
     - usage (and source) : https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/)
 - **pod-test** : kafka commandline consumer / producer to check kafka

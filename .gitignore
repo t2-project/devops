@@ -1,3 +1,5 @@
 legacy/
 **/*.logs*
+**/*.log*
 **/*.describe*
+**/*.swp

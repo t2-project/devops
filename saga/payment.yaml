@@ -50,4 +50,10 @@ spec:
               value: http://provider-cs/pay
             - name: T2_PAYMENT_PROVIDER_TIMEOUT
               value: "5"
+            - name: JAEGER_SERVICE_NAME
+              value: payment
+            - name: JAEGER_ENABLE
+              value: "TRUE"
+            - name: JAEGER_HOST
+              value: jaeger-agent
       restartPolicy: Always

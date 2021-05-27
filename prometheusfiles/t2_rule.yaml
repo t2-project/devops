@@ -1,11 +1,3 @@
 groups:
 - name: groupname-rules
   rules:
-  - record: name_of_time_series
-    expr: avg by (job, instance, mode) (rate(node_cpu_seconds_total[5m]))
-# this is okey. but is sucks.
-  - record: creditinstitute:success_failure_rate1m_v1
-    expr: rate(http_server_requests_seconds_count{outcome="SUCCESS", status="200", uri="/pay"}[1m] )/ ignoring(status, outcome, exception)  rate(http_server_requests_seconds_count{uri="/pay", outcome="SERVER_ERROR", status="500"}[1m])
-# this is wrong. it also sucks.
-  - record: creditinstitute:success_failure_rate1m_v2
-    expr: avg_over_time(http_server_requests_seconds_count{application="creditinstitute", exception="None",  outcome="SUCCESS", status="200", uri="/pay"} [1m]) / ignoring (exception, outcome, status) avg_over_time(http_server_requests_seconds_count{application="creditinstitute", exception="Exception", method="POST", outcome="SERVER_ERROR", status="500", uri="/pay"}[1m]) 
