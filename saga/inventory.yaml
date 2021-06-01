@@ -32,9 +32,9 @@ spec:
           imagePullPolicy: Always
           env:
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
-              value: t2-kafka:9092
+              value: kafka:9092
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
-              value: t2-zookeeper:2181
+              value: kafka-zookeeper:2181
             - name: INVENTORY_SIZE
               value: "15"
             - name: T2_CART_URL
