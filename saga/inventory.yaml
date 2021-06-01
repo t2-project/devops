@@ -36,9 +36,7 @@ spec:
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: kafka-zookeeper:2181
             - name: INVENTORY_SIZE
-              value: "15"
-            - name: T2_CART_URL
-              value: http://cart-cs/cart
+              value: "25"
             - name: T2_INVENTORY_TASKRATE
               value: "0"
             - name: T2_INVENTORY_TTL
