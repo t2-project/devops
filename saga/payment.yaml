@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: payment
-          image: stiesssh/payment:v0.1.0
+          image: stiesssh/payment:main
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
@@ -55,5 +55,5 @@ spec:
             - name: JAEGER_ENABLE
               value: "TRUE"
             - name: JAEGER_HOST
-              value: jaeger-agent
+              value: localhost #todo
       restartPolicy: Always

@@ -58,8 +58,8 @@ spec:
             - name: JAEGER_ENABLE
               value: "TRUE"
             - name: JAEGER_HOST
-              value: jaeger-agent
-          image: stiesssh/inventory:v0.1.0
+              value: localhost #todo
+          image: stiesssh/inventory:jdbc
           ports:
             - containerPort: 8080
       restartPolicy: Always

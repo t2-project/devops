@@ -30,7 +30,10 @@ spec:
       containers:
         - name: provider
           imagePullPolicy: Always
-          image: stiesssh/provider:v0.1.0
+          env:
+            - name: JAEGER_HOST
+              value: localhost # todo
+          image: stiesssh/provider:master
           ports:
             - containerPort: 8080
       restartPolicy: Always

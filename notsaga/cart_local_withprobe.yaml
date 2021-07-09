@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: cart
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           env:
             - name: MONGO_HOST
               value: mongo-mongodb
@@ -37,9 +37,14 @@ spec:
               value: "0"
             - name: T2_CART_TASKRATE
               value: "0"
-            - name: JAEGER_HOST
-              value: localhost #todo
-          image: stiesssh/cart:main
+          image: cartx:latest
           ports:
             - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          
       restartPolicy: Always

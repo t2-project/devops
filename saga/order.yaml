@@ -50,8 +50,8 @@ spec:
             - name: JAEGER_ENABLE
               value: "TRUE"
             - name: JAEGER_HOST
-              value: jaeger-agent
-          image: stiesssh/order:v0.1.0
+              value: localhost #todo
+          image: stiesssh/order:main
           ports:
             - containerPort: 8080
       restartPolicy: Always
