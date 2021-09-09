@@ -1,28 +1,20 @@
 groups:
-- name: creditinstitute-alerts
+- name: provider-alerts
   rules:
 
-# from jonas
-  - alert: Availability1
-    expr: 'avg_over_time(probe_success[1m]) < 0.8'
+  - alert: provider_avail_avg_slo
+    expr: 'avg_over_time(probe_success[1m]) <= 0.9'
     labels:
       severity: error
     annotations:
       summary: "Bad Availability on {{ $labels.instance }} /  {{ $labels.target }}"
+      value: "{{ $value }}"
+      solomonId: "5e25b2a4-6b5d-4317-95e7-6a8245226e64"
 
-
-# from that 'blue book'
-  - alert: Availability2
-    expr: probe_success == 0
+  - alert: provider_respT_avg_slo
+    expr: 'avg_over_time(http_server_requests_seconds[10s]) >= 10'
     for: 10s
-    labels:
-      severity: error
-    annotations:
-      summary: "Instance down for more than 10 s. {{ $labels.instance }} /  {{ $labels.target }}"
-#
-  - alert: APIHighRequestLatency
-    expr: http_server_requests_seconds{quantile="0.5"} > 1.5
-    for: 10m
     annotations:
       summary: "High request latency on {{ $labels.instance }}"
-      description: "{{ $labels.instance }} has a median request latency above 1.5s (current value: {{ $value }}s)"
+      value: "{{ $value }}"
+      solomonId: "67cc8ce2-3f78-4122-ad36-d9640efdde40"
