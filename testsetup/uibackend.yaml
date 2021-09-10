@@ -39,7 +39,9 @@ spec:
               value: http://inventory-cs/inventory/
             - name: T2_RESERVATION_ENDPOINT
               value: reservation
-          image: stiesssh/uibackend:v0.1.0
+            - name: JAEGER_HOST
+              value: localhost
+          image: stiesssh/uibackend:master
           ports:
             - containerPort: 8080
       restartPolicy: Always

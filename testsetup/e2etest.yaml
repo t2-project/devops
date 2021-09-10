@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: e2etest
-          image: stiesssh/e2etest:v0.1.0
+          image: stiesssh/e2etest:main
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
@@ -57,5 +57,5 @@ spec:
             - name: JAEGER_ENABLE
               value: "TRUE"
             - name: JAEGER_HOST
-              value: jaeger-agent
+              value: localhost
       restartPolicy: Always
