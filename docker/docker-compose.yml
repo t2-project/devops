@@ -22,7 +22,7 @@ services:
 
 # uibackend
   uibackend:
-    image: stiesssh/uibackend:master
+    image: stiesssh/uibackend:main
     ports:
       - "8081:8080"
     environment:
@@ -114,7 +114,7 @@ services:
 
 # provider
   provider:
-    image: stiesssh/provider:master
+    image: stiesssh/provider:main
     ports: 
       - "8087:8080"
     environment:

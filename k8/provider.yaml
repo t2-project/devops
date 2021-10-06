@@ -54,7 +54,7 @@ spec:
           env:
             - name: JAEGER_HOST
               value: localhost # todo
-          image: stiesssh/provider:master
+          image: stiesssh/provider:main
           ports:
             - containerPort: 8080
       restartPolicy: Always
