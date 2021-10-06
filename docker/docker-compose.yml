@@ -1,0 +1,196 @@
+version: '3'
+services:
+
+## domain database
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+# cart
+  cart:
+    image: stiesssh/cart:main
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_HOST: mongo
+      T2_CART_TTL: "0"
+      T2_CART_TASKRATE: "0"
+      JAEGER_HOST: localhost
+
+# uibackend
+  uibackend:
+    image: stiesssh/uibackend:master
+    ports:
+      - "8081:8080"
+    environment:
+      T2_ORCHESTRATOR_URL: http://orchestrator:8080/order/
+      T2_CART_URL: http://cart:8080/cart/
+      T2_INVENTORY_URL: http://inventory:8080/inventory/
+      T2_RESERVATION_ENDPOINT: reservation
+      JAEGER_HOST: localhost
+#ui
+  ui:
+    image: stiesssh/ui:v0.1.0
+    ports: 
+      - "8086:8080"
+    environment:
+      T2_UIBACKEND_URL: http://uibackend:8080/
+      JAEGER_HOST: localhost
+
+
+# inventory
+  inventory:
+    image: stiesssh/inventory:main
+    ports:
+      - "8082:8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      INVENTORY_SIZE: "25"
+      T2_INVENTORY_TASKRATE: "0"
+      T2_INVENTORY_TTL: "0"
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_PROFILE_ACTIVE: saga
+      JAEGER_SERVICE_NAME: inventory
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost #todo
+
+# order
+  order:
+    image: stiesssh/order:main
+    ports:
+      - "8083:8080"
+    depends_on:
+      - mongo
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      MONGO_HOST: mongo
+      JAEGER_SERVICE_NAME: order
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost #todo
+
+# payment
+  payment:
+    image: stiesssh/payment:main
+    ports:
+      - "8084:8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      T2_PAYMENT_PROVIDER_DUMMY_URL: http://provider:8080/pay
+      T2_PAYMENT_PROVIDER_TIMEOUT: 5
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      JAEGER_SERVICE_NAME: payment
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost #todo
+
+# provider
+  provider:
+    image: stiesssh/provider:master
+    ports: 
+      - "8087:8080"
+    environment:
+      JAEGER_HOST: localhost #todo
+
+# orchestrator
+  orchestrator:
+    image: stiesssh/orchestrator:main
+    ports:
+      - "8085:8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      JAEGER_SERVICE_NAME: orchestrator
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost
+
+# cdc things
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.2.4
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      KAFKA_HEAP_OPTS: -Xmx64m
+
+  kafka:
+    image: "confluentinc/cp-kafka:5.2.4"
+    ports:
+      - 9092:9092
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_LISTENERS: LC://kafka:29092,LX://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: LC://kafka:29092,LX://${DOCKER_HOST_IP:-localhost}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LC:PLAINTEXT,LX:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LC
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_HEAP_OPTS: -Xmx192m
+
+  postgres:
+    image: eventuateio/eventuate-tram-sagas-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: eventuate
+      POSTGRES_PASSWORD: eventuate
+
+  cdcservice:
+    image: eventuateio/eventuate-cdc-service
+    ports:
+      - "8099:8080"
+    depends_on:
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_TEST_ON_BORROW: "true"
+      SPRING_DATASOURCE_VALIDATION_QUERY: SELECT 1
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATELOCAL_CDC_READER_NAME: PostgresPollingReader
+      SPRING_PROFILES_ACTIVE: EventuatePolling
+      JAVA_OPTS: -Xmx64m
