@@ -33,7 +33,7 @@ services:
       JAEGER_HOST: localhost
 #ui
   ui:
-    image: stiesssh/ui:v0.1.0
+    image: stiesssh/ui:main
     ports: 
       - "8086:8080"
     environment:

@@ -33,7 +33,7 @@ spec:
           env:
             - name: T2_UIBACKEND_URL
               value: http://uibackend-cs/
-          image: stiesssh/ui:v0.1.0
+          image: stiesssh/ui:main
           ports:
             - containerPort: 8080
       restartPolicy: Always
