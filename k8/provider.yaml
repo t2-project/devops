@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: provider-cs
+  name: provider-cs
+spec:
+  selector:
+    app: provider
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: provider-solomon
+  labels:
+    app: provider-cs
+    monitoring: "true"
+    solomonTarget: "true"
+  # annotations:
+  #   prometheus.io/scrape: "true"
+  #   prometheus.io/path: /metrics
+  #   prometheus.io/port: "5000"
+spec:
+  selector:
+    app: provider
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: provider
+  name: provider
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: provider
+  template:
+    metadata:
+      labels:
+        app: provider
+    spec:
+      containers:
+        - name: provider
+          imagePullPolicy: Always
+          env:
+            - name: JAEGER_HOST
+              value: localhost # todo
+          image: stiesssh/provider:master
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

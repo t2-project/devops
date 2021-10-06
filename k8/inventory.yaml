@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: inventory-cs
+  name: inventory-cs
+spec:
+  selector:
+    app: inventory
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: inventory
+  name: inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+    spec:
+      containers:
+        - name: inventory
+          imagePullPolicy: Always
+          env:
+            - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka:9092
+            - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
+              value: kafka-zookeeper:2181
+            - name: INVENTORY_SIZE
+              value: "25"
+            - name: T2_INVENTORY_TASKRATE
+              value: "0"
+            - name: T2_INVENTORY_TTL
+              value: "0"
+            - name: MONGO_HOST
+              value: mongo-mongodb
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: org.postgresql.Driver
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: eventuate
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres/eventuate
+            - name: SPRING_DATASOURCE_USERNAME
+              value: eventuate
+            - name: SPRING_PROFILE_ACTIVE
+              value: saga
+            - name: JAEGER_SERVICE_NAME
+              value: inventory
+            - name: JAEGER_ENABLE
+              value: "TRUE"
+            - name: JAEGER_HOST
+              value: localhost #todo
+          image: stiesssh/inventory:main
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
