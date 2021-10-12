@@ -10,20 +10,6 @@ prometheus:
         scrape_interval: 10s
         static_configs:
         - targets: ['creditinstitute-cs', 'cart-cs', 'inventory-cs', 'orchestrator-cs', 'order', 'payment', 'ui-cs', 'uibackend-cs']
-      - job_name: 'blackbox-exporter'
-        scrape_interval: 10s
-        metrics_path: /probe
-        params:
-           module: [http_2xx]
-        static_configs:
-           - targets: ['creditinstitute-cs.default/actuator/prometheus', 'cart-cs.default/actuator/prometheus', 'inventory-cs.default/actuator/prometheus', 'orchestrator-cs.default/actuator/prometheus', 'order.default/actuator/prometheus', 'payment.default/actuator/prometheus', 'ui-cs.default/actuator/prometheus', 'uibackend-cs.default/actuator/prometheus']
-        relabel_configs:
-        - source_labels: [__address__]
-          target_label: __param_target
-        - source_labels: [__param_target]
-          target_label: instance
-        - target_label: __address__
-          replacement: blackbox-exporter-prometheus-blackbox-exporter:9115
 
 prometheusSpec:
   probeNamespaceSelector: {}
