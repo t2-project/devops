@@ -39,7 +39,7 @@ spec:
               value: "0"
             - name: JAEGER_HOST
               value: localhost #todo
-          image: stiesssh/cart:main
+          image: t2project/cart:main
           ports:
             - containerPort: 8080
       restartPolicy: Always

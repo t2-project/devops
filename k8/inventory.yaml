@@ -59,7 +59,7 @@ spec:
               value: "TRUE"
             - name: JAEGER_HOST
               value: localhost #todo
-          image: stiesssh/inventory:main
+          image: t2project/inventory:main
           ports:
             - containerPort: 8080
       restartPolicy: Always
