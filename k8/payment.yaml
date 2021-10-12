@@ -47,7 +47,7 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
             - name: T2_PAYMENT_PROVIDER_DUMMY_URL
-              value: http://provider-cs/pay
+              value: http://creditinstitute-cs/pay
             - name: T2_PAYMENT_PROVIDER_TIMEOUT
               value: "5"
             - name: JAEGER_SERVICE_NAME
