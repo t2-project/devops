@@ -41,7 +41,7 @@ spec:
               value: reservation
             - name: JAEGER_HOST
               value: localhost
-          image: stiesssh/uibackend:main
+          image: t2project/uibackend:main
           ports:
             - containerPort: 8080
       restartPolicy: Always

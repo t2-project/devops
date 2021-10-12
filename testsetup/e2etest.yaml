@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: e2etest
-          image: stiesssh/e2etest:main
+          image: t2project/e2etest:main
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
