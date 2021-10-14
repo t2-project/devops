@@ -31,12 +31,14 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: eventuateio/eventuate-tram-sagas-postgres
+          image: eventuateio/eventuate-tram-sagas-postgres:0.18.0.RELEASE
           env:
             - name: POSTGRES_PASSWORD
               value: eventuate
             - name: POSTGRES_USER
               value: eventuate
+            - name: USE_DB_ID
+              value: "true"
           ports:
             - containerPort: 5432
           volumeMounts:

@@ -21,6 +21,10 @@ services:
 
   uibackend:
     image: t2project/uibackend:main
+    depends_on:
+      - cart
+      - inventory
+      - orchestrator
     ports:
       - "8081:8080"
     environment:
@@ -157,15 +161,16 @@ services:
       KAFKA_HEAP_OPTS: -Xmx192m
 
   postgres:
-    image: eventuateio/eventuate-tram-sagas-postgres
+    image: eventuateio/eventuate-tram-sagas-postgres:0.18.0.RELEASE
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: eventuate
       POSTGRES_PASSWORD: eventuate
+      USE_DB_ID: "true"
 
   cdcservice:
-    image: eventuateio/eventuate-cdc-service
+    image: eventuateio/eventuate-cdc-service:0.12.0.RELEASE
     ports:
       - "8099:8080"
     depends_on:
@@ -183,4 +188,5 @@ services:
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       EVENTUATELOCAL_CDC_READER_NAME: PostgresPollingReader
       SPRING_PROFILES_ACTIVE: EventuatePolling
+      EVENTUATE_OUTBOX_ID: 1
       JAVA_OPTS: -Xmx64m

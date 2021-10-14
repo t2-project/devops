@@ -23,6 +23,30 @@ serviceMonitor:
       url: cart-cs.default/actuator/prometheus
       labels:
         release: prometheus
+    - name: inventory-service
+      url: inventory-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: orchestrator-service
+      url: orchestrator-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: order-service
+      url: order.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: payment-service
+      url: payment.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: ui-service
+      url: ui-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: uibackend-service
+      url: uibackend-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
 
 config:
   modules:
