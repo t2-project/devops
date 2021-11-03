@@ -132,7 +132,7 @@
           <stringProp name="minimumValue">1</stringProp>
           <stringProp name="maximumValue">9999999999</stringProp>
           <stringProp name="randomSeed">1</stringProp>
-          <boolProp name="perThread">true</boolProp>
+          <boolProp name="perThread">false</boolProp>
         </RandomVariableConfig>
         <hashTree/>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
