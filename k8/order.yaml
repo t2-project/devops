@@ -36,7 +36,7 @@ spec:
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: kafka-zookeeper:2181
             - name: MONGO_HOST
-              value: mongo-mongodb
+              value: mongo-order-mongodb
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
             - name: SPRING_DATASOURCE_PASSWORD
