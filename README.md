@@ -10,5 +10,7 @@
 | [./loadprofiles/](loadprofiles)   | load profiles for the Apache jMeter load generator |   
 | [./prometheusfiles/](prometheusfiles)| config / rules / alerts for prometheus |   
 | [./setenv.sh](setenv.sh)       | export environment variables required do build the T2 store locally |
+| [./start.sh](start.sh)       | install kubernetes deployments, including required helm charts |
+| [./stop.sh](stop.sh)       | uninstall kubernetes deployments, including the helm charts |
 
 For more information confer the [https://t2-documentation.readthedocs.io/en/latest/](documentation).
