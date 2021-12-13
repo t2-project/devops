@@ -43,7 +43,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: eventuate
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres/eventuate
+              value: jdbc:postgresql://postgres-orchestrator/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
             - name: T2_PAYMENT_PROVIDER_DUMMY_URL
