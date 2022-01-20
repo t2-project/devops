@@ -50,7 +50,7 @@ spec:
             - name: JAEGER_ENABLE
               value: "TRUE"
             - name: JAEGER_HOST
-              value: localhost #todo
+              value: simplest-agent #todo
           image: t2project/order:main
           ports:
             - containerPort: 8080
