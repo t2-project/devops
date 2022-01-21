@@ -4,3 +4,5 @@ legacy/
 **/*.describe*
 **/*.swp
 **/*local*
+
+**/.terraform/providers/**

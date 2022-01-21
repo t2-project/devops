@@ -38,7 +38,7 @@ spec:
             - name: T2_CART_TASKRATE
               value: "0"
             - name: JAEGER_HOST
-              value: simplest-agent #todo
+              value: localhost #todo
           image: t2project/cart:main
           ports:
             - containerPort: 8080
