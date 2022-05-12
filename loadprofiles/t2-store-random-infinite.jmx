@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.1">
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.3">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="t2-store" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
@@ -28,12 +28,22 @@
             <stringProp name="Argument.value">${__P(rampUp)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="think_time_range" elementType="Argument">
+            <stringProp name="Argument.name">think_time_range</stringProp>
+            <stringProp name="Argument.value">${__P(thinkTimeRange,30000)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="think_time_timeout" elementType="Argument">
+            <stringProp name="Argument.name">think_time_timeout</stringProp>
+            <stringProp name="Argument.value">${__P(thinkTimeTimeout,30000)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
     </TestPlan>
     <hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread-Gruppe" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Users" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Schleifen-Controller (Loop Controller)" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -130,7 +140,7 @@
           <stringProp name="variableName">sessionId</stringProp>
           <stringProp name="outputFormat">ID_0000000000</stringProp>
           <stringProp name="minimumValue">1</stringProp>
-          <stringProp name="maximumValue">9999999999</stringProp>
+          <stringProp name="maximumValue">2147483647</stringProp>
           <stringProp name="randomSeed">1</stringProp>
           <boolProp name="perThread">false</boolProp>
         </RandomVariableConfig>
@@ -169,6 +179,19 @@
               <stringProp name="RegexExtractor.match_number">0</stringProp>
               <stringProp name="TestPlan.comments">seletct a random product id and save it to variable ID</stringProp>
             </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Think Time" enabled="true">
+            <intProp name="ActionProcessor.action">1</intProp>
+            <intProp name="ActionProcessor.target">0</intProp>
+            <stringProp name="ActionProcessor.duration">0</stringProp>
+          </TestAction>
+          <hashTree>
+            <UniformRandomTimer guiclass="UniformRandomTimerGui" testclass="UniformRandomTimer" testname="Pause" enabled="true">
+              <stringProp name="TestPlan.comments">Users typically need some amount of time to choose a product</stringProp>
+              <stringProp name="ConstantTimer.delay">${think_time_timeout}</stringProp>
+              <stringProp name="RandomTimer.range">${think_time_range}</stringProp>
+            </UniformRandomTimer>
             <hashTree/>
           </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="add item to cart" enabled="true">
