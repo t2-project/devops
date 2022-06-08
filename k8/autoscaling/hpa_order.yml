@@ -1,0 +1,30 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: order
+  annotations:
+    # This annotation is optional.
+    # If specified, then this prometheus server is used,
+    # instead of the prometheus server specified as the CLI argument `--prometheus-server`.
+    # metric-config.<metricType>.<metricName>.<collectorType>/<configKey>
+    metric-config.external.latency.prometheus/query: |
+      sum(rate(http_server_requests_seconds_sum{application="order"}[1m]))/sum(rate(http_server_requests_seconds_count{application="order"}[1m]))
+    metric-config.latency.prometheus/interval: "15s" # optional
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: order
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+  - type: External
+    external:
+      metric:
+        name: latency
+        selector:
+          matchLabels:
+            type: prometheus
+      target:
+        type: AverageValue
+        averageValue: "0.150"
