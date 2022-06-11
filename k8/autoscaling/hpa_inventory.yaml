@@ -18,13 +18,7 @@ spec:
   minReplicas: 1
   maxReplicas: 4
   metrics:
-  - type: External
-    external:
-      metric:
-        name: latency
-        selector:
-          matchLabels:
-            type: prometheus
-      target:
-        type: AverageValue
-        averageValue: "0.150"
+  - type: Resource
+    resource:
+      name: memory
+      averageUtilization: 50
