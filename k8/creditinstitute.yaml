@@ -51,9 +51,6 @@ spec:
       containers:
         - name: creditinstitute
           imagePullPolicy: Always
-          env:
-            - name: JAEGER_HOST
-              value: localhost # todo
           image: t2project/creditinstitute:main
           ports:
             - containerPort: 8080

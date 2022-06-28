@@ -54,7 +54,7 @@ spec:
             - name: JAEGER_SERVICE_NAME
               value: inventory
             - name: JAEGER_ENABLE
-              value: "TRUE"
+              value: "FALSE"
             - name: JAEGER_HOST
               value: simplest-agent #todo
           image: t2project/inventory:main
