@@ -45,6 +45,13 @@ spec:
           - name: datadir
             mountPath: /var/lib/postgresql/data
             subPath: postgres 
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
       restartPolicy: Always
   volumeClaimTemplates:
   - metadata:
