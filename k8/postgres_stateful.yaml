@@ -3,7 +3,7 @@ kind: Service # headless
 metadata:
   labels:
     app: postgres
-  name: postgres 
+  name: postgres
 spec:
   ports:
     - port: 5432
@@ -19,7 +19,7 @@ metadata:
     app: postgres
   name: postgres
 spec:
-  serviceName: postgres 
+  serviceName: postgres
   replicas: 1
   selector:
     matchLabels:
@@ -42,9 +42,13 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-          - name: datadir
-            mountPath: /var/lib/postgresql/data
-            subPath: postgres 
+            - name: datadir
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+            - name: postgres-config
+              mountPath: /etc/postgresql/postgresql.conf
+              subPath: postgresql.conf
+              readOnly: true
           resources:
             limits:
               cpu: 500m
@@ -53,6 +57,13 @@ spec:
               cpu: 100m
               memory: 100Mi
       restartPolicy: Always
+      volumes:
+      - name: postgres-config
+        configMap:
+          name: postgres-config
+          items:
+            - key: postgresql.conf
+              path: postgresql.conf
   volumeClaimTemplates:
   - metadata:
       name: datadir
