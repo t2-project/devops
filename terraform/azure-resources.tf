@@ -31,7 +31,7 @@ resource "azurerm_kubernetes_cluster" "t2store" {
   dns_prefix          = "t2storeaks1"
 
   default_node_pool {
-    name       = "default"
+    name       = "default_node"
     node_count = 1
     vm_size    = "standard_b4ms"
   }
