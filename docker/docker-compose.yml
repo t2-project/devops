@@ -61,7 +61,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: eventuate
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
-      SPRING_PROFILE_ACTIVE: saga
+      SPRING_PROFILES_ACTIVE: saga
       JAEGER_SERVICE_NAME: inventory
       JAEGER_ENABLE: "TRUE"
       JAEGER_HOST: localhost #todo
