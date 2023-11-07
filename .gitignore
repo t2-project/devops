@@ -4,3 +4,4 @@ legacy/
 **/*.describe*
 **/*.swp
 **/*local*
+loadprofiles/results*
