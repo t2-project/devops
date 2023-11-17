@@ -1,0 +1,208 @@
+version: "3"
+services:
+  ## domain database
+  mongo:
+    image: mongo:5.0
+    ports:
+      - "27017:27017"
+
+  cart:
+    image: t2project/cart:main
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_HOST: mongo
+      T2_CART_TTL: "0"
+      T2_CART_TASKRATE: "0"
+      JAEGER_HOST: localhost
+
+  uibackend:
+    image: t2project/uibackend:main
+    depends_on:
+      - cart
+      - inventory
+      - orchestrator
+    ports:
+      - "8081:8080"
+    environment:
+      T2_ORCHESTRATOR_URL: http://e2etest:8080/test/
+      T2_CART_URL: http://cart:8080/cart/
+      T2_INVENTORY_URL: http://inventory:8080/inventory/
+      T2_RESERVATION_ENDPOINT: reservation
+      JAEGER_HOST: localhost
+
+  ui:
+    image: t2project/ui:main
+    ports:
+      - "8086:8080"
+    environment:
+      T2_UIBACKEND_URL: http://uibackend:8080/
+      JAEGER_HOST: localhost
+
+  inventory:
+    image: t2project/inventory:main
+    ports:
+      - "8082:8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      INVENTORY_SIZE: "25"
+      T2_INVENTORY_TASKRATE: "0"
+      T2_INVENTORY_TTL: "0"
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_PROFILES_ACTIVE: saga
+      JAEGER_SERVICE_NAME: inventory
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost #todo
+
+  order:
+    image: t2project/order:main
+    ports:
+      - "8083:8080"
+    depends_on:
+      - mongo
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      MONGO_HOST: mongo
+      JAEGER_SERVICE_NAME: order
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost #todo
+
+  payment:
+    image: t2project/payment:main
+    ports:
+      - "8084:8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      T2_PAYMENT_PROVIDER_DUMMY_URL: http://e2etest:8080/fakepay
+      T2_PAYMENT_PROVIDER_TIMEOUT: 5
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      JAEGER_SERVICE_NAME: payment
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost #todo
+
+  orchestrator:
+    image: t2project/orchestrator:main
+    ports:
+      - "8085:8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      JAEGER_SERVICE_NAME: orchestrator
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:5.2.4
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      KAFKA_HEAP_OPTS: -Xmx64m
+
+  kafka:
+    image: "confluentinc/cp-kafka:5.2.4"
+    ports:
+      - 9092:9092
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_LISTENERS: LC://kafka:29092,LX://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: LC://kafka:29092,LX://${DOCKER_HOST_IP:-localhost}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LC:PLAINTEXT,LX:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LC
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_HEAP_OPTS: -Xmx192m
+
+  postgres:
+    image: eventuateio/eventuate-tram-sagas-postgres:0.18.0.RELEASE
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: eventuate
+      POSTGRES_PASSWORD: eventuate
+      USE_DB_ID: "true"
+
+  cdcservice:
+    image: eventuateio/eventuate-cdc-service:0.12.0.RELEASE
+    ports:
+      - "8099:8080"
+    depends_on:
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_TEST_ON_BORROW: "true"
+      SPRING_DATASOURCE_VALIDATION_QUERY: SELECT 1
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATELOCAL_CDC_READER_NAME: PostgresPollingReader
+      SPRING_PROFILES_ACTIVE: EventuatePolling
+      EVENTUATE_OUTBOX_ID: 1
+      JAVA_OPTS: -Xmx64m
+
+  e2etest:
+    image: t2project/e2etest:main
+    ports:
+      - "8088:8080"
+    depends_on:
+      - mongo
+      - postgres
+      - kafka
+      - zookeeper
+      - orchestrator
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      MONGO_HOST: mongo
+      SPRING_MONGO_URL: mongodb://mongo:27017/data
+      T2_ORCHESTRATOR_URL: http://orchestrator:8080/order/
+      JAEGER_SERVICE_NAME: e2e-test
+      JAEGER_ENABLE: "TRUE"
+      JAEGER_HOST: localhost
