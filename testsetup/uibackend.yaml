@@ -32,11 +32,11 @@ spec:
           imagePullPolicy: Always
           env:
             - name: T2_ORCHESTRATOR_URL
-              value: http://e2etest/test/
+              value: http://e2etest/test
             - name: T2_CART_URL
-              value: http://cart-cs/cart/
+              value: http://cart-cs/cart
             - name: T2_INVENTORY_URL
-              value: http://inventory-cs/inventory/
+              value: http://inventory-cs/inventory
             - name: T2_RESERVATION_ENDPOINT
               value: reservation
             - name: T2_JAEGER_HOST

@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: T2_UIBACKEND_URL
-              value: http://uibackend-cs/
+              value: http://uibackend-cs
           image: t2project/ui:main
           ports:
             - containerPort: 8080

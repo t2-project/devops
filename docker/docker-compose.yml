@@ -28,9 +28,9 @@ services:
     ports:
       - "8081:8080"
     environment:
-      T2_ORCHESTRATOR_URL: http://orchestrator:8080/order/
-      T2_CART_URL: http://cart:8080/cart/
-      T2_INVENTORY_URL: http://inventory:8080/inventory/
+      T2_ORCHESTRATOR_URL: http://orchestrator:8080/order
+      T2_CART_URL: http://cart:8080/cart
+      T2_INVENTORY_URL: http://inventory:8080/inventory
       T2_RESERVATION_ENDPOINT: reservation
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
@@ -40,7 +40,7 @@ services:
     ports:
       - "8086:8080"
     environment:
-      T2_UIBACKEND_URL: http://uibackend:8080/
+      T2_UIBACKEND_URL: http://uibackend:8080
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
 
