@@ -137,7 +137,7 @@ services:
       T2_JAEGER_HOST: localhost
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:5.2.4
+    image: eventuateio/eventuate-zookeeper:0.18.0.RELEASE
     ports:
       - 2181:2181
     environment:
@@ -145,7 +145,7 @@ services:
       KAFKA_HEAP_OPTS: -Xmx64m
 
   kafka:
-    image: "confluentinc/cp-kafka:5.2.4"
+    image: eventuateio/eventuate-kafka:0.18.0.RELEASE
     ports:
       - 9092:9092
     depends_on:
@@ -160,7 +160,7 @@ services:
       KAFKA_HEAP_OPTS: -Xmx192m
 
   postgres:
-    image: eventuateio/eventuate-tram-sagas-postgres:0.18.0.RELEASE
+    image: eventuateio/eventuate-tram-sagas-postgres:0.23.0.RELEASE
     ports:
       - 5432:5432
     environment:
@@ -169,7 +169,7 @@ services:
       USE_DB_ID: "true"
 
   cdcservice:
-    image: eventuateio/eventuate-cdc-service:0.12.0.RELEASE
+    image: eventuateio/eventuate-cdc-service:0.16.0.RELEASE
     ports:
       - "8099:8080"
     depends_on:
