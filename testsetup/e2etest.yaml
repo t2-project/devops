@@ -52,10 +52,8 @@ spec:
               value: mongodb://mongo-mongodb:27017/data
             - name: T2_ORCHESTRATOR_URL
               value: http://orchestrator-cs/order/
-            - name: JAEGER_SERVICE_NAME
-              value: e2e-test
-            - name: JAEGER_ENABLE
+            - name: T2_JAEGER_ENABLED
               value: "TRUE"
-            - name: JAEGER_HOST
+            - name: T2_JAEGER_HOST
               value: localhost
       restartPolicy: Always

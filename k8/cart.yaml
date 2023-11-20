@@ -37,7 +37,9 @@ spec:
               value: "0"
             - name: T2_CART_TASKRATE
               value: "0"
-            - name: JAEGER_HOST
+            - name: T2_JAEGER_ENABLED
+              value: "TRUE"
+            - name: T2_JAEGER_HOST
               value: localhost #todo
           image: t2project/cart:main
           ports:

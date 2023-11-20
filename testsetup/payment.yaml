@@ -50,10 +50,8 @@ spec:
               value: http://e2etest/fakepay
             - name: T2_PAYMENT_PROVIDER_TIMEOUT
               value: "5"
-            - name: JAEGER_SERVICE_NAME
-              value: payment
-            - name: JAEGER_ENABLE
+            - name: T2_JAEGER_ENABLED
               value: "TRUE"
-            - name: JAEGER_HOST
+            - name: T2_JAEGER_HOST
               value: localhost
       restartPolicy: Always

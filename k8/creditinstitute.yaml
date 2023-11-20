@@ -52,7 +52,7 @@ spec:
         - name: creditinstitute
           imagePullPolicy: Always
           env:
-            - name: JAEGER_HOST
+            - name: T2_JAEGER_HOST
               value: localhost # todo
           image: t2project/creditinstitute:main
           ports:

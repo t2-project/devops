@@ -39,7 +39,7 @@ spec:
               value: http://inventory-cs/inventory/
             - name: T2_RESERVATION_ENDPOINT
               value: reservation
-            - name: JAEGER_HOST
+            - name: T2_JAEGER_HOST
               value: localhost
           image: t2project/uibackend:main
           ports:

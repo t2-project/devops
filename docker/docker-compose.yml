@@ -1,9 +1,8 @@
-version: '3'
+version: "3"
 services:
-
-## domain database
+  ## domain database
   mongo:
-    image: mongo
+    image: mongo:5.0
     ports:
       - "27017:27017"
 
@@ -17,7 +16,8 @@ services:
       MONGO_HOST: mongo
       T2_CART_TTL: "0"
       T2_CART_TASKRATE: "0"
-      JAEGER_HOST: localhost
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
 
   uibackend:
     image: t2project/uibackend:main
@@ -32,15 +32,17 @@ services:
       T2_CART_URL: http://cart:8080/cart/
       T2_INVENTORY_URL: http://inventory:8080/inventory/
       T2_RESERVATION_ENDPOINT: reservation
-      JAEGER_HOST: localhost
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+
   ui:
     image: t2project/ui:main
-    ports: 
+    ports:
       - "8086:8080"
     environment:
       T2_UIBACKEND_URL: http://uibackend:8080/
-      JAEGER_HOST: localhost
-
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
 
   inventory:
     image: t2project/inventory:main
@@ -54,7 +56,7 @@ services:
     environment:
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      INVENTORY_SIZE: "25"
+      T2_INVENTORY_SIZE: "25"
       T2_INVENTORY_TASKRATE: "0"
       T2_INVENTORY_TTL: "0"
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
@@ -62,9 +64,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_PROFILES_ACTIVE: saga
-      JAEGER_SERVICE_NAME: inventory
-      JAEGER_ENABLE: "TRUE"
-      JAEGER_HOST: localhost #todo
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost #todo
 
   order:
     image: t2project/order:main
@@ -84,9 +85,8 @@ services:
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       MONGO_HOST: mongo
-      JAEGER_SERVICE_NAME: order
-      JAEGER_ENABLE: "TRUE"
-      JAEGER_HOST: localhost #todo
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost #todo
 
   payment:
     image: t2project/payment:main
@@ -106,16 +106,16 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      JAEGER_SERVICE_NAME: payment
-      JAEGER_ENABLE: "TRUE"
-      JAEGER_HOST: localhost #todo
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost #todo
 
   creditinstitute:
     image: t2project/creditinstitute:main
-    ports: 
+    ports:
       - "8087:8080"
     environment:
-      JAEGER_HOST: localhost #todo
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost #todo
 
   orchestrator:
     image: t2project/orchestrator:main
@@ -133,9 +133,8 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      JAEGER_SERVICE_NAME: orchestrator
-      JAEGER_ENABLE: "TRUE"
-      JAEGER_HOST: localhost
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
 
   zookeeper:
     image: confluentinc/cp-zookeeper:5.2.4
