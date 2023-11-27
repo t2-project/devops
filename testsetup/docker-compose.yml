@@ -98,6 +98,7 @@ services:
       - kafka
       - zookeeper
     environment:
+      T2_PAYMENT_PROVIDER_ENABLED: "TRUE"
       T2_PAYMENT_PROVIDER_DUMMY_URL: http://e2etest:8080/fakepay
       T2_PAYMENT_PROVIDER_TIMEOUT: 5
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate

@@ -46,6 +46,8 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
+            - name: T2_PAYMENT_PROVIDER_ENABLED
+              value: "TRUE"
             - name: T2_PAYMENT_PROVIDER_DUMMY_URL
               value: http://creditinstitute-cs/pay
             - name: T2_PAYMENT_PROVIDER_TIMEOUT
