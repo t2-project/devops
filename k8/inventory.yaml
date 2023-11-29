@@ -35,7 +35,7 @@ spec:
               value: kafka:9092
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: kafka-zookeeper:2181
-            - name: INVENTORY_SIZE
+            - name: T2_INVENTORY_SIZE
               value: "25"
             - name: T2_INVENTORY_TASKRATE
               value: "0"
@@ -53,11 +53,9 @@ spec:
               value: eventuate
             - name: SPRING_PROFILES_ACTIVE
               value: saga
-            - name: JAEGER_SERVICE_NAME
-              value: inventory
-            - name: JAEGER_ENABLE
+            - name: T2_JAEGER_ENABLED
               value: "TRUE"
-            - name: JAEGER_HOST
+            - name: T2_JAEGER_HOST
               value: localhost #todo
           image: t2project/inventory:main
           ports:

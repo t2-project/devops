@@ -43,11 +43,9 @@ spec:
               value: jdbc:postgresql://postgres/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
-            - name: JAEGER_SERVICE_NAME
-              value: orchestrator
-            - name: JAEGER_ENABLE
+            - name: T2_JAEGER_ENABLED
               value: "TRUE"
-            - name: JAEGER_HOST
+            - name: T2_JAEGER_HOST
               value: localhost #todo
           image: t2project/orchestrator:main
           ports:
