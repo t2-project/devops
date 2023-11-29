@@ -11,7 +11,7 @@ T2_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd .. && pwd
 echo -e "\nWorking directory: $T2_DIR"
 
 # set env vars
-source $T2_DIR/kube/setenv.sh
+source $T2_DIR/devops/setenv.sh
 
 # compile projects
 declare -a projects=("common" "cart" "creditinstitute" "inventory" "orchestrator" "order" "payment" "ui" "uibackend" "e2e-tests")

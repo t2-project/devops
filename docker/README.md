@@ -3,8 +3,8 @@
 This directory contains a docker compose file to up the entire t2-project as docker containers.
 
 ```sh
-git clone git@github.com:t2-project/kube.git
-cd kube/docker
+git clone git@github.com:t2-project/devops.git
+cd devops/docker
 
 docker-compose up -d
 ```
