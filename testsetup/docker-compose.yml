@@ -21,12 +21,12 @@ services:
 
   uibackend:
     image: t2project/uibackend:main
+    ports:
+      - "8081:8080"
     depends_on:
       - cart
       - inventory
       - orchestrator
-    ports:
-      - "8081:8080"
     environment:
       T2_ORCHESTRATOR_URL: http://e2etest:8080/test
       T2_CART_URL: http://cart:8080/cart
@@ -65,7 +65,7 @@ services:
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_PROFILES_ACTIVE: saga
       T2_JAEGER_ENABLED: "FALSE"
-      T2_JAEGER_HOST: localhost #todo
+      T2_JAEGER_HOST: localhost
 
   order:
     image: t2project/order:main
@@ -86,7 +86,7 @@ services:
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       MONGO_HOST: mongo
       T2_JAEGER_ENABLED: "FALSE"
-      T2_JAEGER_HOST: localhost #todo
+      T2_JAEGER_HOST: localhost
 
   payment:
     image: t2project/payment:main
@@ -108,7 +108,7 @@ services:
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       T2_JAEGER_ENABLED: "FALSE"
-      T2_JAEGER_HOST: localhost #todo
+      T2_JAEGER_HOST: localhost
 
   orchestrator:
     image: t2project/orchestrator:main
