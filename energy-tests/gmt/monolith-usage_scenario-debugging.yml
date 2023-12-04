@@ -6,18 +6,20 @@ description: Logging is enabled for all services
 compose-file: !include monolith-compose.yml
 
 services:
-  backend:
-    log-stdout: true
-    log-stderr: true
-  jmeter:
-    log-stdout: true
-    log-stderr: true
   postgres:
     log-stdout: true
     log-stderr: true
     setup-commands:
-       - sleep 5 # wait some time to ensure that the database is ready to accept connections
+       - sleep 5 # wait some time to ensure that the database is ready
   mongo:
+    log-stdout: true
+    log-stderr: true
+  backend:
+    log-stdout: true
+    log-stderr: true
+    setup-commands:
+       - sleep 10 # wait some time to ensure that the backend is ready
+  jmeter:
     log-stdout: true
     log-stderr: true
 
