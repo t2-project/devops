@@ -1,0 +1,42 @@
+---
+version: "2"
+services:
+  postgres:
+    image: postgres:15.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    expose:
+      - "5432"
+    networks:
+      - t2-network
+  mongo:
+    image: mongo:5.0
+    expose:
+      - "27017"
+    networks:
+      - t2-network
+  backend:
+    image: t2project/modulith:main
+    expose:
+      - "8080"
+    depends_on:
+      - mongo
+      - postgres
+    environment:
+      MONGO_HOST: mongo
+      POSTGRES_HOST: postgres
+      SPRING_PROFILES_ACTIVE: gmt
+    networks:
+      - t2-network
+  jmeter:
+    image: t2project/jmeter:5.6.2
+    environment:
+      JVM_XMN: 100 # maximum nursery size
+      JVM_XMS: 250 # initial heap size
+      JVM_XMX: 500 # maximum heap size
+    networks:
+      - t2-network
+
+networks:
+  t2-network:

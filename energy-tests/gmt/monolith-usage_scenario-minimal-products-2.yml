@@ -1,0 +1,25 @@
+---
+name: Minimal Scenario with JMeter - 2 products per oder
+author: David Kopp
+description: Testing different number of products per order. One user checks out the inventory, adds two random products to cart and finally confirms the order.
+
+compose-file: !include monolith-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that the database is ready to accept connections
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: single user orders one product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: true

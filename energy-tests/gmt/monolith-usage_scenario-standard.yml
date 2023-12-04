@@ -1,0 +1,28 @@
+---
+name: Standard Scenario with JMeter - single user, three products, long think time
+author: David Kopp
+description: Measure the energy consumption of a standard use case scenario of the T2-Project application. One user checks out the inventory, thinks for 30-60 sec, adds three random products to cart and finally confirms the order.
+
+compose-file: !include monolith-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that the database is ready to accept connections
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: single user orders three products with long think time
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=30000 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: true
+
+# Result:
+# https://metrics.green-coding.berlin/stats.html?id=d41f6f35-e414-4613-8171-f8ed90a92296

@@ -1,0 +1,25 @@
+---
+name: Minimal Scenario with JMeter - 0 executions
+author: David Kopp
+description: User does make nothing.
+
+compose-file: !include monolith-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that the database is ready to accept connections
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: user makes nothing
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=0 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: true

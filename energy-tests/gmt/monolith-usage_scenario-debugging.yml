@@ -1,0 +1,32 @@
+---
+name: Minimal Scenario - logging enabled
+author: David Kopp
+description: Logging is enabled for the backend and jmeter container
+
+compose-file: !include monolith-compose.yml
+
+services:
+  backend:
+    log-stdout: true
+    log-stderr: true
+  jmeter:
+    log-stdout: true
+    log-stderr: true
+  postgres:
+    log-stdout: true
+    log-stderr: true
+    setup-commands:
+       - sleep 5 # wait some time to ensure that the database is ready to accept connections
+  mongo:
+    log-stdout: true
+    log-stderr: true
+
+flow:
+  - name: single user orders one product (logging enabled)
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        log-stderr: true
+        read-notes-stdout: true
