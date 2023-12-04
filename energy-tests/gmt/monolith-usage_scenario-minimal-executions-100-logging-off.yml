@@ -1,5 +1,5 @@
 ---
-name: Minimal Scenario with JMeter - 100 executions with logging off
+name: T2-Modulith (Minimal Scenario with JMeter - 100 executions & logging off)
 author: David Kopp
 description: Testing impact of logging. One user checks out the inventory, adds one random product to cart and finally confirms the order.
 

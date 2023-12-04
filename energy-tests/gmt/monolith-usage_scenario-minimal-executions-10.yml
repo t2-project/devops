@@ -1,5 +1,5 @@
 ---
-name: Minimal Scenario with JMeter - 10 executions
+name: T2-Modulith (Minimal Scenario with JMeter - 10 executions)
 author: David Kopp
 description: Testing different number of executions. One user checks out the inventory, adds one random product to cart and finally confirms the order.
 

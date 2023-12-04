@@ -1,5 +1,5 @@
 ---
-name: Minimal Scenario with JMeter - 2 sec think time
+name: T2-Modulith (Minimal Scenario with JMeter - 2 sec think time)
 author: David Kopp
 description: Testing different think times. One user checks out the inventory, thinks for 2 sec, adds one random product to cart and finally confirms the order.
 

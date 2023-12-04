@@ -1,5 +1,5 @@
 ---
-name: Standard Scenario with JMeter - single user, three products, long think time
+name: T2-Modulith (Standard Scenario with JMeter - single user, three products, long think time)
 author: David Kopp
 description: Measure the energy consumption of a standard use case scenario of the T2-Project application. One user checks out the inventory, thinks for 30-60 sec, adds three random products to cart and finally confirms the order.
 

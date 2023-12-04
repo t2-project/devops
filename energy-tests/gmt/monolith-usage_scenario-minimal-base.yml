@@ -1,5 +1,5 @@
 ---
-name: Minimal Scenario with JMeter
+name: T2-Modulith (Minimal Scenario with JMeter)
 author: David Kopp
 description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, there is no think time in between.
 

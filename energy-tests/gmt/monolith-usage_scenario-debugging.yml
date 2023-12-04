@@ -1,7 +1,7 @@
 ---
-name: Minimal Scenario - logging enabled
+name: T2-Modulith (Minimal Scenario - debugging)
 author: David Kopp
-description: Logging is enabled for the backend and jmeter container
+description: Logging is enabled for all services
 
 compose-file: !include monolith-compose.yml
 
@@ -22,7 +22,7 @@ services:
     log-stderr: true
 
 flow:
-  - name: single user orders one product (logging enabled)
+  - name: debugging
     container: jmeter
     commands:
       - type: console

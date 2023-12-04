@@ -1,5 +1,5 @@
 ---
-name: Minimal Scenario with JMeter - 2 products per oder
+name: T2-Modulith (Minimal Scenario with JMeter - 2 products per order)
 author: David Kopp
 description: Testing different number of products per order. One user checks out the inventory, adds two random products to cart and finally confirms the order.
 
