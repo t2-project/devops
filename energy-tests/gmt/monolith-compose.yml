@@ -21,12 +21,12 @@ services:
     expose:
       - "8080"
     depends_on:
-      - mongo
       - postgres
+      - mongo
     environment:
       MONGO_HOST: mongo
       POSTGRES_HOST: postgres
-      SPRING_PROFILES_ACTIVE: gmt
+      SPRING_PROFILES_ACTIVE: simple
     networks:
       - t2-network
   jmeter:
