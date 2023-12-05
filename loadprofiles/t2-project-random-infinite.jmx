@@ -29,12 +29,12 @@
           </elementProp>
           <elementProp name="think_time_range" elementType="Argument">
             <stringProp name="Argument.name">think_time_range</stringProp>
-            <stringProp name="Argument.value">${__P(thinkTimeRange,30000)}</stringProp>
+            <stringProp name="Argument.value">${__P(thinkTimeAdditionalRange,30000)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="think_time_timeout" elementType="Argument">
             <stringProp name="Argument.name">think_time_timeout</stringProp>
-            <stringProp name="Argument.value">${__P(thinkTimeTimeout,30000)}</stringProp>
+            <stringProp name="Argument.value">${__P(thinkTimeMin,30000)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
