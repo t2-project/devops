@@ -1,7 +1,7 @@
 ---
-name: T2-Modulith (Load Test with JMeter - 10 users)
+name: T2-Modulith (Load Test with JMeter - 400 users)
 author: David Kopp
-description: Load test with 10 users in parallel. Each user checks out the inventory, think for 30-60 sec, add a random product to cart (3 times) and finally confirms the order. Ramp-up time is 2 seconds. Logging of JMeter requests is disabled.
+description: Load test with 400 users in parallel. Each user checks out the inventory, think for 30-60 sec, add a random product to cart (3 times) and finally confirms the order. Ramp-up time is 2 seconds. Logging of JMeter requests is disabled.
 
 compose-file: !include monolith-compose.yml
 
@@ -20,9 +20,9 @@ flow:
     commands:
       - type: console
         command: curl -s http://backend:8080/restock
-  - name: 10 users order 3 products with long think time
+  - name: 400 users order 3 products with long think time
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=10 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=30000 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=400 -JrampUp=5 -JnumProducts=3 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=30000 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
