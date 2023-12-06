@@ -26,6 +26,3 @@ flow:
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: true
-
-# Result:
-# https://metrics.green-coding.berlin/stats.html?id=1521e35b-ad32-4e20-8569-905aa29555a7
