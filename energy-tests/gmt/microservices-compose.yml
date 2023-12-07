@@ -1,0 +1,224 @@
+version: "2"
+
+networks:
+  t2-network:
+
+services:
+
+  ### Databases ###
+  postgres:
+    image: t2project/eventuate-tram-sagas-postgres:0.23.0.RELEASE-fixed # see PR https://github.com/eventuate-foundation/eventuate-common/pull/135
+    environment:
+      POSTGRES_USER: eventuate
+      POSTGRES_PASSWORD: eventuate
+      USE_DB_ID: "true"
+    expose:
+      - "5432"
+    networks:
+      - t2-network
+
+  mongo:
+    image: mongo:5.0
+    expose:
+      - "27017"
+    networks:
+      - t2-network
+
+  ### Eventuate SAGA Services ###
+  zookeeper:
+    image: eventuateio/eventuate-zookeeper:0.18.0.RELEASE
+    expose:
+      - "2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      KAFKA_HEAP_OPTS: -Xmx64m
+    networks:
+      - t2-network
+
+  kafka:
+    image: eventuateio/eventuate-kafka:0.18.0.RELEASE
+    expose:
+      - "9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_LISTENERS: LC://kafka:29092,LX://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: LC://kafka:29092,LX://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LC:PLAINTEXT,LX:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LC
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_HEAP_OPTS: -Xmx192m
+    networks:
+      - t2-network
+
+  cdcservice:
+    image: eventuateio/eventuate-cdc-service:0.16.0.RELEASE
+    expose:
+      - "8080"
+    depends_on:
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_TEST_ON_BORROW: "true"
+      SPRING_DATASOURCE_VALIDATION_QUERY: SELECT 1
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATELOCAL_CDC_READER_NAME: PostgresPollingReader
+      SPRING_PROFILES_ACTIVE: EventuatePolling
+      EVENTUATE_OUTBOX_ID: 1
+      JAVA_OPTS: -Xmx64m
+    networks:
+      - t2-network
+
+  ### T2 Services ###
+  cart:
+    image: t2project/cart:main
+    expose:
+      - "8080"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_HOST: mongo
+      T2_CART_TTL: "0"
+      T2_CART_TASKRATE: "0"
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+    networks:
+      - t2-network
+
+  inventory:
+    image: t2project/inventory:main
+    expose:
+      - "8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      T2_INVENTORY_SIZE: "25"
+      T2_INVENTORY_TASKRATE: "0"
+      T2_INVENTORY_TTL: "0"
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_PROFILES_ACTIVE: saga
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+    networks:
+      - t2-network
+
+  orchestrator:
+    image: t2project/orchestrator:main
+    expose:
+      - "8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+    networks:
+      - t2-network
+
+  order:
+    image: t2project/order:main
+    expose:
+      - "8080"
+    depends_on:
+      - mongo
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      MONGO_HOST: mongo
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+    networks:
+      - t2-network
+
+  payment:
+    image: t2project/payment:main
+    expose:
+      - "8080"
+    depends_on:
+      - cdcservice
+      - postgres
+      - kafka
+      - zookeeper
+    environment:
+      T2_PAYMENT_PROVIDER_ENABLED: "FALSE"
+      T2_PAYMENT_PROVIDER_DUMMY_URL: http://dummy:8080/pay
+      T2_PAYMENT_PROVIDER_TIMEOUT: 5
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+    networks:
+      - t2-network
+
+  uibackend:
+    image: t2project/uibackend:main
+    expose:
+      - "8080"
+    depends_on:
+      - cart
+      - inventory
+      - orchestrator
+    environment:
+      T2_ORCHESTRATOR_URL: http://orchestrator:8080/order
+      T2_CART_URL: http://cart:8080/cart
+      T2_INVENTORY_URL: http://inventory:8080/inventory
+      T2_RESERVATION_ENDPOINT: reservation
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+    networks:
+      - t2-network
+
+  # ui:
+  #   image: t2project/ui:main
+  #   expose:
+  #     - "8080"
+  #   environment:
+  #     T2_UIBACKEND_URL: http://uibackend:8080
+  #     T2_JAEGER_ENABLED: "FALSE"
+  #     T2_JAEGER_HOST: localhost
+  #   networks:
+  #     - t2-network
+
+  jmeter:
+    image: t2project/jmeter:5.6.2
+    environment:
+      JVM_XMN: 100 # maximum nursery size
+      JVM_XMS: 250 # initial heap size
+      JVM_XMX: 500 # maximum heap size
+    networks:
+      - t2-network

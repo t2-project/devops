@@ -1,0 +1,31 @@
+---
+name: T2-Microservices (Minimal Scenario with JMeter)
+author: David Kopp
+description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, there is no think time in between.
+
+compose-file: !include microservices-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that postgres is ready
+  cdcservice:
+    setup-commands:
+      - sleep 10 # wait some time to ensure that the cdcservice is ready
+  uibackend:
+    setup-commands:
+       - sleep 60 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: single user orders one product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: true

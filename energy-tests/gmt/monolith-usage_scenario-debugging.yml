@@ -28,7 +28,14 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx -l results.csv
         log-stdout: true
         log-stderr: true
         read-notes-stdout: true
+  - name: Print JMeter Results
+    container: jmeter
+    commands:
+      - type: console
+        command: cat results.csv
+        log-stdout: true
+        log-stderr: true

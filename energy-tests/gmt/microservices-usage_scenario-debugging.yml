@@ -1,0 +1,61 @@
+---
+name: T2-Microservices (Minimal Scenario with JMeter - debugging)
+author: David Kopp
+description: Logging is enabled for all relevant containers
+
+compose-file: !include microservices-compose.yml
+
+services:
+  postgres:
+    log-stdout: true
+    log-stderr: true
+    setup-commands:
+       - sleep 5
+  mongo:
+    log-stdout: true
+    log-stderr: true
+  cdcservice:
+    log-stdout: true
+    log-stderr: true
+    setup-commands:
+      - sleep 10
+  inventory:
+    log-stdout: true
+    log-stderr: true
+  cart:
+    log-stdout: true
+    log-stderr: true
+  order:
+    log-stdout: true
+    log-stderr: true
+  orchestrator:
+    log-stdout: true
+    log-stderr: true
+  payment:
+    log-stdout: true
+    log-stderr: true
+  uibackend:
+    log-stdout: true
+    log-stderr: true
+    setup-commands:
+       - sleep 60
+  jmeter:
+    log-stdout: true
+    log-stderr: true
+
+flow:
+  - name: Running JMeter
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx -l results.csv
+        log-stdout: true
+        log-stderr: true
+        read-notes-stdout: true
+  - name: Print JMeter Results
+    container: jmeter
+    commands:
+      - type: console
+        command: cat results.csv
+        log-stdout: true
+        log-stderr: true
