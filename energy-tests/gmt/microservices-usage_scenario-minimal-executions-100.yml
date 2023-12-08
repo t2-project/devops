@@ -14,7 +14,7 @@ services:
       - sleep 10 # wait some time to ensure that the cdcservice is ready
   uibackend:
     setup-commands:
-       - sleep 30 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+       - sleep 40 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
 
 sci:
   R_d: order
