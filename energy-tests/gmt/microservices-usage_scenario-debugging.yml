@@ -38,7 +38,7 @@ services:
     log-stdout: true
     log-stderr: true
     setup-commands:
-       - sleep 60
+       - sleep 30
   jmeter:
     log-stdout: true
     log-stderr: true
