@@ -1,0 +1,147 @@
+---
+name: T2-Modulith (Minimal Scenario with JMeter - 100 executions, multiple flows)
+author: David Kopp
+description: Testing different number of executions. One user checks out the inventory, adds one random product to cart and finally confirms the order.
+
+compose-file: !include monolith-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that the database is ready
+  backend:
+    setup-commands:
+       - sleep 10 # wait some time to ensure that the backend is ready
+
+flow:
+  # Restock the inventory first, so there won't be any errors during the load test
+  - name: Restock inventory
+    container: jmeter
+    commands:
+      - type: console
+        command: curl -s http://backend:8080/restock
+  - name: 1. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 2. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 3. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 4. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 5. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 6. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 7. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 8. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 9. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 100. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 11. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 12. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 13. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 14. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 15. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 16. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 17. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 18. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 19. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 20. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 21. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 22. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 23. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 24. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+  - name: 25. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
