@@ -1,0 +1,31 @@
+---
+name: T2-Microservices (Load Test with JMeter - 400 users)
+author: David Kopp
+description: Load test with 400 users in parallel. Each user checks out the inventory, think for 30-60 sec, add a random product to cart (3 times) and finally confirms the order. Ramp-up time is 2 seconds. Logging of JMeter requests is disabled.
+
+compose-file: !include microservices-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that postgres is ready
+  cdcservice:
+    setup-commands:
+      - sleep 10 # wait some time to ensure that the cdcservice is ready
+  uibackend:
+    setup-commands:
+       - sleep 30 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+
+flow:
+  # Restock the inventory first, so there won't be any errors during the load test
+  - name: Restock inventory
+    container: jmeter
+    commands:
+      - type: console
+        command: curl -s http://inventory:8080/restock
+  - name: 400 users order 3 products with long think time
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=400 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=30000 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
