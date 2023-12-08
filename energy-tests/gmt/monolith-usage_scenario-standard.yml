@@ -1,7 +1,7 @@
 ---
-name: T2-Modulith (Standard Scenario with JMeter - single user, three products, long think time)
+name: T2-Modulith (Standard Scenario with JMeter - 1 user, 3 products, 30 sec think times)
 author: David Kopp
-description: Measure the energy consumption of a standard use case scenario of the T2-Project application. One user checks out the inventory, thinks for 30-60 sec, adds three random products to cart and finally confirms the order.
+description: Measure the energy consumption of a standard use case scenario of the T2-Project application in the monolithic implementation. One user checks out the inventory, thinks for 30 sec, adds a random product to cart, thinks again, add a second product, thinks again, add a third product, and finally confirms the order.
 
 compose-file: !include monolith-compose.yml
 
@@ -18,11 +18,11 @@ sci:
   # One order consists of three sequential requests: get inventory, add product to cart, confirm order
 
 flow:
-  - name: single user orders three products with long think time
+  - name: 1 user orders 3 products with 30 sec think time
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=30000 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=3 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: true

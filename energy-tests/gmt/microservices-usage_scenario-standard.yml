@@ -1,0 +1,31 @@
+---
+name: T2-Microservices (Standard Scenario with JMeter - 1 user, 3 products, 30 sec think times)
+author: David Kopp
+description: Measure the energy consumption of a standard use case scenario of the T2-Project application in the microservices implementation. One user checks out the inventory, thinks for 30 sec, adds a random product to cart, thinks again, add a second product, thinks again, add a third product, and finally confirms the order.
+
+compose-file: !include microservices-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that postgres is ready
+  cdcservice:
+    setup-commands:
+      - sleep 10 # wait some time to ensure that the cdcservice is ready
+  uibackend:
+    setup-commands:
+       - sleep 30 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: 1 user orders 3 products with 30 sec think time
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=3 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: true
