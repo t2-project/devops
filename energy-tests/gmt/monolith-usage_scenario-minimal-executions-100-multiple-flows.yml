@@ -65,7 +65,7 @@ flow:
     commands:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JtimeBetweenExecutions=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
-  - name: 100. user orders 1 product 100 times in a row
+  - name: 10. user orders 1 product 100 times in a row
     container: jmeter
     commands:
       - type: console

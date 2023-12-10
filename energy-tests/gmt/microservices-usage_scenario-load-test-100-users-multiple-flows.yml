@@ -1,0 +1,85 @@
+---
+name: T2-Microservices (Load Test with JMeter - 100 users, multiple flows)
+author: David Kopp
+description: Load test with 100 users in parallel, multiple times in a row. Each user checks out the inventory, add one random product to cart and finally confirms the order. Ramp-up time is 2 seconds. Logging of JMeter requests is disabled.
+
+compose-file: !include microservices-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that postgres is ready
+  cdcservice:
+    setup-commands:
+      - sleep 10 # wait some time to ensure that the cdcservice is ready
+  uibackend:
+    setup-commands:
+       - sleep 40 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+
+flow:
+  # Restock the inventory first, so there won't be any errors during the load test
+  - name: Restock inventory
+    container: jmeter
+    commands:
+      - type: console
+        command: curl -s http://inventory:8080/restock
+  - name: 1. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 2. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 3. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 4. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 5. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 6. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 7. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 8. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 9. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+  - name: 10. 100 users order 1 product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
