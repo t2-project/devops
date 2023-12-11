@@ -39,6 +39,7 @@ services:
     log-stderr: true
     environment:
       LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
+      T2_GMT_LOGGING_ENABLED: true # SCI note get logged by orchestrator after Saga completed
   payment:
     log-stdout: true
     log-stderr: true
