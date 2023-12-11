@@ -31,7 +31,7 @@ flow:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
-  - name: sleep 5 sec
+  - name: 1. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -42,7 +42,7 @@ flow:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
-  - name: sleep 5 sec
+  - name: 2. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -53,7 +53,7 @@ flow:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
-  - name: sleep 5 sec
+  - name: 3. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -64,7 +64,7 @@ flow:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
-  - name: sleep 5 sec
+  - name: 4. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -75,7 +75,7 @@ flow:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
-  - name: sleep 5 sec
+  - name: 5. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -86,7 +86,7 @@ flow:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
-  - name: sleep 5 sec
+  - name: 6. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -96,7 +96,7 @@ flow:
     commands:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
-  - name: sleep 5 sec
+  - name: 7. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -106,7 +106,7 @@ flow:
     commands:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
-  - name: sleep 5 sec
+  - name: 8. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -116,7 +116,7 @@ flow:
     commands:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
-  - name: sleep 5 sec
+  - name: 9. sleep 5 sec
     container: jmeter
     commands:
       - type: console
@@ -126,7 +126,7 @@ flow:
     commands:
       - type: console
         command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
-  - name: sleep 5 sec
+  - name: 10. sleep 5 sec
     container: jmeter
     commands:
       - type: console
