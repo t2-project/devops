@@ -25,7 +25,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=3 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=3 -JthinkTimeMin=30000 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: true

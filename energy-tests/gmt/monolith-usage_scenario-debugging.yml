@@ -17,6 +17,8 @@ services:
   backend:
     log-stdout: true
     log-stderr: true
+    environment:
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
     setup-commands:
        - sleep 10 # wait some time to ensure that the backend is ready
   jmeter:
@@ -28,7 +30,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx -l results.csv
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JpauseBeforeExecution=1000 -JpauseAfterExecution=1000 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx -l results.csv
         log-stdout: true
         log-stderr: true
         read-notes-stdout: true

@@ -126,7 +126,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=100 -JrampUp=2 -JnumProducts=3 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=5000 -JloggingEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
   - name: 10. sleep 5 sec
     container: jmeter
