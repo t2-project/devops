@@ -135,7 +135,6 @@ services:
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
-      T2_GMT_LOGGING_ENABLED: "TRUE"
     networks:
       - t2-network
 

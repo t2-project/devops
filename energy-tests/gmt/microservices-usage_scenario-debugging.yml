@@ -37,6 +37,7 @@ services:
   orchestrator:
     log-stdout: true
     log-stderr: true
+    read-notes-stdout: true
     environment:
       LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
       T2_GMT_LOGGING_ENABLED: true # SCI note get logged by orchestrator after Saga completed
@@ -65,6 +66,7 @@ flow:
         log-stdout: true
         log-stderr: true
         read-notes-stdout: true
+        read-sci-stdout: false
   - name: Print JMeter Results
     container: jmeter
     commands:

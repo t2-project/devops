@@ -7,6 +7,9 @@ compose-file: !include microservices-compose.yml
 
 services:
   orchestrator:
+    log-stdout: true
+    read-notes-stdout: true
+    read-sci-stdout: true
     environment:
       T2_GMT_LOGGING_ENABLED: true # SCI note get logged by orchestrator after Saga completed
   postgres:
@@ -31,4 +34,4 @@ flow:
         command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=5000 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
-        read-sci-stdout: true
+        read-sci-stdout: false

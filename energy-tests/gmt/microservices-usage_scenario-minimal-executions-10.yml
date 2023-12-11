@@ -1,7 +1,7 @@
 ---
-name: T2-Microservices (Minimal Scenario with JMeter - 0 executions)
+name: T2-Microservices (Minimal Scenario with JMeter - 10 executions)
 author: David Kopp
-description: User does make nothing.
+description: Testing different number of executions. One user checks out the inventory, adds one random product to cart and finally confirms the order.
 
 compose-file: !include microservices-compose.yml
 
@@ -27,11 +27,11 @@ sci:
   # One order consists of three sequential requests: get inventory, add product to cart, confirm order
 
 flow:
-  - name: user makes nothing
+  - name: user orders 1 product 10 times in a row
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=0 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=10 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=5000 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false
