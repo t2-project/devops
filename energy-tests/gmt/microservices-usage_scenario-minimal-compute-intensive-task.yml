@@ -1,0 +1,40 @@
+---
+name: T2-Microservices (Minimal Scenario with JMeter, compute intensive task)
+author: David Kopp
+description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, a compute intensive calculation method gets used to calculate the order total.
+
+compose-file: !include microservices-compose.yml
+
+services:
+  orchestrator:
+    log-stdout: true
+    read-notes-stdout: true
+    read-sci-stdout: true
+    environment:
+      T2_GMT_LOGGING_ENABLED: true # SCI note get logged by orchestrator after Saga completed
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that postgres is ready
+  cdcservice:
+    setup-commands:
+      - sleep 10 # wait some time to ensure that the cdcservice is ready
+  uibackend:
+    environment:
+      T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ENABLED: true
+      T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ITERATIONS: 1000000000
+    setup-commands:
+       - sleep 40 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: single user orders one product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=3000 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: false

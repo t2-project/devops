@@ -1,0 +1,31 @@
+---
+name: T2-Modulith (Minimal Scenario with JMeter, compute intensive task)
+author: David Kopp
+description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, a compute intensive calculation method gets used to calculate the order total.
+
+compose-file: !include monolith-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that the database is ready
+  backend:
+    environment:
+      T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ENABLED: true
+      T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ITERATIONS: 1000000000
+    setup-commands:
+       - sleep 10 # wait some time to ensure that the backend is ready
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: single user orders one product
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=true -JloggingSCIEnabled=true -JloggingSCIEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: true
