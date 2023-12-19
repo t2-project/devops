@@ -1,0 +1,91 @@
+---
+name: T2-Microservices (Minimal Scenario with JMeter - 100 executions, multiple flows with sleeps, with logging)
+author: David Kopp
+description: Testing different number of executions. Sleep after each flow to wait for the async operations. One user checks out the inventory, adds one random product to cart and finally confirms the order.
+
+compose-file: !include microservices-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that postgres is ready
+  uibackend:
+    setup-commands:
+       - sleep 40 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  # Restock the inventory first, so there won't be any errors during the load test
+  - name: Restock inventory
+    container: jmeter
+    commands:
+      - type: console
+        command: curl -s http://uibackend:8080/restock
+  - name: 1. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: false
+  - name: 1. sleep
+    container: jmeter
+    commands:
+      - type: console
+        command: sleep 60
+  - name: 2. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: false
+  - name: 2. sleep
+    container: jmeter
+    commands:
+      - type: console
+        command: sleep 60
+  - name: 3. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: false
+  - name: 3. sleep
+    container: jmeter
+    commands:
+      - type: console
+        command: sleep 60
+  - name: 4. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: false
+  - name: 4. sleep
+    container: jmeter
+    commands:
+      - type: console
+        command: sleep 60
+  - name: 5. user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: false
+  - name: 5. sleep
+    container: jmeter
+    commands:
+      - type: console
+        command: sleep 60

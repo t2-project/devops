@@ -1,0 +1,33 @@
+---
+name: T2-Microservices (Minimal Scenario with JMeter - 100 executions, with sleep)
+author: David Kopp
+description: Testing different number of executions. Sleep at the end to wait for all async operations. Logging is enabled. One user checks out the inventory, adds one random product to cart and finally confirms the order.
+
+compose-file: !include microservices-compose.yml
+
+services:
+  postgres:
+    setup-commands:
+       - sleep 5 # wait some time to ensure that postgres is ready
+  uibackend:
+    setup-commands:
+       - sleep 40 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+
+sci:
+  R_d: order
+  # One order consists of three sequential requests: get inventory, add product to cart, confirm order
+
+flow:
+  - name: user orders 1 product 100 times in a row
+    container: jmeter
+    commands:
+      - type: console
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        log-stdout: true
+        read-notes-stdout: true
+        read-sci-stdout: false
+  - name: sleep
+    container: jmeter
+    commands:
+      - type: console
+        command: sleep 60

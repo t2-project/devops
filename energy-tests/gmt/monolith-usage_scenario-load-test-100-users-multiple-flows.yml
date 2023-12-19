@@ -20,11 +20,6 @@ flow:
     commands:
       - type: console
         command: curl -s http://backend:8080/restock
-  - name: sleep 5 sec
-    container: jmeter
-    commands:
-      - type: console
-        command: sleep 5
   - name: 1. 100 users order 1 product
     container: jmeter
     commands:
