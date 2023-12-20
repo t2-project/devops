@@ -1,7 +1,7 @@
 ---
 name: T2-Microservices (Minimal Scenario with JMeter)
 author: David Kopp
-description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, there is no think time in between.
+description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, there is no think time in between. Pause after execution to wait for the async operation.
 
 compose-file: !include microservices-compose.yml
 
