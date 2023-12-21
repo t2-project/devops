@@ -10,10 +10,15 @@ services:
     log-stdout: true
     log-stderr: true
     setup-commands:
-       - sleep 5
+      - sleep 5
   mongo:
     log-stdout: true
     log-stderr: true
+  kafka:
+    log-stdout: true
+    log-stderr: true
+    setup-commands:
+      - sleep 10
   cdcservice:
     log-stdout: true
     log-stderr: true
@@ -50,7 +55,7 @@ services:
     environment:
       LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
     setup-commands:
-       - sleep 40
+      - sleep 60
   jmeter:
     log-stdout: true
     log-stderr: true

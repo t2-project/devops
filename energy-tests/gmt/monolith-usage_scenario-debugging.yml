@@ -10,7 +10,7 @@ services:
     log-stdout: true
     log-stderr: true
     setup-commands:
-       - sleep 5 # wait some time to ensure that the database is ready
+      - sleep 5 # wait some time to ensure that the database is ready
   mongo:
     log-stdout: true
     log-stderr: true
@@ -20,7 +20,7 @@ services:
     environment:
       LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
     setup-commands:
-       - sleep 10 # wait some time to ensure that the backend is ready
+      - sleep 10 # wait some time to ensure that the backend is ready
   jmeter:
     log-stdout: true
     log-stderr: true

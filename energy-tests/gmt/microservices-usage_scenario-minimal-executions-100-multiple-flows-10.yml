@@ -8,13 +8,13 @@ compose-file: !include microservices-compose.yml
 services:
   postgres:
     setup-commands:
-       - sleep 5 # wait some time to ensure that postgres is ready
-  cdcservice:
+      - sleep 5 # wait some time to ensure that postgres is ready
+  kafka:
     setup-commands:
-      - sleep 10 # wait some time to ensure that the cdcservice is ready
+      - sleep 10 # wait some time to ensure that kafka is ready
   uibackend:
     setup-commands:
-       - sleep 40 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+      - sleep 60 # wait some time to ensure that all T2 services are ready before starting the flow
 
 sci:
   R_d: order

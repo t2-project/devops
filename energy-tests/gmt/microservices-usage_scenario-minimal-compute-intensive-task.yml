@@ -14,16 +14,16 @@ services:
       T2_GMT_LOGGING_ENABLED: true # SCI note get logged by orchestrator after Saga completed
   postgres:
     setup-commands:
-       - sleep 5 # wait some time to ensure that postgres is ready
-  cdcservice:
+      - sleep 5 # wait some time to ensure that postgres is ready
+  kafka:
     setup-commands:
-      - sleep 10 # wait some time to ensure that the cdcservice is ready
+      - sleep 10 # wait some time to ensure that kafka is ready
   uibackend:
     environment:
       T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ENABLED: true
       T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ITERATIONS: 1000000000
     setup-commands:
-       - sleep 40 # wait some time to ensure that the uibackend service and all other services are ready before starting the flow
+      - sleep 60 # wait some time to ensure that all T2 service are ready before starting the flow
 
 sci:
   R_d: order
