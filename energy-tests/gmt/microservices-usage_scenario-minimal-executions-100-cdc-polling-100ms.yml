@@ -1,7 +1,7 @@
 ---
-name: T2-Microservices (Minimal Scenario with JMeter)
+name: T2-Microservices (Minimal Scenario with JMeter - 100 executions, CDC polling 100 ms)
 author: David Kopp
-description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, there is no think time in between. Pause after execution to wait for the async operation.
+description: Testing different number of executions. Without pauses. Logging is enabled. One user checks out the inventory, adds one random product to cart and finally confirms the order.
 
 compose-file: !include microservices-compose.yml
 
@@ -12,6 +12,9 @@ services:
     read-sci-stdout: true
     environment:
       T2_GMT_LOGGING_ENABLED: true # SCI note get logged by orchestrator after Saga completed
+  cdcservice:
+    environment:
+      EVENTUATELOCAL_CDC_POLLING_INTERVAL_IN_MILLISECONDS: 100 # default: 500
   postgres:
     setup-commands:
       - sleep 5 # wait some time to ensure that postgres is ready
@@ -27,11 +30,11 @@ sci:
   # One order consists of three sequential requests: get inventory, add product to cart, confirm order
 
 flow:
-  - name: single user orders one product
+  - name: user orders 1 product 100 times in a row
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=5000 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false

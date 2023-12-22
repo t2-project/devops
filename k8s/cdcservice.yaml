@@ -52,6 +52,8 @@ spec:
               value: SELECT 1
             - name: SPRING_PROFILES_ACTIVE
               value: EventuatePolling
+            - name: EVENTUATELOCAL_CDC_POLLING_INTERVAL_IN_MILLISECONDS
+              value: "500" # default: 500
             - name: EVENTUATE_OUTBOX_ID 
               value: "1"
           image: eventuateio/eventuate-cdc-service:0.16.0.RELEASE
