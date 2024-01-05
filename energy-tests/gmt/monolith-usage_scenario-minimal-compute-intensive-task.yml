@@ -11,8 +11,7 @@ services:
       - sleep 5 # wait some time to ensure that the database is ready
   backend:
     environment:
-      T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ENABLED: true
-      T2_SIMULATE_COMPUTE_INTENSIVE_TASK_ITERATIONS: 1000000000
+      T2_SIMULATE_COMPUTE_INTENSIVE_TASK: true
     setup-commands:
       - sleep 10 # wait some time to ensure that the backend is ready
 
