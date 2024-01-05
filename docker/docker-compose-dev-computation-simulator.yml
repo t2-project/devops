@@ -1,3 +1,17 @@
+# Docker compose for development, with computation simulator
+# Differences to normal Docker compose:
+# - debug logging enabled
+# - no credit institute & payment disabled
+# - no UI service
+# - integrates the computation-simulator service
+#
+# To use a service from your host system (e.g. in debugging mode started from your IDE),
+# replace the host and the url of the respective URL env var.
+# Example to use the orchestrator from the host system:
+# T2_ORCHESTRATOR_URL: http://orchestrator:8080/order
+# →
+# T2_ORCHESTRATOR_URL: http://host.docker.internal:8085/order
+
 version: "2"
 services:
   ## domain database
@@ -18,6 +32,7 @@ services:
       T2_CART_TASKRATE: "0"
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
 
   uibackend:
     image: t2project/uibackend:main
@@ -26,23 +41,17 @@ services:
     depends_on:
       - cart
       - inventory
-      - e2etest
+      - orchestrator
     environment:
-      T2_ORCHESTRATOR_URL: http://e2etest:8080/test
+      T2_ORCHESTRATOR_URL: http://orchestrator:8080/order
       T2_CART_URL: http://cart:8080/cart
       T2_INVENTORY_URL: http://inventory:8080/inventory
       T2_RESERVATION_ENDPOINT: reservation
+      T2_SIMULATE_COMPUTE_INTENSIVE_TASK: "TRUE"
+      T2_COMPUTATION_SIMULATOR_URL: http://computation-simulator:8080/compute
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
-
-  ui:
-    image: t2project/ui:main
-    ports:
-      - "8086:8080"
-    environment:
-      T2_UIBACKEND_URL: http://uibackend:8080
-      T2_JAEGER_ENABLED: "FALSE"
-      T2_JAEGER_HOST: localhost
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
 
   inventory:
     image: t2project/inventory:main
@@ -66,6 +75,7 @@ services:
       SPRING_PROFILES_ACTIVE: saga
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
 
   order:
     image: t2project/order:main
@@ -87,6 +97,7 @@ services:
       MONGO_HOST: mongo
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
 
   payment:
     image: t2project/payment:main
@@ -98,8 +109,8 @@ services:
       - kafka
       - zookeeper
     environment:
-      T2_PAYMENT_PROVIDER_ENABLED: "TRUE"
-      T2_PAYMENT_PROVIDER_DUMMY_URL: http://e2etest:8080/fakepay
+      T2_PAYMENT_PROVIDER_ENABLED: "FALSE"
+      T2_PAYMENT_PROVIDER_DUMMY_URL: http://dummy
       T2_PAYMENT_PROVIDER_TIMEOUT: 5
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
@@ -109,6 +120,7 @@ services:
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
 
   orchestrator:
     image: t2project/orchestrator:main
@@ -128,6 +140,18 @@ services:
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
+      T2_GMT_LOGGING_ENABLED: "FALSE"
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
+
+  computation-simulator:
+    image: t2project/computation-simulator:main
+    ports:
+      - "8089:8080"
+    environment:
+      COMPUTATION_SIMULATOR_PI_TOTAL_POINTS: 100000000
+      T2_JAEGER_ENABLED: "FALSE"
+      T2_JAEGER_HOST: localhost
+      LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
 
   zookeeper:
     image: eventuateio/eventuate-zookeeper:0.18.0.RELEASE
@@ -183,26 +207,3 @@ services:
       EVENTUATELOCAL_CDC_POLLING_INTERVAL_IN_MILLISECONDS: 100 # default: 500
       EVENTUATE_OUTBOX_ID: 1
       JAVA_OPTS: -Xmx64m
-
-  e2etest:
-    image: t2project/e2etest:main
-    ports:
-      - "8088:8080"
-    depends_on:
-      - mongo
-      - postgres
-      - kafka
-      - zookeeper
-      - orchestrator
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres/eventuate
-      SPRING_DATASOURCE_USERNAME: eventuate
-      SPRING_DATASOURCE_PASSWORD: eventuate
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-      EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      MONGO_HOST: mongo
-      SPRING_MONGO_URL: mongodb://mongo:27017/data
-      T2_ORCHESTRATOR_URL: http://orchestrator:8080/order
-      T2_JAEGER_ENABLED: "FALSE"
-      T2_JAEGER_HOST: localhost
