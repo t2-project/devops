@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: computation-simulator-cs
+  name: computation-simulator-cs
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: computation-simulator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: computation-simulator
+  name: computation-simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: computation-simulator
+  template:
+    metadata:
+      labels:
+        app: computation-simulator
+    spec:
+      containers:
+        - name: computation-simulator
+          imagePullPolicy: Always
+          env:
+            - name: COMPUTATION_SIMULATOR_PI_TOTAL_POINTS
+              value: "100000000"
+            - name: T2_JAEGER_ENABLED
+              value: "TRUE"
+            - name: T2_JAEGER_HOST
+              value: localhost
+          image: t2project/computation-simulator:main
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 250m
+              memory: 250Mi
+      restartPolicy: Always
