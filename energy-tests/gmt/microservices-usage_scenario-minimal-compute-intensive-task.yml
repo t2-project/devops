@@ -20,7 +20,7 @@ services:
       - sleep 10 # wait some time to ensure that kafka is ready
   uibackend:
     environment:
-      T2_SIMULATE_COMPUTE_INTENSIVE_TASK: true
+      T2_COMPUTATION_SIMULATOR_ENABLED: true
     setup-commands:
       - sleep 60 # wait some time to ensure that all T2 service are ready before starting the flow
 

@@ -32,7 +32,7 @@ services:
       T2_CART_URL: http://cart:8080/cart
       T2_INVENTORY_URL: http://inventory:8080/inventory
       T2_RESERVATION_ENDPOINT: reservation
-      T2_SIMULATE_COMPUTE_INTENSIVE_TASK: false
+      T2_COMPUTATION_SIMULATOR_ENABLED: false
       T2_COMPUTATION_SIMULATOR_URL: http://computation-simulator:8080/compute
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost

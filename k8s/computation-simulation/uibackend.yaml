@@ -39,7 +39,7 @@ spec:
               value: http://inventory-cs/inventory
             - name: T2_RESERVATION_ENDPOINT
               value: reservation
-            - name: T2_SIMULATE_COMPUTE_INTENSIVE_TASK
+            - name: T2_COMPUTATION_SIMULATOR_ENABLED
               value: "TRUE"
             - name: T2_COMPUTATION_SIMULATOR_URL
               value: http://computation-simulator-cs/compute

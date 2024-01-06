@@ -31,7 +31,7 @@ spec:
         - name: computation-simulator
           imagePullPolicy: Always
           env:
-            - name: COMPUTATION_SIMULATOR_PI_TOTAL_POINTS
+            - name: T2_COMPUTATION_SIMULATOR_PI_TOTAL_POINTS
               value: "100000000"
             - name: T2_JAEGER_ENABLED
               value: "TRUE"
