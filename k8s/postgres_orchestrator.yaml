@@ -33,6 +33,8 @@ spec:
         - name: postgres
           image: eventuateio/eventuate-tram-sagas-postgres:0.23.0.RELEASE
           env:
+            - name: POSTGRES_DB
+              value: eventuate
             - name: POSTGRES_PASSWORD
               value: eventuate
             - name: POSTGRES_USER

@@ -46,7 +46,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: inventory
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres-inventory:5432/inventory
+              value: jdbc:postgresql://postgres-inventory/inventory
             - name: SPRING_DATASOURCE_USERNAME
               value: inventory
             - name: SPRING_PROFILES_ACTIVE
