@@ -9,12 +9,12 @@ serviceMonitor:
     scrapeTimeout: 30s
     module: http_2xx
 
-  # make sure to use kubernetes serive names as target names
+  # make sure to use kubernetes service names as target names
   targets:
-    - name: sla-manager-service
-      url: http://sla-manager-service.default.svc.cluster.local
-      labels:
-        release: prometheus
+    # - name: sla-manager-service
+    #   url: http://sla-manager-service.default.svc.cluster.local
+    #   labels:
+    #     release: prometheus
     - name: creditinstitute-service
       url: creditinstitute-cs.default/actuator/prometheus
       labels:

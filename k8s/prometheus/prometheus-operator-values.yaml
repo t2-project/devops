@@ -40,7 +40,3 @@ alertmanager:
       - name: 'web.hook'
         webhook_configs:
         - url: 'http://sla-manager-service.default.svc.cluster.local'
-
-
-
-        
