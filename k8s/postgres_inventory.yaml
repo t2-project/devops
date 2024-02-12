@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:14.11
+          image: eventuateio/eventuate-tram-sagas-postgres:0.23.0.RELEASE
           env:
             - name: POSTGRES_DB
               value: inventory
@@ -39,6 +39,8 @@ spec:
               value: inventory
             - name: POSTGRES_USER
               value: inventory
+            - name: USE_DB_ID
+              value: "true"
           ports:
             - containerPort: 5432
           volumeMounts:
