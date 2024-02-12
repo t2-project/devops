@@ -45,7 +45,7 @@ spec:
             - name: SPRING_DATASOURCE_TEST_ON_BORROW
               value: "true"
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres/eventuate
+              value: jdbc:postgresql://postgres-orchestrator/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
             - name: SPRING_DATASOURCE_VALIDATION_QUERY

@@ -53,7 +53,7 @@ spec:
             - name: T2_ORCHESTRATOR_URL
               value: http://orchestrator-cs/order
             - name: T2_JAEGER_ENABLED
-              value: "TRUE"
+              value: "FALSE"
             - name: T2_JAEGER_HOST
-              value: localhost
+              value: simplest-agent #todo
       restartPolicy: Always

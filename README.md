@@ -13,3 +13,5 @@ For more information read the [https://t2-documentation.readthedocs.io/en/latest
 | [./k8s/](k8s) | Kubernetes deployments for the T2-Project |
 | [./loadprofiles/](loadprofiles) | load profiles for the Apache jMeter load generator |
 | [./setenv.sh](setenv.sh) | export environment variables required do build the T2-Project locally |
+| [./start.sh](start.sh) | install kubernetes deployments, including required helm charts |
+| [./stop.sh](stop.sh) | uninstall kubernetes deployments, including the helm charts |

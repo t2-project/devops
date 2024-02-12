@@ -36,19 +36,19 @@ spec:
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: kafka-zookeeper:2181
             - name: MONGO_HOST
-              value: mongo-mongodb
+              value: mongo-order-mongodb
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
             - name: SPRING_DATASOURCE_PASSWORD
               value: eventuate
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres/eventuate
+              value: jdbc:postgresql://postgres-orchestrator/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
             - name: T2_JAEGER_ENABLED
-              value: "TRUE"
+              value: "FALSE"
             - name: T2_JAEGER_HOST
-              value: localhost #todo
+              value: simplest-agent #todo
           image: t2project/order:main
           ports:
             - containerPort: 8080

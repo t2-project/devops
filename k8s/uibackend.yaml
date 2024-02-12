@@ -40,9 +40,9 @@ spec:
             - name: T2_RESERVATION_ENDPOINT
               value: reservation
             - name: T2_JAEGER_ENABLED
-              value: "TRUE"
+              value: "FALSE"
             - name: T2_JAEGER_HOST
-              value: localhost
+              value: simplest-agent #todo
           image: t2project/uibackend:main
           ports:
             - containerPort: 8080
