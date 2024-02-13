@@ -37,6 +37,20 @@ spec:
           - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
             value: kafka-zookeeper:2181
 
+          - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_TYPE
+            value: eventuate-tram
+          - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_READER
+            value: reader1
+          - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_EVENTUATEDATABASESCHEMA
+            value: t2_orchestrator
+
+          - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_TYPE
+            value: eventuate-tram
+          - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_READER
+            value: reader2
+          - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_EVENTUATEDATABASESCHEMA
+            value: t2_inventory_service
+
           - name: EVENTUATE_CDC_READER_READER1_TYPE
             value: postgres-wal
           - name: EVENTUATE_CDC_READER_READER1_DATASOURCEURL
