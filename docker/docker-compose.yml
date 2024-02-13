@@ -9,7 +9,7 @@ services:
   mongo-order:
     image: bitnami/mongodb:7.0
     ports:
-      - "27017:27017"
+      - "27018:27017"
 
   cart:
     image: t2project/cart:main
@@ -180,7 +180,7 @@ services:
   postgres-inventory:
     image: eventuateio/eventuate-tram-sagas-postgres:0.23.0.RELEASE
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_USER: inventory
       POSTGRES_PASSWORD: inventory

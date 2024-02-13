@@ -22,7 +22,7 @@ services:
   postgres-inventory:
     image: t2project/eventuate-tram-sagas-postgres:0.23.0.RELEASE-fixed # see PR https://github.com/eventuate-foundation/eventuate-common/pull/135
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_USER: inventory
       POSTGRES_PASSWORD: inventory
@@ -88,7 +88,7 @@ services:
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
       EVENTUATE_CDC_READER_READER1_TYPE: postgres-wal
-      EVENTUATE_CDC_READER_READER1_DATASOURCEURL: jdbc:postgresql://postgres-orchestrator/eventuate
+      EVENTUATE_CDC_READER_READER1_DATASOURCEURL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
       EVENTUATE_CDC_READER_READER1_DATASOURCEUSERNAME: eventuate
       EVENTUATE_CDC_READER_READER1_DATASOURCEPASSWORD: eventuate
       EVENTUATE_CDC_READER_READER1_DATASOURCEDRIVERCLASSNAME: org.postgresql.Driver
@@ -97,7 +97,7 @@ services:
       EVENTUATE_CDC_READER_READER1_POSTGRESWALINTERVALINMILLISECONDS: 10 # default: 10
       EVENTUATE_CDC_READER_READER1_POSTGRESREPLICATIONSTATUSINTERVALINMILLISECONDS: 1000 # default: 1000
       EVENTUATE_CDC_READER_READER2_TYPE: postgres-wal
-      EVENTUATE_CDC_READER_READER2_DATASOURCEURL: jdbc:postgresql://postgres-inventory/inventory
+      EVENTUATE_CDC_READER_READER2_DATASOURCEURL: jdbc:postgresql://postgres-inventory:5432/inventory
       EVENTUATE_CDC_READER_READER2_DATASOURCEUSERNAME: inventory
       EVENTUATE_CDC_READER_READER2_DATASOURCEPASSWORD: inventory
       EVENTUATE_CDC_READER_READER2_DATASOURCEDRIVERCLASSNAME: org.postgresql.Driver
@@ -159,7 +159,7 @@ services:
       - kafka
       - zookeeper
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator/eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_DATASOURCE_PASSWORD: eventuate
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
@@ -181,7 +181,7 @@ services:
       - kafka
       - zookeeper
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator/eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_DATASOURCE_PASSWORD: eventuate
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
@@ -206,7 +206,7 @@ services:
       T2_PAYMENT_PROVIDER_ENABLED: "FALSE"
       T2_PAYMENT_PROVIDER_DUMMY_URL: http://dummy:8080/pay
       T2_PAYMENT_PROVIDER_TIMEOUT: 5
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator/eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_DATASOURCE_PASSWORD: eventuate
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
