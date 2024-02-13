@@ -46,8 +46,8 @@ spec:
               value: jdbc:postgresql://postgres-orchestrator/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
-            - name: SPRING_DATA_ORDER_MONGODB_URI # Order MongoDB
-              value: mongodb://mongo-order-mongodb:27017/data
+            - name: MONGO_HOST # Order MongoDB
+              value: mongo-order-mongodb
             - name: T2_ORCHESTRATOR_URL
               value: http://orchestrator-cs/order
             - name: T2_JAEGER_ENABLED
