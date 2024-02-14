@@ -53,7 +53,7 @@ spec:
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
               value: kafka:9092
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
-              value: zookeeper:2181
+              value: kafka-zookeeper:2181
             - name: MONGO_HOST # Order MongoDB
               value: mongo-order-mongodb
             - name: T2_ORCHESTRATOR_URL
