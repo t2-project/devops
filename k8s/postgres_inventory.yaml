@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Service # headless
+metadata:
+  labels:
+    app: postgres-inventory
+  name: postgres-inventory
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  clusterIP: None
+  selector:
+    app: postgres-inventory
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: postgres-inventory
+  name: postgres-inventory
+spec:
+  serviceName: postgres-inventory 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-inventory
+  template:
+    metadata:
+      labels:
+        app: postgres-inventory
+    spec:
+      containers:
+        - name: postgres
+          image: eventuateio/eventuate-tram-sagas-postgres:0.23.0.RELEASE
+          env:
+            - name: POSTGRES_DB
+              value: inventory
+            - name: POSTGRES_PASSWORD
+              value: inventory
+            - name: POSTGRES_USER
+              value: inventory
+            - name: USE_DB_ID
+              value: "true"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+          - name: datadir
+            mountPath: /var/lib/postgresql/data
+            subPath: postgres
+          - name: postgres-config
+            mountPath: /etc/postgresql/postgresql.conf
+            subPath: postgresql.conf
+            readOnly: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      restartPolicy: Always
+      volumes:
+      - name: postgres-config
+        configMap:
+          name: postgres-config
+          items:
+            - key: postgresql.conf
+              path: postgresql.conf
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

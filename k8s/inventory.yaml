@@ -41,22 +41,20 @@ spec:
               value: "0"
             - name: T2_INVENTORY_TTL
               value: "0"
-            - name: MONGO_HOST
-              value: mongo-mongodb
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
             - name: SPRING_DATASOURCE_PASSWORD
-              value: eventuate
+              value: inventory
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres/eventuate
+              value: jdbc:postgresql://postgres-inventory/inventory
             - name: SPRING_DATASOURCE_USERNAME
-              value: eventuate
+              value: inventory
             - name: SPRING_PROFILES_ACTIVE
               value: saga
             - name: T2_JAEGER_ENABLED
-              value: "TRUE"
+              value: "FALSE"
             - name: T2_JAEGER_HOST
-              value: localhost #todo
+              value: simplest-agent #todo
           image: t2project/inventory:main
           ports:
             - containerPort: 8080

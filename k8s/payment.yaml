@@ -43,7 +43,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: eventuate
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres/eventuate
+              value: jdbc:postgresql://postgres-orchestrator/eventuate
             - name: SPRING_DATASOURCE_USERNAME
               value: eventuate
             - name: T2_PAYMENT_PROVIDER_ENABLED
@@ -53,9 +53,9 @@ spec:
             - name: T2_PAYMENT_PROVIDER_TIMEOUT
               value: "5"
             - name: T2_JAEGER_ENABLED
-              value: "TRUE"
+              value: "FALSE"
             - name: T2_JAEGER_HOST
-              value: localhost #todo
+              value: simplest-agent #todo
           resources:
             limits:
               cpu: 500m
