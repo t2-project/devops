@@ -2,8 +2,8 @@
 
 MY_DIR="$(dirname "$(readlink -f "$0")")"
 
-kubectl delete -f $MYDIR/
-kubectl delete configmap $MY_DIR/postgres-config
+kubectl delete -f $MY_DIR/
+kubectl delete configmap postgres-config
 
 helm uninstall mongo-cart
 helm uninstall mongo-order
