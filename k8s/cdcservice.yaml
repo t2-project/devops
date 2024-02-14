@@ -29,62 +29,54 @@ spec:
         app: cdcservice
     spec:
       containers:
-        - env:
-          - name: JAVA_OPTS
-            value: -Xmx64m
-          - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
-            value: kafka:29092
-          - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
-            value: kafka-zookeeper:2181
-
-          - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_TYPE
-            value: eventuate-tram
-          - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_READER
-            value: reader1
-          - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_EVENTUATEDATABASESCHEMA
-            value: t2_orchestrator
-
-          - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_TYPE
-            value: eventuate-tram
-          - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_READER
-            value: reader2
-          - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_EVENTUATEDATABASESCHEMA
-            value: t2_inventory_service
-
-          - name: EVENTUATE_CDC_READER_READER1_TYPE
-            value: postgres-wal
-          - name: EVENTUATE_CDC_READER_READER1_DATASOURCEURL
-            value: jdbc:postgresql://postgres-orchestrator/eventuate
-          - name: EVENTUATE_CDC_READER_READER1_DATASOURCEUSERNAME
-            value: eventuate
-          - name: EVENTUATE_CDC_READER_READER1_DATASOURCEPASSWORD
-            value: eventuate
-          - name: EVENTUATE_CDC_READER_READER1_DATASOURCEDRIVERCLASSNAME
-            value: org.postgresql.Driver
-          - name: EVENTUATE_CDC_READER_READER1_LEADERSHIPLOCKPATH
-            value: /eventuate/cdc/leader/orchestrator
-          - name: EVENTUATE_CDC_READER_READER1_OUTBOXID
-            value: "1"
-
-          - name: EVENTUATE_CDC_READER_READER2_TYPE
-            value: postgres-wal
-          - name: EVENTUATE_CDC_READER_READER2_DATASOURCEURL
-            value: jdbc:postgresql://postgres-inventory/inventory
-          - name: EVENTUATE_CDC_READER_READER2_DATASOURCEUSERNAME
-            value: inventory
-          - name: EVENTUATE_CDC_READER_READER2_DATASOURCEPASSWORD
-            value: inventory
-          - name: EVENTUATE_CDC_READER_READER2_DATASOURCEDRIVERCLASSNAME
-            value: org.postgresql.Driver
-          - name: EVENTUATE_CDC_READER_READER2_LEADERSHIPLOCKPATH
-            value: /eventuate/cdc/leader/inventory_service
-          - name: EVENTUATE_CDC_READER_READER2_OUTBOXID
-            value: "2"
-
+        - name: cdcservice
           image: eventuateio/eventuate-cdc-service:0.16.0.RELEASE
-          name: cdcservice
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          env:
+            - name: JAVA_OPTS
+              value: -Xmx64m
+            - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
+              value: kafka:29092
+            - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
+              value: kafka-zookeeper:2181
+            - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_TYPE
+              value: eventuate-tram
+            - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_READER
+              value: reader1
+            - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_TYPE
+              value: eventuate-tram
+            - name: EVENTUATE_CDC_PIPELINE_PIPELINE2_READER
+              value: reader2
+            - name: EVENTUATE_CDC_READER_READER1_TYPE
+              value: postgres-wal
+            - name: EVENTUATE_CDC_READER_READER1_DATASOURCEURL
+              value: jdbc:postgresql://postgres-orchestrator/eventuate
+            - name: EVENTUATE_CDC_READER_READER1_DATASOURCEUSERNAME
+              value: eventuate
+            - name: EVENTUATE_CDC_READER_READER1_DATASOURCEPASSWORD
+              value: eventuate
+            - name: EVENTUATE_CDC_READER_READER1_DATASOURCEDRIVERCLASSNAME
+              value: org.postgresql.Driver
+            - name: EVENTUATE_CDC_READER_READER1_LEADERSHIPLOCKPATH
+              value: /eventuate/cdc/leader/orchestrator
+            - name: EVENTUATE_CDC_READER_READER1_OUTBOXID
+              value: "1"
+            - name: EVENTUATE_CDC_READER_READER2_TYPE
+              value: postgres-wal
+            - name: EVENTUATE_CDC_READER_READER2_DATASOURCEURL
+              value: jdbc:postgresql://postgres-inventory/inventory
+            - name: EVENTUATE_CDC_READER_READER2_DATASOURCEUSERNAME
+              value: inventory
+            - name: EVENTUATE_CDC_READER_READER2_DATASOURCEPASSWORD
+              value: inventory
+            - name: EVENTUATE_CDC_READER_READER2_DATASOURCEDRIVERCLASSNAME
+              value: org.postgresql.Driver
+            - name: EVENTUATE_CDC_READER_READER2_LEADERSHIPLOCKPATH
+              value: /eventuate/cdc/leader/inventory_service
+            - name: EVENTUATE_CDC_READER_READER2_OUTBOXID
+              value: "2"
           resources:
             limits:
               cpu: 500m
