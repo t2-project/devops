@@ -38,7 +38,7 @@ spec:
             - name: JAVA_OPTS
               value: -Xmx64m
             - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
-              value: kafka:29092
+              value: kafka:9092
             - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
               value: kafka-zookeeper:2181
             - name: EVENTUATE_CDC_PIPELINE_PIPELINE1_TYPE
