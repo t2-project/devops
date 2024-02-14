@@ -46,8 +46,26 @@ spec:
           volumeMounts:
           - name: datadir
             mountPath: /var/lib/postgresql/data
-            subPath: postgres 
+            subPath: postgres
+          - name: postgres-config
+            mountPath: /etc/postgresql/postgresql.conf
+            subPath: postgresql.conf
+            readOnly: true
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
       restartPolicy: Always
+      volumes:
+      - name: postgres-config
+        configMap:
+          name: postgres-config
+          items:
+            - key: postgresql.conf
+              path: postgresql.conf
   volumeClaimTemplates:
   - metadata:
       name: datadir
