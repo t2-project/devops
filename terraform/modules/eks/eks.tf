@@ -79,19 +79,19 @@ module "eks" {
       instance_types = ["t3.small"]
 
       min_size     = 1
-      max_size     = 4
+      max_size     = 3
       desired_size = 3
     }
 
-    # two = {
-    #   name = "node-group-2"
+    two = {
+      name = "node-group-2"
 
-    #   instance_types = ["t3.small"]
+      instance_types = ["t3.small"]
 
-    #   min_size     = 1
-    #   max_size     = 3
-    #   desired_size = 3
-    # }
+      min_size     = 1
+      max_size     = 3
+      desired_size = 3
+    }
   }
 }
 
@@ -136,7 +136,7 @@ module "irsa-ebs-csi" {
 resource "aws_eks_addon" "ebs-csi" {
   cluster_name             = module.eks[0].cluster_name
   addon_name               = "aws-ebs-csi-driver"
-  addon_version            = "v1.20.0-eksbuild.1"
+  addon_version            = "v1.27.0-eksbuild.1"
   service_account_role_arn = module.irsa-ebs-csi[0].iam_role_arn
   count                    = var.create_module ? 1 : 0
 
