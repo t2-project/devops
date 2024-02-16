@@ -1,6 +1,6 @@
 variable "namespace" {
   type    = string
-  default = "prometheus"
+  default = "monitoring"
 }
 
 variable "create_module" {
