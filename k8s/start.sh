@@ -2,7 +2,7 @@
 
 # Documentation: https://t2-documentation.readthedocs.io/en/latest/microservices/deploy.html
 
-MY_DIR="$(dirname "$(readlink -f "$0")")"
+MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update

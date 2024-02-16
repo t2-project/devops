@@ -2,7 +2,7 @@
 
 CLUSTER_NAME=$(kubectl config view --minify -o jsonpath='{.clusters[].name}' | cut -d'.' -f1)
 
-MY_DIR="$(dirname "$(readlink -f "$0")")"
+MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 #curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.0/docs/install/iam_policy.json
 aws iam create-policy \

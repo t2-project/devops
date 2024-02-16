@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MY_DIR="$(dirname "$(readlink -f "$0")")"
+MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 K8S_DIR=$(builtin cd $MY_DIR/../k8s; pwd)
 
 # Ensure that you are logged-in already!

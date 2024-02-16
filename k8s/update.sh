@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MY_DIR="$(dirname "$(readlink -f "$0")")"
+MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 helm upgrade mongo-cart --set auth.enabled=false bitnami/mongodb
 helm upgrade mongo-order --set auth.enabled=false bitnami/mongodb
