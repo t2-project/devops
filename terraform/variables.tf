@@ -3,7 +3,7 @@ variable "kube_config" {
   default = "~/.kube/config"
 }
 
-variable "create_grafana" {
+variable "create_prometheus" {
   type    = bool
   default = false
 }

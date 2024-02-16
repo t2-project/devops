@@ -10,9 +10,9 @@ then
   exit 1
 fi
 
-# Setup EKS cluster with Grafana and Kepler
+# Setup EKS cluster with Prometheus and Kepler
 terraform -chdir=./ init
-terraform -chdir=./ apply -auto-approve -var "create_aws_eks=true" -var "create_grafana=true" -var "create_kepler=true"
+terraform -chdir=./ apply -auto-approve -var "create_aws_eks=true" -var "create_prometheus=true" -var "create_kepler=true"
 
 # Install T2-Project
 echo -e "\nInstalling T2-Project"

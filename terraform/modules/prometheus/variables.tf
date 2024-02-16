@@ -1,6 +1,6 @@
 variable "namespace" {
   type    = string
-  default = "grafana"
+  default = "prometheus"
 }
 
 variable "create_module" {

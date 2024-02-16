@@ -5,9 +5,9 @@
 #   depends_on    = [kubernetes_namespace.app-namespace, module.eks, module.kind]
 # }
 
-module "grafana" {
-  source        = "./grafana"
-  create_module = var.create_grafana
+module "prometheus" {
+  source        = "./prometheus"
+  create_module = var.create_prometheus
   namespace     = var.measurement-namespace
   depends_on    = [kubernetes_namespace.measurement-namespace, module.eks, module.kind]
 }
@@ -18,7 +18,7 @@ module "kepler" {
   namespace     = var.measurement-namespace
   // set to true on some system, not sure if it works as intended
   use_emulation = false
-  depends_on    = [module.grafana, kubernetes_namespace.measurement-namespace, module.eks, module.kind]
+  depends_on    = [module.prometheus, kubernetes_namespace.measurement-namespace, module.eks, module.kind]
 }
 
 module "kind" {
