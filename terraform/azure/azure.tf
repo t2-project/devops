@@ -1,32 +1,17 @@
-# Azure Provider source and version being used
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=2.92.0"
-    }
-     kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = ">= 2.0.0"
-    }
-  }
-}
-
-# Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
 }
 
-# Create a resource group
 resource "azurerm_resource_group" "t2project" {
+  count    = var.create_module ? 1 : 0
   name     = var.resource_group_name
-  location = var.region
+  location = var.azure_region
 }
 
-# Create Kubernetes Cluster
 resource "azurerm_kubernetes_cluster" "t2project" {
+  count               = var.create_module ? 1 : 0
   name                = "t2project-aks1"
-  location            = var.region
+  location            = var.azure_region
   resource_group_name = azurerm_resource_group.t2project.name
   dns_prefix          = "t2projectaks1"
 

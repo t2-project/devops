@@ -23,6 +23,8 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+# Exclude tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+*tfplan*
 
 ### ME ###
 legacy/

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MY_DIR="$(dirname "$(readlink -f "$0")")"
-K8S_DIR=$(builtin cd $MY_DIR/../../k8s; pwd)
+K8S_DIR=$(builtin cd $MY_DIR/../k8s; pwd)
 
 # Ensure that you are logged-in already!
 
@@ -45,4 +45,4 @@ eksctl create iamserviceaccount \
 eksctl create addon --name amazon-cloudwatch-observability --cluster ${CLUSTER_NAME} --service-account-role-arn arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/CloudWatch_Agent_Server_Policy
 
 # Install T2-Project
-source $K8S_DIR/install.sh
+source $K8S_DIR/start.sh

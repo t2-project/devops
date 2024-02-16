@@ -2,7 +2,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: t2-project-eks-basic-2
+  name: t2project-eks-basic-2
   region: eu-north-1
   version: "1.28"
 
