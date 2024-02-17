@@ -36,7 +36,7 @@ module "eks" {
   source        = "./eks"
   create_module = var.create_aws_eks
   aws_region    = "eu-north-1"
-  set_kubecfg   = false
+  set_kubecfg   = true
   create_lb     = true
 }
 

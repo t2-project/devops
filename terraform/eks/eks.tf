@@ -29,7 +29,7 @@ resource "random_string" "suffix" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0"
+  version = "~> 5.5"
   count   = var.create_module ? 1 : 0
 
   name = local.cluster_name
@@ -67,31 +67,35 @@ module "eks" {
   subnet_ids                     = module.vpc[0].private_subnets
   cluster_endpoint_public_access = true
 
+  create_cloudwatch_log_group = true
+
+  cluster_addons = {
+    coredns = {
+      most_recent = true
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+  }
+
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
 
   }
 
   eks_managed_node_groups = {
-    one = {
-      name = "node-group-1"
+    name = "ng-1"
 
-      instance_types = ["t3.small"]
+    instance_types = ["t3.small"]
+    capacity_type  = "SPOT"
 
-      min_size     = 1
-      max_size     = 3
-      desired_size = 3
-    }
+    min_size     = 1
+    max_size     = 10
+    desired_size = 3
 
-    two = {
-      name = "node-group-2"
-
-      instance_types = ["t3.small"]
-
-      min_size     = 1
-      max_size     = 3
-      desired_size = 3
-    }
   }
 }
 
@@ -109,11 +113,10 @@ resource "null_resource" "aws_cli_check" {
   count = var.create_module && var.set_kubecfg ? 1 : 0
 
   provisioner "local-exec" {
-    command    = "where aws"
+    command    = "which aws"
     on_failure = fail
   }
 }
-
 
 # https://aws.amazon.com/blogs/containers/amazon-ebs-csi-driver-is-now-generally-available-in-amazon-eks-add-ons/ 
 data "aws_iam_policy" "ebs_csi_policy" {
