@@ -16,3 +16,8 @@ terraform -chdir=./ apply -auto-approve -var "create_aws_eks=true" -var "create_
 
 # Install T2-Project
 source $K8S_DIR/start.sh
+
+# Expose Grafana
+kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
+GRAFANA_HOSTNAME=$(kubectl -n monitoring get svc prometheus-grafana-nlb -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')
+echo -e "\nGrafana URL: http://${GRAFANA_HOSTNAME}"

@@ -37,6 +37,7 @@ module "eks" {
   create_module = var.create_aws_eks
   aws_region    = "eu-north-1"
   set_kubecfg   = false
+  create_lb     = true
 }
 
 # module "azure" {

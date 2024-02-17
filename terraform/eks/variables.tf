@@ -16,3 +16,9 @@ variable "set_kubecfg" {
   type    = bool
   default = false
 }
+
+variable "create_lb" {
+  description = "Create AWS Load Balancer"
+  type        = bool
+  default     = false
+}

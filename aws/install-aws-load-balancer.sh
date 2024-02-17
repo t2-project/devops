@@ -4,10 +4,10 @@ CLUSTER_NAME=$(kubectl config view --minify -o jsonpath='{.clusters[].name}' | c
 
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-#curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.0/docs/install/iam_policy.json
+#curl -o aws-load-balancer-iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.0/docs/install/iam_policy.json
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
-    --policy-document file://$MY_DIR/iam-policy.json
+    --policy-document file://$MY_DIR/aws-load-balancer-iam-policy.json
 
 eksctl create iamserviceaccount \
 --cluster=${CLUSTER_NAME} \

@@ -10,6 +10,9 @@ then
   exit 1
 fi
 
+# Delete Grafana service
+kubectl delete $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
+
 # Uninstall T2-Project
 source $K8S_DIR/stop.sh
 
