@@ -40,8 +40,8 @@ module "eks" {
   create_lb     = true
 }
 
-# module "azure" {
-#   source        = "./azure"
-#   create_module = var.create_azure_aks
-#   set_kubecfg   = false
-# }
+module "azure" {
+  source        = "./azure"
+  create_module = var.create_azure_aks
+  set_kubecfg   = true
+}

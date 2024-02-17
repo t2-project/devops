@@ -5,7 +5,17 @@ variable "resource_group_name" {
 
 variable "azure_region" {
   description = "Azure region"
-  default     = "West Europe"
+  default     = "North Europe"
+}
+
+variable "cluster_name" {
+  description = "Cluster name"
+  default     = "t2project-aks1"
+}
+
+variable "dns_prefix" {
+  description = "DNS prefix"
+  default     = "t2projectaks1"
 }
 
 variable "namespace_name" {

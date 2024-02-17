@@ -7,10 +7,10 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.t2project.kube_config.0.cluster_ca_certificate)
 }
 
-resource "kubernetes_namespace" "t2project" {
-  count = var.create_module ? 1 : 0
+# resource "kubernetes_namespace" "t2project" {
+#   count = var.create_module ? 1 : 0
 
-  metadata {
-    name = var.namespace_name
-  }
-}
+#   metadata {
+#     name = var.namespace_name
+#   }
+# }
