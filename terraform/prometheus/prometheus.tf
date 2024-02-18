@@ -8,8 +8,7 @@ resource "helm_release" "prometheus" {
   count            = var.create_module ? 1 : 0
 
   values = [
-    # "${file("./configs/prometheus-values.yaml")}"
-    "${file("${abspath(path.module)}/values.yaml")}"
+    "${file("${abspath(path.module)}/prometheus-values.yaml")}"
   ]
   timeout = 2000
 
@@ -42,4 +41,18 @@ resource "helm_release" "prometheus" {
       }
     })
   }
+}
+
+resource "helm_release" "blackbox-exporter" {
+  name             = "blackbox-exporter"
+  repository       = "https://prometheus-community.github.io/helm-charts"
+  chart            = "prometheus-blackbox-exporter"
+  namespace        = var.namespace
+  create_namespace = true
+  version          = "8.10.1"
+  count            = var.create_module ? 1 : 0
+
+  values = [
+    "${file("${abspath(path.module)}/blackbox-exporter-values.yaml")}"
+  ]
 }

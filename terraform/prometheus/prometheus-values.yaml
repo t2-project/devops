@@ -1,0 +1,57 @@
+
+
+prometheus:
+  prometheusSpec:
+    probeNamespaceSelector: {}
+    probeSelector: {}
+    additionalScrapeConfigs:
+      - job_name: 'spring-actuator'
+        kubernetes_sd_configs:
+        # - role: endpoints
+        #   namespaces:
+        #     names:
+        #     - 'default'
+        - role: services
+          namespaces:
+            names:
+            - 'default'
+        metrics_path: '/actuator/prometheus'
+        scrape_interval: 10s
+        static_configs:
+        - targets: ['creditinstitute-cs', 'cart-cs', 'inventory-cs', 'orchestrator-cs', 'order', 'payment', 'ui-cs', 'uibackend-cs']
+
+alertmanager:
+
+  enabled: true
+
+  config:
+
+    route:
+      group_by: ['alertname']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: 'web.hook'
+      routes:
+      - match:
+          alertname: Watchdog
+        receiver: 'null'
+
+    receivers:
+      - name: 'null'
+      - name: 'web.hook'
+        webhook_configs:
+        - url: 'http://sla-manager-service.default.svc.cluster.local'
+
+## Monitors ConfigMap changes and POSTs to a URL
+## Ref: https://github.com/jimmidyson/configmap-reload
+configmapReload:
+  prometheus:
+    enabled: true
+    name: configmap-reload
+    image:
+      repository: jimmidyson/configmap-reload
+      tag: v0.8.0
+      # When digest is set to a non-empty value, images will be pulled by digest (regardless of tag value).
+      digest: ""
+      pullPolicy: IfNotPresent

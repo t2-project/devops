@@ -1,0 +1,56 @@
+serviceMonitor:
+  ## If true, a ServiceMonitor CRD is created for a prometheus operator
+  enabled: true
+
+  defaults:
+    labels:
+      release: prometheus
+    interval: 30s
+    scrapeTimeout: 30s
+    module: http_2xx
+
+  # make sure to use kubernetes service names as target names
+  targets:
+    # - name: sla-manager-service
+    #   url: http://sla-manager-service.default.svc.cluster.local
+    #   labels:
+    #     release: prometheus
+    - name: creditinstitute-service
+      url: creditinstitute-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: cart-service
+      url: cart-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: inventory-service
+      url: inventory-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: orchestrator-service
+      url: orchestrator-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: order-service
+      url: order.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: payment-service
+      url: payment.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: ui-service
+      url: ui-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+    - name: uibackend-service
+      url: uibackend-cs.default/actuator/prometheus
+      labels:
+        release: prometheus
+
+config:
+  modules:
+    http_2xx:
+      prober: http
+      http:
+        preferred_ip_protocol: "ip4"
