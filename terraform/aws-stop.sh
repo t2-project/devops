@@ -17,4 +17,5 @@ kubectl delete $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 source $K8S_DIR/stop.sh
 
 # Delete Cluster
+terraform workspace select aws
 terraform -chdir=./ destroy -auto-approve

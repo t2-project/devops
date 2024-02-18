@@ -7,6 +7,7 @@ K8S_DIR=$(builtin cd $MY_DIR/../k8s; pwd)
 az account show &>/dev/null || az login
 
 # Setup AKS cluster with Prometheus and Kepler
+terraform workspace select -or-create azure
 terraform -chdir=./ init
 terraform -chdir=./ apply -auto-approve -var "create_azure_aks=true" -var "create_prometheus=true" -var "create_kepler=true"
 

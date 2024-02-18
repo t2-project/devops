@@ -15,4 +15,5 @@ fi
 source $K8S_DIR/stop.sh
 
 # Delete kind cluster
+terraform workspace select kind
 terraform -chdir=./ destroy -auto-approve
