@@ -5,7 +5,7 @@ output "region" {
 
 output "cluster_name" {
   description = "Kubernetes Cluster Name"
-  value       = var.create_module ? azurerm_kubernetes_cluster.t2project.name : ""
+  value       = var.create_module ? azurerm_kubernetes_cluster.t2project[0].name : ""
 }
 
 output "create_module" {

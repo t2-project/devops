@@ -13,11 +13,11 @@ resource "azurerm_kubernetes_cluster" "t2project" {
   count               = var.create_module ? 1 : 0
   name                = var.cluster_name
   location            = var.azure_region
-  resource_group_name = azurerm_resource_group.t2project.name
+  resource_group_name = azurerm_resource_group.t2project[0].name
   dns_prefix          = var.dns_prefix
 
   default_node_pool {
-    name       = "default_node"
+    name       = "default"
     node_count = 1
     vm_size    = "standard_b4ms"
   }
@@ -36,7 +36,7 @@ resource "null_resource" "merge_kubeconfig" {
 
   depends_on = [azurerm_kubernetes_cluster.t2project, null_resource.az_cli_check]
   provisioner "local-exec" {
-    command = "az aks get-credentials --resource-group ${azurerm_kubernetes_cluster.t2project.resource_group_name} --name ${azurerm_kubernetes_cluster.t2project.name}"
+    command = "az aks get-credentials --resource-group ${azurerm_kubernetes_cluster.t2project[0].resource_group_name} --name ${azurerm_kubernetes_cluster.t2project[0].name}"
   }
 }
 

@@ -153,7 +153,7 @@ module "lb_role" {
   count  = var.create_module && var.create_lb ? 1 : 0
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name                              = "${var.env_name}_eks_lb"
+  role_name                              = "${local.cluster_name}_lb"
   attach_load_balancer_controller_policy = true
 
   oidc_providers = {
@@ -174,7 +174,7 @@ resource "kubernetes_service_account" "service-account" {
       "app.kubernetes.io/component" = "controller"
     }
     annotations = {
-      "eks.amazonaws.com/role-arn"               = module.lb_role.iam_role_arn
+      "eks.amazonaws.com/role-arn"               = module.lb_role[0].iam_role_arn
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
