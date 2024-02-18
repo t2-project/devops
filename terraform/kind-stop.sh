@@ -3,9 +3,8 @@
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 K8S_DIR=$(builtin cd $MY_DIR/../k8s; pwd)
 
+# Check if the cluster is a "kind" cluster
 current_context=$(kubectl config current-context)
-
-# Check if the cluster name contains "kind"
 if ! [[ $current_context == *"kind"* ]]; then
   echo "You are currently not connected to a kind cluster!"
   exit 1

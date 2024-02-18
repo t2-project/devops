@@ -10,6 +10,13 @@ then
   exit 1
 fi
 
+# Check if the current cluster is an EKS cluster
+current_context=$(kubectl config current-context)
+if ! [[ $current_context == *"eks"* ]]; then
+  echo "You are currently not connected to an EKS cluster!"
+  exit 1
+fi
+
 # Delete Grafana service
 kubectl delete $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 

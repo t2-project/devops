@@ -13,5 +13,7 @@ source $K8S_DIR/start.sh
 
 # Make Grafana available
 kubectl -n monitoring expose service prometheus-grafana --type=NodePort --target-port=80 --node-port=30000 --name=prometheus-grafana-ext
-GRAFANA_HOSTNAME=$(kubectl -n monitoring get svc prometheus-grafana-ext -o jsonpath='{.spec.clusterIP}')
-echo -e "\nGrafana URL: http://${GRAFANA_HOSTNAME}"
+GRAFANA_NODE_PORT=$(kubectl get service -n monitoring prometheus-grafana-ext -o jsonpath='{.spec.ports[0].nodePort}')
+GRAFANA_EXTERNAL_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}')
+GRAFANA_URL="http://$GRAFANA_NODE_PORT:$GRAFANA_EXTERNAL_IP"
+echo -e "\nGrafana URL: ${GRAFANA_URL}"
