@@ -9,7 +9,7 @@ az account show &>/dev/null || az login
 # Setup AKS cluster with Prometheus and Kepler
 terraform workspace select -or-create azure
 terraform -chdir=./ init
-terraform -chdir=./ apply -auto-approve -var "create_azure_aks=true" -var "create_prometheus=true" -var "create_kepler=true"
+terraform -chdir=./ apply -auto-approve -var "create_prometheus=true" -var "create_kepler=true"
 
 # Install T2-Project
 source $K8S_DIR/start.sh

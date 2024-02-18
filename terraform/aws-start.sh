@@ -13,7 +13,7 @@ fi
 # Setup EKS cluster with Prometheus and Kepler
 terraform workspace select -or-create aws
 terraform -chdir=./ init
-terraform -chdir=./ apply -auto-approve -var "create_aws_eks=true" -var "create_prometheus=true" -var "create_kepler=true"
+terraform -chdir=./ apply -auto-approve -var "create_prometheus=true" -var "create_kepler=true"
 
 # Install T2-Project
 source $K8S_DIR/start.sh

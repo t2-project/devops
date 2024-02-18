@@ -23,7 +23,7 @@ module "kepler" {
 
 module "kind" {
   source        = "./modules/kind"
-  create_module = var.create_kind
+  create_module = terraform.workspace == "kind"
   set_kubecfg   = true
   kube_config   = var.kube_config
 }
@@ -34,7 +34,7 @@ module "kind" {
 # It takes about 10-20 minutes to start.
 module "eks" {
   source        = "./modules/eks"
-  create_module = var.create_aws_eks
+  create_module = terraform.workspace == "eks"
   aws_region    = "eu-north-1"
   set_kubecfg   = true
   create_lb     = true
@@ -42,6 +42,6 @@ module "eks" {
 
 module "azure" {
   source        = "./modules/azure"
-  create_module = var.create_azure_aks
+  create_module = terraform.workspace == "azure"
   set_kubecfg   = true
 }

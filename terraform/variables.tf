@@ -13,21 +13,6 @@ variable "create_kepler" {
   default = false
 }
 
-variable "create_kind" {
-  type    = bool
-  default = false
-}
-
-variable "create_aws_eks" {
-  type    = bool
-  default = false
-}
-
-variable "create_azure_aks" {
-  type    = bool
-  default = false
-}
-
 variable "measurement-namespace" {
   type    = string
   default = "monitoring"
