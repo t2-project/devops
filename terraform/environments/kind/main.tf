@@ -14,11 +14,15 @@ module "kind" {
 module "measurement_namespace" {
   source         = "../../modules/measurement_namespace"
   namespace_name = module.common.measurement_namespace
+  # K8s cluster has to be created first
+  depends_on = [module.kind]
 }
 
 module "prometheus" {
   source    = "../../modules/prometheus"
   namespace = module.measurement_namespace.namespace_name
+  # K8s cluster has to be created first
+  depends_on = [module.kind]
 }
 
 module "kepler" {
@@ -26,5 +30,6 @@ module "kepler" {
   namespace = module.measurement_namespace.namespace_name
   // set to true on some system, not sure if it works as intended
   use_emulation = false
-  depends_on    = [module.prometheus]
+  # K8s cluster has to be created first
+  depends_on = [module.kind]
 }
