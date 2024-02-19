@@ -1,3 +1,10 @@
+module "common" {
+  source                = "../common"
+  kube_config           = "~/.kube/config"
+  set_kubecfg           = true
+  measurement_namespace = "monitoring"
+}
+
 module "azure" {
   source              = "../../modules/azure"
   region              = "North Europe"
@@ -31,8 +38,4 @@ module "kepler" {
   // set to true on some system, not sure if it works as intended
   use_emulation = false
   depends_on    = [module.prometheus]
-}
-
-module "common" {
-  source = "../common"
 }
