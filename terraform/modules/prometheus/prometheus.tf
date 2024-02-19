@@ -5,7 +5,6 @@ resource "helm_release" "prometheus" {
   namespace        = var.namespace
   create_namespace = true
   version          = "56.6.2"
-  count            = var.create_module ? 1 : 0
 
   values = [
     "${file("${abspath(path.module)}/prometheus-values.yaml")}"
@@ -50,7 +49,6 @@ resource "helm_release" "blackbox-exporter" {
   namespace        = var.namespace
   create_namespace = true
   version          = "8.10.1"
-  count            = var.create_module ? 1 : 0
 
   values = [
     "${file("${abspath(path.module)}/blackbox-exporter-values.yaml")}"

@@ -3,12 +3,7 @@ variable "namespace" {
   default = "kepler"
 }
 
-variable "create_module" {
-  type    = bool
-  default = false
-}
-
 variable "use_emulation" {
-  type = bool
+  type    = bool
   default = false
 }

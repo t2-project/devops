@@ -1,7 +1,6 @@
 resource "kind_cluster" "kind_cluster" {
   name            = "kind"
   kubeconfig_path = pathexpand(var.kube_config)
-  count           = var.create_module ? 1 : 0
 
   kind_config {
     kind        = "Cluster"
@@ -27,7 +26,7 @@ resource "kind_cluster" "kind_cluster" {
 }
 
 resource "null_resource" "kind" {
-  count = var.create_module && var.set_kubecfg ? 1 : 0
+  count = var.set_kubecfg ? 1 : 0
 
   provisioner "local-exec" {
     command = "kind export kubeconfig"

@@ -1,31 +1,21 @@
 variable "resource_group_name" {
   description = "Azure resources name"
-  default     = "t2project-resources"
+  type        = string
 }
 
-variable "azure_region" {
+variable "region" {
   description = "Azure region"
-  default     = "North Europe"
+  type        = string
 }
 
 variable "cluster_name" {
   description = "Cluster name"
-  default     = "t2project-aks1"
+  type        = string
 }
 
 variable "dns_prefix" {
   description = "DNS prefix"
-  default     = "t2projectaks1"
-}
-
-variable "namespace_name" {
-  description = "Namespace for T2-Project in Kubernetes cluster"
-  default     = "t2project"
-}
-
-variable "create_module" {
-  type    = bool
-  default = false
+  type        = string
 }
 
 variable "set_kubecfg" {

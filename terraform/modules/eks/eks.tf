@@ -2,13 +2,12 @@
 # SPDX-License-Identifier: MPL-2.0
 
 provider "aws" {
-  region = var.aws_region
+  region = var.region
 }
 
 # Filter out local zones, which are not currently supported 
 # with managed node groups
 data "aws_availability_zones" "available" {
-  count = var.create_module ? 1 : 0
   filter {
     name   = "opt-in-status"
     values = ["opt-in-not-required"]
@@ -16,26 +15,23 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  cluster_name    = "t2project-eks-${var.create_module ? random_string.suffix[0].result : ""}"
+  cluster_name    = "${var.cluster_name_prefix}-${random_string.suffix.result}"
   cluster_version = 1.29
-  count           = var.create_module ? 1 : 0
 }
 
 resource "random_string" "suffix" {
   length  = 8
   special = false
-  count   = var.create_module ? 1 : 0
 }
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.5"
-  count   = var.create_module ? 1 : 0
 
   name = local.cluster_name
 
   cidr = "10.0.0.0/16"
-  azs  = slice(data.aws_availability_zones.available[0].names, 0, 3)
+  azs  = slice(data.aws_availability_zones.available.names, 0, 3)
 
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   public_subnets  = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
@@ -58,13 +54,12 @@ module "vpc" {
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.2"
-  count   = var.create_module ? 1 : 0
 
   cluster_name    = local.cluster_name
   cluster_version = local.cluster_version
 
-  vpc_id                         = module.vpc[0].vpc_id
-  subnet_ids                     = module.vpc[0].private_subnets
+  vpc_id                         = module.vpc.vpc_id
+  subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
 
   create_cloudwatch_log_group = true
@@ -100,17 +95,17 @@ module "eks" {
 }
 
 resource "null_resource" "merge_kubeconfig" {
-  count = var.create_module && var.set_kubecfg ? 1 : 0
+  count = var.set_kubecfg ? 1 : 0
 
   depends_on = [aws_eks_addon.ebs-csi, null_resource.aws_cli_check]
 
   provisioner "local-exec" {
-    command = "aws eks --region ${var.aws_region} update-kubeconfig --name ${local.cluster_name}"
+    command = "aws eks --region ${var.region} update-kubeconfig --name ${local.cluster_name}"
   }
 }
 
 resource "null_resource" "aws_cli_check" {
-  count = var.create_module && var.set_kubecfg ? 1 : 0
+  count = var.set_kubecfg ? 1 : 0
 
   provisioner "local-exec" {
     command    = "which aws"
@@ -120,103 +115,28 @@ resource "null_resource" "aws_cli_check" {
 
 # https://aws.amazon.com/blogs/containers/amazon-ebs-csi-driver-is-now-generally-available-in-amazon-eks-add-ons/ 
 data "aws_iam_policy" "ebs_csi_policy" {
-  arn   = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  count = var.create_module ? 1 : 0
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
 module "irsa-ebs-csi" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "~> 5.34"
-  count   = var.create_module ? 1 : 0
 
   create_role                   = true
-  role_name                     = "AmazonEKSTFEBSCSIRole-${module.eks[0].cluster_name}"
-  provider_url                  = module.eks[0].oidc_provider
-  role_policy_arns              = [data.aws_iam_policy.ebs_csi_policy[0].arn]
+  role_name                     = "AmazonEKSTFEBSCSIRole-${module.eks.cluster_name}"
+  provider_url                  = module.eks.oidc_provider
+  role_policy_arns              = [data.aws_iam_policy.ebs_csi_policy.arn]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
 }
 
 resource "aws_eks_addon" "ebs-csi" {
-  cluster_name             = module.eks[0].cluster_name
+  cluster_name             = module.eks.cluster_name
   addon_name               = "aws-ebs-csi-driver"
   addon_version            = "v1.27.0-eksbuild.1"
-  service_account_role_arn = module.irsa-ebs-csi[0].iam_role_arn
-  count                    = var.create_module ? 1 : 0
+  service_account_role_arn = module.irsa-ebs-csi.iam_role_arn
 
   tags = {
     "eks_addon" = "ebs-csi"
     "terraform" = "true"
-  }
-}
-
-module "lb_role" {
-  count  = var.create_module && var.create_lb ? 1 : 0
-  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-
-  role_name                              = "${local.cluster_name}_lb"
-  attach_load_balancer_controller_policy = true
-
-  oidc_providers = {
-    main = {
-      provider_arn               = module.eks[0].oidc_provider_arn
-      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
-    }
-  }
-}
-
-resource "kubernetes_service_account" "service-account" {
-  count = var.create_module && var.create_lb ? 1 : 0
-  metadata {
-    name      = "aws-load-balancer-controller"
-    namespace = "kube-system"
-    labels = {
-      "app.kubernetes.io/name"      = "aws-load-balancer-controller"
-      "app.kubernetes.io/component" = "controller"
-    }
-    annotations = {
-      "eks.amazonaws.com/role-arn"               = module.lb_role[0].iam_role_arn
-      "eks.amazonaws.com/sts-regional-endpoints" = "true"
-    }
-  }
-}
-
-resource "helm_release" "alb-controller" {
-  count      = var.create_module && var.create_lb ? 1 : 0
-  name       = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
-  chart      = "aws-load-balancer-controller"
-  namespace  = "kube-system"
-  depends_on = [
-    kubernetes_service_account.service-account
-  ]
-
-  set {
-    name  = "region"
-    value = var.aws_region
-  }
-
-  set {
-    name  = "vpcId"
-    value = module.vpc[0].vpc_id
-  }
-
-  set {
-    name  = "image.repository"
-    value = "602401143452.dkr.ecr.${var.aws_region}.amazonaws.com/amazon/aws-load-balancer-controller"
-  }
-
-  set {
-    name  = "serviceAccount.create"
-    value = "false"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = "aws-load-balancer-controller"
-  }
-
-  set {
-    name  = "clusterName"
-    value = local.cluster_name
   }
 }

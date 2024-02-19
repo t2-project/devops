@@ -3,6 +3,9 @@
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 K8S_DIR=$(builtin cd $MY_DIR/../k8s; pwd)
 
+# Always run from the location of this script
+cd $MY_DIR
+
 # Ensure that you are logged-in
 if ! aws sts get-caller-identity &> /dev/null
 then
@@ -24,5 +27,4 @@ kubectl delete $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 source $K8S_DIR/stop.sh
 
 # Delete Cluster
-terraform workspace select aws
-terraform -chdir=./ destroy -auto-approve
+terraform -chdir=./environments/aws/ destroy -auto-approve

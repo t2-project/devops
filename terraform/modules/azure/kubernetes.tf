@@ -8,8 +8,7 @@ provider "kubernetes" {
 }
 
 # resource "kubernetes_namespace" "t2project" {
-#   count = var.create_module ? 1 : 0
-
+#
 #   metadata {
 #     name = var.namespace_name
 #   }
