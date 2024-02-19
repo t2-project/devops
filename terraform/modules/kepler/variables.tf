@@ -1,9 +1,7 @@
 variable "namespace" {
-  type    = string
-  default = "kepler"
+  type = string
 }
 
 variable "use_emulation" {
-  type    = bool
-  default = false
+  type = bool
 }

@@ -12,6 +12,5 @@ variable "cluster_name_prefix" {
 }
 
 variable "set_kubecfg" {
-  type    = bool
-  default = false
+  type = bool
 }

@@ -1,4 +1,3 @@
 variable "namespace" {
-  type    = string
-  default = "monitoring"
+  type = string
 }

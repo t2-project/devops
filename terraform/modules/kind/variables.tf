@@ -4,6 +4,5 @@ variable "kube_config" {
 }
 
 variable "set_kubecfg" {
-  type    = bool
-  default = false
+  type = bool
 }
