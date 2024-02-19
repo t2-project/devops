@@ -53,4 +53,6 @@ resource "helm_release" "blackbox-exporter" {
   values = [
     "${file("${abspath(path.module)}/blackbox-exporter-values.yaml")}"
   ]
+
+  depends_on = [helm_release.prometheus]
 }
