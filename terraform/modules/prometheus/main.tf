@@ -1,3 +1,8 @@
+locals {
+  prometheus_values_absolute_path        = abspath(format("%s/../../../prometheus/prometheus-values.yaml", path.module))
+  blackbox_exporter_values_absolute_path = abspath(format("%s/../../../prometheus/blackbox-exporter-values.yaml", path.module))
+}
+
 resource "helm_release" "prometheus" {
   name             = "prometheus"
   repository       = "https://prometheus-community.github.io/helm-charts"
@@ -7,7 +12,7 @@ resource "helm_release" "prometheus" {
   version          = "56.6.2"
 
   values = [
-    "${file("${abspath(path.module)}/prometheus-values.yaml")}"
+    "${file("${local.prometheus_values_absolute_path}")}"
   ]
   timeout = 2000
 
@@ -51,7 +56,7 @@ resource "helm_release" "blackbox-exporter" {
   version          = "8.10.1"
 
   values = [
-    "${file("${abspath(path.module)}/blackbox-exporter-values.yaml")}"
+    "${file("${local.blackbox_exporter_values_absolute_path}")}"
   ]
 
   # Prometheus ServiceMonitors must be created first
