@@ -32,7 +32,9 @@ resource "azurerm_kubernetes_cluster" "t2project" {
 resource "null_resource" "merge_kubeconfig" {
   count = var.set_kubecfg ? 1 : 0
 
-  depends_on = [azurerm_kubernetes_cluster.t2project, null_resource.az_cli_check]
+  # Check first if az exists
+  depends_on = [null_resource.az_cli_check]
+
   provisioner "local-exec" {
     command = "az aks get-credentials --resource-group ${azurerm_kubernetes_cluster.t2project.resource_group_name} --name ${azurerm_kubernetes_cluster.t2project.name}"
   }

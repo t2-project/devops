@@ -54,5 +54,6 @@ resource "helm_release" "blackbox-exporter" {
     "${file("${abspath(path.module)}/blackbox-exporter-values.yaml")}"
   ]
 
+  # Prometheus ServiceMonitors must be created first
   depends_on = [helm_release.prometheus]
 }
