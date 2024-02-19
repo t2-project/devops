@@ -2,8 +2,8 @@
 
 This folder contains the files to deploy the T2-Project with [Terraform](https://www.terraform.io/) for different target environments: local (kind), AWS (EKS) and Azure (AKS). Terraform is a infrastructure as code tool that uses a declarative approach.
 
-The Terraform CLI feature [Workspaces](https://developer.hashicorp.com/terraform/cli/workspaces) is used to separate the state depending on which target environment you are currently using (`kind`, `aws`, or `azure`).
-If you are using the scripts (see below), the workspace is switched accordingly.
+Directories are used to separate the different environments and state files.
+If you are using the scripts (see below), the correct directory is used automatically.
 
 The script are using the terraform apply parameter `-auto-approve`. Please be aware of that!
 
