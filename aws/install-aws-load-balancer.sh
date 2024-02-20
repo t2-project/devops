@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit immediately if a command returns an error code
+set -e
+
 CLUSTER_NAME=$(kubectl config view --minify -o jsonpath='{.clusters[].name}' | cut -d'.' -f1)
 
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
