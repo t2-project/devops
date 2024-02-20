@@ -21,7 +21,7 @@ if ! [[ $current_context == *"eks"* ]]; then
 fi
 
 # Delete Grafana service
-kubectl delete $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
+kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 
 # Uninstall T2-Project
 source $K8S_DIR/stop.sh

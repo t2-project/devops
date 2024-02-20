@@ -13,7 +13,7 @@ fi
 # Uninstall T2-Project
 source $K8S_DIR/stop.sh
 
-kubectl delete $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
+kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 helm uninstall aws-load-balancer-controller -n kube-system
 
 # Delete EKS Cluster (disable nodegroup eviction is required because aws-ebs-csi-driver wouldn't allow the deletion otherwise)
