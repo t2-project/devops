@@ -58,11 +58,7 @@ module "eks" {
   cluster_name    = local.cluster_name
   cluster_version = local.cluster_version
 
-  vpc_id                         = module.vpc.vpc_id
-  subnet_ids                     = module.vpc.private_subnets
   cluster_endpoint_public_access = true
-
-  create_cloudwatch_log_group = true
 
   cluster_addons = {
     coredns = {
@@ -76,9 +72,11 @@ module "eks" {
     }
   }
 
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
-
   }
 
   eks_managed_node_groups = {
@@ -99,6 +97,10 @@ module "eks" {
   # Cluster access entry
   # To add the current caller identity as an administrator
   enable_cluster_creator_admin_permissions = true
+
+  tags = {
+    Environment = "aws"
+    Terraform   = "true"
   }
 }
 resource "null_resource" "merge_kubeconfig" {

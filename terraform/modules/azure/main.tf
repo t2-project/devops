@@ -25,7 +25,8 @@ resource "azurerm_kubernetes_cluster" "t2project" {
   }
 
   tags = {
-    Environment = "Production"
+    Environment = "azure"
+    Terraform   = "true"
   }
 }
 
