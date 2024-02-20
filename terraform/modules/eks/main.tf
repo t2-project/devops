@@ -100,8 +100,8 @@ module "eks" {
 resource "null_resource" "merge_kubeconfig" {
   count = var.set_kubecfg ? 1 : 0
 
-  # Check first if aws CLI exists
-  depends_on = [null_resource.aws_cli_check]
+  # Execute after EBS CSI addon is created, to ensure that the cluster is ready to get all required config data. Also check if aws CLI exists.
+  depends_on = [aws_eks_addon.ebs-csi, null_resource.aws_cli_check]
 
   provisioner "local-exec" {
     command = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_name}"
