@@ -82,15 +82,18 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    name = "ng-1"
 
-    instance_types = ["t3.small"]
-    # capacity_type  = "SPOT"
+    one = {
 
-    min_size     = 1
-    max_size     = 10
-    desired_size = 3
+      name = "ng-1"
 
+      instance_types = ["t3.small"]
+      # capacity_type  = "SPOT"
+
+      min_size     = 3
+      max_size     = 10
+      desired_size = 3
+    }
   }
 }
 
