@@ -103,14 +103,27 @@ module "eks" {
     Terraform   = "true"
   }
 }
+
+# Source: https://stackoverflow.com/a/66158811/9556565
 resource "null_resource" "merge_kubeconfig" {
   count = var.set_kubecfg ? 1 : 0
 
-  # Execute after EBS CSI addon is created, to ensure that the cluster is ready to get all required config data. Also check if aws CLI exists.
-  depends_on = [aws_eks_addon.ebs-csi, null_resource.aws_cli_check]
+  # Merge on every apply
+  triggers = {
+    always = timestamp()
+  }
+
+  # Wait until EKS cluster is ready. Also check if aws CLI exists.
+  depends_on = [module.eks, null_resource.aws_cli_check]
 
   provisioner "local-exec" {
-    command = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_name}"
+    interpreter = ["/bin/bash", "-c"]
+    command     = <<EOT
+      set -e
+      echo 'Applying Auth ConfigMap with kubectl...'
+      aws eks wait cluster-active --name '${module.eks.cluster_name}'
+      aws eks update-kubeconfig --name '${module.eks.cluster_name}' --alias '${module.eks.cluster_name}-${var.region}' --region ${var.region}
+    EOT
   }
 }
 
