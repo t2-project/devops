@@ -95,8 +95,12 @@ module "eks" {
       desired_size = 3
     }
   }
-}
 
+  # Cluster access entry
+  # To add the current caller identity as an administrator
+  enable_cluster_creator_admin_permissions = true
+  }
+}
 resource "null_resource" "merge_kubeconfig" {
   count = var.set_kubecfg ? 1 : 0
 
