@@ -30,3 +30,13 @@ output "vpc_id" {
   description = "VPC ID"
   value       = module.vpc.vpc_id
 }
+
+output "cluster_id" {
+  description = "Cluster ID"
+  value       = module.eks.cluster_id
+}
+
+output "cluster_version" {
+  description = "Cluster Version"
+  value       = module.eks.cluster_version
+}
