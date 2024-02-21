@@ -1,6 +1,6 @@
-# AWS
+# eksctl
 
-This folder contains the files to deploy the T2-Project to EKS - Amazon's managed Kubernetes service for EC2, using [eksctl](https://eksctl.io/).
+This folder contains the files to deploy the T2-Project to EKS (Amazon's managed Kubernetes service), using [eksctl](https://eksctl.io/).
 
 eksctl is a CLI tool for creating and managing EKS clusters. In the background it uses CloudFormation for it.
 
