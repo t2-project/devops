@@ -81,9 +81,22 @@ module "eks" {
 
   eks_managed_node_groups = {
 
+    // A capacity for a minimum of ~60 pods is required
     one = {
 
       name = "ng-1"
+
+      instance_types = ["t3.small"]
+      # capacity_type  = "SPOT"
+
+      min_size     = 3
+      max_size     = 10
+      desired_size = 3
+    }
+
+    two = {
+
+      name = "ng-2"
 
       instance_types = ["t3.small"]
       # capacity_type  = "SPOT"

@@ -6,7 +6,7 @@ metadata:
   region: eu-north-1
   version: "1.28"
 
-# At least 6 vCPUs are required
+# A capacity for a minimum of ~60 pods is required
 nodeGroups:
   - name: ng-1
     instanceType: m5.2xlarge # m5.2xlarge: 8 vCPU, 32 GB RAM

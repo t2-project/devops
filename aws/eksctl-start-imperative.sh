@@ -14,8 +14,6 @@ K8S_VERSION=1.28
 NUMBER_OF_NODES=1
 
 # Setup Kubernetes Cluster
-#terraform -chdir=terraform/ init
-#terraform -chdir=terraform/ apply -auto-approve
 eksctl create cluster --name ${CLUSTER_NAME} --region ${REGION} --version ${K8S_VERSION} --nodes=${NUMBER_OF_NODES}
 
 # Enable IAM OIDC provider (required for storage)
