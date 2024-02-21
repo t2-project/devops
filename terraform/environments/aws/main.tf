@@ -43,6 +43,6 @@ module "kepler" {
   namespace = module.measurement_namespace.namespace_name
   // set to true on some system, not sure if it works as intended
   use_emulation = false
-  # K8s cluster has to be created first
-  depends_on = [module.eks]
+  # K8s cluster has to be created first and depends on Prometheus because of the ServiceMonitor CRD
+  depends_on = [module.eks, module.prometheus]
 }
