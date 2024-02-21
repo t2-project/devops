@@ -1,8 +1,9 @@
 resource "helm_release" "kepler" {
-  name       = "kepler"
-  chart      = "kepler"
-  repository = "https://sustainable-computing-io.github.io/kepler-helm-chart"
-  namespace  = var.namespace
+  name             = "kepler"
+  chart            = "kepler"
+  repository       = "https://sustainable-computing-io.github.io/kepler-helm-chart"
+  namespace        = var.namespace
+  create_namespace = true
 
   set {
     name  = "serviceMonitor.enabled"
