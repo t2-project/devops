@@ -56,3 +56,13 @@ Example:
 ```sh
 ./run.sh aws init -upgrade
 ```
+
+## Clean-up
+
+`terraform destroy` typically leaves some resources. If you want to delete all AWS resources associated with your account in a specific region, you can use [cloud-nuke](https://github.com/gruntwork-io/cloud-nuke). This is a highly destructive operation! Please be aware of that!
+
+Run the script:
+
+```sh
+./aws-nuke.sh
+```
