@@ -1,8 +1,12 @@
 #!/bin/bash
+
 CLEAN_BUILD=false
 SKIP_TESTS=true
 DOCKER_TAG=1.3
 DOCKER_PUSH=false
+
+# Exit immediately if a command returns an error code
+set -e
 
 echo -e "Building T2-Project\n-------------------"
 

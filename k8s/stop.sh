@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MY_DIR="$(dirname "$(readlink -f "$0")")"
+MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 kubectl delete -f $MY_DIR/
 kubectl delete configmap postgres-config

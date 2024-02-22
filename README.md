@@ -8,9 +8,11 @@ For more information read the [https://t2-documentation.readthedocs.io/en/latest
 
 | directory / file | content |
 | ---------------- | ------- |
-| [./azure/](azure) | files to deploy the T2-Project to the Azure Cloud |
-| [./docker/](docker) | docker compose file for the T2-Project |
-| [./energy-tests/](energy-tests) | config files for execute energy tests |
-| [./k8s/](k8s) | Kubernetes deployments for the T2-Project |
-| [./loadprofiles/](loadprofiles) | load profiles for the Apache jMeter load generator |
-| [./setenv.sh](setenv.sh) | export environment variables required do build the T2-Project locally |
+| [./docker/](./docker/) | docker compose files for the T2-Project |
+| [./eksctl/](./eksctl/) | files to deploy the T2-Project to the AWS Cloud with eksctl |
+| [./energy-tests/](./energy-tests/) | config files for execute energy tests |
+| [./k8s/](./k8s/) | Kubernetes deployment files for the T2-Project |
+| [./loadprofiles/](./loadprofiles/) | load profiles for the Apache jMeter load generator |
+| [./prometheus/](./prometheus/) | config / rules / alerts for Prometheus |
+| [./setenv.sh](./setenv.sh) | export environment variables required do build the T2-Project locally |
+| [./terraform/](./terraform/) | files to deploy the T2-Project to different environments with Terraform |
