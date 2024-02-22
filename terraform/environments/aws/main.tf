@@ -28,6 +28,8 @@ module "container-insights" {
   source              = "../../modules/eks-container-insights"
   eks_cluster_id      = module.eks.cluster_id
   eks_cluster_version = module.eks.cluster_version
+  # Addon amazon_cloudwatch_observability needs the AWS Load Balancer webhook service
+  depends_on = [module.loadbalancer]
 }
 
 module "prometheus" {
