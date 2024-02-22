@@ -23,7 +23,8 @@ terraform -chdir=./environments/aws/ apply -auto-approve
 # Install T2-Project
 source $K8S_DIR/start.sh
 
-# Expose Grafana
+# Expose Grafana and wait for the hostname
 kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
-GRAFANA_HOSTNAME=$(kubectl -n monitoring get svc prometheus-grafana-nlb -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')
+until kubectl get service/prometheus-grafana-nlb -n monitoring --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
+GRAFANA_HOSTNAME=$(kubectl get service/prometheus-grafana-nlb -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 echo -e "\nGrafana URL: http://${GRAFANA_HOSTNAME}"

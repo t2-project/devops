@@ -6,6 +6,20 @@ This folder contains the files to deploy the T2-Project with [Terraform](https:/
 [Amazon Elastic Kubernetes Service](https://aws.amazon.com/de/eks/) (EKS) is the managed Kubernetes offering by AWS.
 [Azure Kubernetes Service](https://learn.microsoft.com/en-us/azure/aks/) (AKS) is the managed Kubernetes offering by Azure.
 
+## Quick Start
+
+*For illustration purposes, AWS is used here as the target environment, but can easily be replaced with Azure or Kind.*
+
+1. Take a look into the file `environments/aws/main.tf` to check if your desired modules are enabled/disabled.
+2. Login to AWS in your terminal.
+3. Run the start script: `./aws-start.sh`
+4. Get yourself a cup of tea, make yourself comfortable and wait for around 30 minutes
+5. Check if everything works:
+   - `kubectl cluster-info`
+   - `kubectl get pods`
+
+If you don't need the cluster anymore, stop it: `./aws-stop.sh`
+
 ## Folder structure
 
 [Isolation via file layout](https://blog.gruntwork.io/how-to-manage-terraform-state-28f5697e68fa#a921) is used to separate the different environments and state files from each other:
@@ -22,13 +36,12 @@ Example using aws environment:
 terraform -chdir=./environments/aws/ init  -upgrade
 ```
 
-If you are using the scripts (see below), the correct environment directory is used automatically.
+If you are using the scripts provided in this folder (see section [Scripts](#scripts) below), the correct environment directory is used automatically.
 
-## Components
+## Modules
 
-To see which components are used if you execute `terraform apply` have a look into the file `main.tf` of your 
-
-To disable components you don't need, e.g. Kepler, comment out the respective module in the file `main.tf` of your target environment (e.g. `environments/aws/main.tf`).
+To see which modules are used if you execute `terraform apply` take a look into the file `main.tf` for your target environment (e.g. `environments/aws/main.tf`).
+To disable a module you don't need, e.g. Kepler, comment out the respective module in the file `main.tf`.
 
 ## Scripts
 
