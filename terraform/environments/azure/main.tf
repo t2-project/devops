@@ -25,7 +25,7 @@ module "kepler" {
   source    = "../../modules/kepler"
   namespace = module.common.measurement_namespace
   // set to true on some system, not sure if it works as intended
-  use_emulation = false
+  use_model_server = false
   # K8s cluster has to be created first and depends on Prometheus because of the ServiceMonitor CRD
   depends_on = [module.azure, module.prometheus]
 }
