@@ -5,6 +5,7 @@ set -e
 
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 K8S_DIR=$(builtin cd $MY_DIR/../k8s; pwd)
+PROMETHEUS_DIR=$(builtin cd $MY_DIR/../prometheus; pwd)
 
 # Ensure that you are logged-in
 if ! aws sts get-caller-identity &> /dev/null
@@ -24,16 +25,15 @@ fi
 
 # Install T2-Project
 echo -e "\nInstalling T2-Project"
-source $K8S_DIR/start.sh
+$K8S_DIR/start.sh
 
 # Optional: Install Prometheus
 echo -e "\nInstalling Prometheus Stack"
-source $K8S_DIR/start-prometheus.sh
+$PROMETHEUS_DIR/install.sh
 
 # Optional: Install AWS Load Balancer & make desired services publically available
 echo -e "\nInstalling AWS Load Balancer"
-source install-aws-load-balancer.sh
-sleep 10 # is required because the AWS load balancer webhook is not available immediately
+./install-aws-load-balancer.sh
 #kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-ui.yaml
 kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 GRAFANA_HOSTNAME=$(kubectl -n monitoring get svc prometheus-grafana-nlb -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')
