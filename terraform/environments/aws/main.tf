@@ -17,7 +17,7 @@ module "eks" {
 }
 
 module "loadbalancer" {
-  source       = "../../modules/aws_loadbalancer"
+  source       = "../../modules/aws-loadbalancer"
   region       = module.eks.region
   cluster_name = module.eks.cluster_name
   provider_arn = module.eks.provider_arn
