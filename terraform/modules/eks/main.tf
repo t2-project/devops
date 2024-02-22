@@ -86,36 +86,11 @@ module "eks" {
 
       name = "ng-1"
 
-      instance_types = ["t3.small"]
-      # capacity_type  = "SPOT"
+      instance_types = ["m5.large"]
 
-      min_size     = 3
-      max_size     = 10
-      desired_size = 3
-    }
-
-    two = {
-
-      name = "ng-2"
-
-      instance_types = ["t3.small"]
-      # capacity_type  = "SPOT"
-
-      min_size     = 3
-      max_size     = 10
-      desired_size = 3
-    }
-
-    three = {
-
-      name = "ng-3"
-
-      instance_types = ["t3.small"]
-      # capacity_type  = "SPOT"
-
-      min_size     = 3
-      max_size     = 10
-      desired_size = 3
+      min_size = 3
+      max_size = 10
+      # desired_size = 3
     }
   }
 
