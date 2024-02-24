@@ -17,6 +17,11 @@ data "aws_availability_zones" "available" {
 locals {
   cluster_name    = "${var.cluster_name_prefix}-${random_string.suffix.result}"
   cluster_version = 1.29
+
+  tags = {
+    Environment = "aws"
+    Terraform   = "true"
+  }
 }
 
 resource "random_string" "suffix" {
@@ -27,8 +32,6 @@ resource "random_string" "suffix" {
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.5"
-
-  name = local.cluster_name
 
   cidr = "10.0.0.0/16"
   azs  = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -88,9 +91,9 @@ module "eks" {
 
       instance_types = ["m5.large"]
 
-      min_size = 3
-      max_size = 10
-      # desired_size = 3
+      min_size     = 3
+      max_size     = 10
+      desired_size = 3
     }
   }
 

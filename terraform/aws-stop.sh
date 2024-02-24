@@ -26,5 +26,8 @@ kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 # Uninstall T2-Project
 source $K8S_DIR/stop.sh
 
-# Delete Cluster
+# Delete cluster with Terraform
+# It's necessary to remove access entry from state to avoid removing Terraform's permissions too soon
+# before its finished cleaning up the resources it deployed inside the cluster
+terraform -chdir=./environments/aws/ state rm 'module.eks.module.eks.aws_eks_access_entry.this["cluster_creator"]' || true
 terraform -chdir=./environments/aws/ destroy -auto-approve

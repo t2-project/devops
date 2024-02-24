@@ -1,3 +1,5 @@
+<!-- Source: https://github.com/aws-observability/terraform-aws-observability-accelerator/tree/main/examples/eks-container-insights -->
+
 # Enable Container Insights for EKS cluster
 
 This example enables enhanced CloudWatch Container Insights for EKS and CloudWatch Application Signals (preview) through our CloudWatch EKS add-ons, providing comprehensive metrics, logs, and insights for cluster and application monitoring.

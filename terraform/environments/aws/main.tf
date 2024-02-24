@@ -20,7 +20,7 @@ module "loadbalancer" {
   source       = "../../modules/aws-loadbalancer"
   region       = module.eks.region
   cluster_name = module.eks.cluster_name
-  provider_arn = module.eks.provider_arn
+  provider_arn = module.eks.oidc_provider_arn
   vpc_id       = module.eks.vpc_id
 }
 
@@ -42,6 +42,6 @@ module "prometheus" {
 module "kepler" {
   source    = "../../modules/kepler"
   namespace = module.common.measurement_namespace
-  # K8s cluster has to be created first and depends on Prometheus because of the ServiceMonitor CRD
-  depends_on = [module.eks, module.prometheus]
+  # Prometheus has to be created first because of the ServiceMonitor CRD
+  depends_on = [module.prometheus]
 }
