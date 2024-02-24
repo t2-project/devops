@@ -38,6 +38,6 @@ provider "kubectl" {
     command     = "aws"
     args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
   }
-  config_path      = pathexpand(module.common.kube_config)
+  config_path      = pathexpand(var.kube_config)
   load_config_file = false
 }

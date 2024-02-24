@@ -5,9 +5,9 @@ variable "kube_config" {
 }
 
 variable "set_kubecfg" {
-  description = "Set kube config yes or no"
+  description = "Update kube config with cluster information to be able to use kubectl"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "measurement_namespace" {
