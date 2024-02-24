@@ -11,8 +11,8 @@ module "common" {
 # It takes about 10-20 minutes to start.
 module "eks" {
   source              = "../../modules/eks"
-  region              = "eu-north-1"
-  cluster_name_prefix = "t2project-eks"
+  region              = var.region
+  cluster_name_prefix = var.cluster_name_prefix
   set_kubecfg         = module.common.set_kubecfg
 }
 
