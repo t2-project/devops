@@ -12,8 +12,13 @@ cd $MY_DIR
 # Azure login
 az account show &>/dev/null || az login
 
-# Setup AKS cluster
+# Setup Azure environment
+# Azure cluster has to be created first explicitly (using `-target`), because of how Terraform handels providers.
+# See for more information:
+# - https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs#stacking-with-managed-kubernetes-cluster-resources
+# - https://stackoverflow.com/a/69996957/9556565
 terraform -chdir=./environments/azure/ init -upgrade
+terraform -chdir=./environments/azure/ apply -target="module.azure" -auto-approve
 terraform -chdir=./environments/azure/ apply -auto-approve
 
 # Install T2-Project

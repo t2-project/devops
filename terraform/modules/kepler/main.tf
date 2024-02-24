@@ -43,10 +43,11 @@ resource "helm_release" "kepler" {
   }
 
   # enable the eBPF code to collect cgroup id if the system has kernel version >= 4.18 (default: true)
-  # access to OS required -> not possible in cloud VM
+  # cgroup v2 is required and must be supported by the OS.
+  # Amazon Linux 2 and Ubuntu 20.04 don't support cgroup v2, however Bottlerocket and Ubuntu 22.04 do.
   set {
     name  = "extraEnvVars.ENABLE_EBPF_CGROUPID"
-    value = false
+    value = true
   }
 
   # enable process metrics (default: false)
@@ -66,7 +67,7 @@ resource "helm_release" "kepler" {
   # set log level (default: 1, possible values: 0 - 10, higher means more verbose)
   set {
     name  = "extraEnvVars.KEPLER_LOG_LEVEL"
-    value = 1
+    value = 5
   }
 }
 

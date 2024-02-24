@@ -4,6 +4,12 @@ variable "region" {
   default     = "eu-north-1"
 }
 
+variable "cluster_version" {
+  description = "The Kubernetes version for the cluster"
+  type        = string
+  default     = "1.28"
+}
+
 variable "cluster_name_prefix" {
   description = "Prefix for cluster name"
   type        = string

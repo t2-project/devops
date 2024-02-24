@@ -1,18 +1,13 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
+# Mainly based upon the example "eks_managed_node_group" provided by the module "terraform-aws-eks":
+# https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/examples/eks_managed_node_group/main.tf
 
-# Filter out local zones, which are not currently supported 
-# with managed node groups
-data "aws_availability_zones" "available" {
-  filter {
-    name   = "opt-in-status"
-    values = ["opt-in-not-required"]
-  }
-}
+data "aws_availability_zones" "available" {}
 
 locals {
-  cluster_name    = "${var.cluster_name_prefix}-${random_string.suffix.result}"
-  cluster_version = 1.29
+  cluster_name = "${var.cluster_name_prefix}-${random_string.suffix.result}"
+
+  vpc_cidr = "10.0.0.0/16"
+  azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
   tags = {
     Environment = "aws"
@@ -25,39 +20,16 @@ resource "random_string" "suffix" {
   special = false
 }
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.5"
-
-  cidr = "10.0.0.0/16"
-  azs  = slice(data.aws_availability_zones.available.names, 0, 3)
-
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
-  enable_dns_hostnames = true
-
-  public_subnet_tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                      = 1
-  }
-
-  private_subnet_tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"             = 1
-  }
-}
-
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.2"
 
-  cluster_name    = local.cluster_name
-  cluster_version = local.cluster_version
-
+  cluster_name                   = local.cluster_name
+  cluster_version                = var.cluster_version
   cluster_endpoint_public_access = true
+
+  # Add the current caller identity as an administrator
+  enable_cluster_creator_admin_permissions = true
 
   cluster_addons = {
     coredns = {
@@ -71,36 +43,75 @@ module "eks" {
     }
   }
 
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
-
-  eks_managed_node_group_defaults = {
-    ami_type = "AL2_x86_64"
-  }
+  vpc_id                   = module.vpc.vpc_id
+  subnet_ids               = module.vpc.private_subnets
+  control_plane_subnet_ids = module.vpc.intra_subnets
 
   eks_managed_node_groups = {
 
-    // A capacity for a minimum of ~60 pods is required
-    one = {
-
-      name = "ng-1"
-
+    # We use Bottlerocket, because Kepler needs support for cgroup v2, which neither Amazon Linux 2 nor Ubuntu 20.04 LTS have.
+    bottle = {
+      platform       = "bottlerocket"
+      ami_type       = "BOTTLEROCKET_x86_64"
       instance_types = ["m5.large"]
 
-      min_size     = 3
+      # Not required nor used - avoid tagging two security groups with same tag as well
+      create_security_group = false
+
+      min_size     = 1
       max_size     = 10
       desired_size = 3
+
+      block_device_mappings = {
+        xvdb = {
+          device_name = "/dev/xvdb"
+          ebs = {
+            volume_size           = 10
+            volume_type           = "gp3"
+            throughput            = 150
+            delete_on_termination = true
+          }
+        }
+      }
     }
   }
 
-  # Cluster access entry
-  # To add the current caller identity as an administrator
-  enable_cluster_creator_admin_permissions = true
+  tags = local.tags
+}
 
-  tags = {
-    Environment = "aws"
-    Terraform   = "true"
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "~> 5.5"
+
+  name = local.cluster_name
+  cidr = local.vpc_cidr
+
+  azs             = local.azs
+  private_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 4, k)]
+  public_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 48)]
+  intra_subnets   = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 52)]
+
+  enable_nat_gateway     = true
+  single_nat_gateway     = true
+  enable_ipv6            = true
+  create_egress_only_igw = true
+
+  public_subnet_ipv6_prefixes                    = [0, 1, 2]
+  public_subnet_assign_ipv6_address_on_creation  = true
+  private_subnet_ipv6_prefixes                   = [3, 4, 5]
+  private_subnet_assign_ipv6_address_on_creation = true
+  intra_subnet_ipv6_prefixes                     = [6, 7, 8]
+  intra_subnet_assign_ipv6_address_on_creation   = true
+
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = 1
   }
+
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = 1
+  }
+
+  tags = local.tags
 }
 
 # Source: https://stackoverflow.com/a/66158811/9556565
