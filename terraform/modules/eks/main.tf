@@ -111,9 +111,8 @@ module "eks" {
 resource "null_resource" "merge_kubeconfig" {
   count = var.set_kubecfg ? 1 : 0
 
-  # Merge on every apply
   triggers = {
-    always = timestamp()
+    cluster_updated = module.eks.cluster_id
   }
 
   # Wait until EKS cluster is ready. Also check if aws CLI exists.
