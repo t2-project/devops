@@ -18,7 +18,6 @@ metadata:
     app: cart
   name: cart
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: cart

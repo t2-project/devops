@@ -19,7 +19,6 @@ metadata:
     app: cdcservice
   name: cdcservice
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: cdcservice

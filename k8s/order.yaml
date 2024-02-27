@@ -18,7 +18,6 @@ metadata:
     app: order
   name: order
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: order

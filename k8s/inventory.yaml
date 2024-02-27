@@ -18,7 +18,6 @@ metadata:
     app: inventory
   name: inventory
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: inventory

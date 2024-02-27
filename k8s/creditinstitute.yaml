@@ -39,7 +39,6 @@ metadata:
     app: creditinstitute
   name: creditinstitute
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: creditinstitute

@@ -19,8 +19,7 @@ metadata:
     app: postgres-inventory
   name: postgres-inventory
 spec:
-  serviceName: postgres-inventory 
-  replicas: 1
+  serviceName: postgres-inventory
   selector:
     matchLabels:
       app: postgres-inventory

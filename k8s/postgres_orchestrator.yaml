@@ -19,8 +19,7 @@ metadata:
     app: postgres-orchestrator
   name: postgres-orchestrator
 spec:
-  serviceName: postgres-orchestrator 
-  replicas: 1
+  serviceName: postgres-orchestrator
   selector:
     matchLabels:
       app: postgres-orchestrator
