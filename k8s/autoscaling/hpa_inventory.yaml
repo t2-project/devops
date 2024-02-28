@@ -2,14 +2,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: inventory
-  annotations:
-    # This annotation is optional.
-    # If specified, then this prometheus server is used,
-    # instead of the prometheus server specified as the CLI argument `--prometheus-server`.
-    # metric-config.<metricType>.<metricName>.<collectorType>/<configKey>
-    metric-config.external.latency.prometheus/query: |
-      sum(rate(http_server_requests_seconds_sum{application="inventory"}[1m]))/sum(rate(http_server_requests_seconds_count{application="inventory"}[1m]))
-    metric-config.latency.prometheus/interval: "15s" # optional
+  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
