@@ -16,10 +16,10 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 100 # % of "request"s limit defined in the deployment
+        averageUtilization: 100 # % of the specified resource "requests" in the deployment
   - type: Resource
     resource:
       name: memory
       target:
         type: Utilization
-        averageUtilization: 100 # % of "request"s limit defined in the deployment
+        averageUtilization: 100 # % of the specified resource "requests" in the deployment
