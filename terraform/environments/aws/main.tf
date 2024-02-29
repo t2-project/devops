@@ -1,5 +1,5 @@
 # Note that it is expected that the aws CLI is properly configured and you are logged in.
-# It takes about 15-20 minutes to start everything.
+# It takes about 20 minutes to start everything.
 
 module "eks" {
   source              = "../../modules/eks"

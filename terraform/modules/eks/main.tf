@@ -55,7 +55,7 @@ module "eks" {
   eks_managed_node_groups = {
 
     # We use Bottlerocket, because Kepler needs support for cgroup v2, which neither Amazon Linux 2 nor Ubuntu 20.04 LTS have.
-    bottle = {
+    node-group-1 = {
       platform       = "bottlerocket"
       ami_type       = "BOTTLEROCKET_x86_64"
       instance_types = ["m5.large"]
@@ -65,7 +65,7 @@ module "eks" {
 
       min_size     = 1
       max_size     = 10
-      desired_size = 3
+      desired_size = 4
 
       block_device_mappings = {
         xvdb = {

@@ -13,7 +13,7 @@ This folder contains the files to deploy the T2-Project with [Terraform](https:/
 1. Take a look into the file `environments/aws/main.tf` to check if your desired modules are enabled/disabled.
 2. Login to AWS in your terminal.
 3. Run the start script: `./aws-start.sh`
-4. Get yourself a cup of tea, make yourself comfortable and wait for around 15-20 minutes
+4. Get yourself a cup of tea, make yourself comfortable and wait for around 20 minutes
 5. Check if everything works:
    - `kubectl cluster-info`
    - `kubectl get pods`
