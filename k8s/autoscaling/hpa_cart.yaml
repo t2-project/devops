@@ -3,6 +3,8 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: cart
   namespace: default
+  labels:
+    t2-scenario: standard
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

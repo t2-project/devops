@@ -39,4 +39,4 @@ kubectl wait pods -n default -l app=orchestrator --for condition=Ready --timeout
 kubectl wait pods -n default -l app=order --for condition=Ready --timeout=60s
 kubectl wait pods -n default -l app=payment --for condition=Ready --timeout=60s
 kubectl wait pods -n default -l app=uibackend --for condition=Ready --timeout=60s
-kubectl apply -f $K8S_DIR/autoscaling/
+kubectl apply -f $K8S_DIR/autoscaling/ -l t2-scenario=standard

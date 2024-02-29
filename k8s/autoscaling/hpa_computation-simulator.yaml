@@ -3,6 +3,8 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: computation-simulator
   namespace: default
+  labels:
+    t2-scenario: intensive-computation
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
