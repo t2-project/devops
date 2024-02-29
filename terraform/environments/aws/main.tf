@@ -27,8 +27,9 @@ module "container-insights" {
 }
 
 module "prometheus" {
-  source    = "../../modules/prometheus"
-  namespace = var.measurement_namespace
+  source         = "../../modules/prometheus"
+  namespace      = var.measurement_namespace
+  create_adapter = true # adapter is required for HPA
 
   # K8s cluster has to be created first
   depends_on = [module.eks]

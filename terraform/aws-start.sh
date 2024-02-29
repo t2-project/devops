@@ -28,6 +28,9 @@ terraform -chdir=./environments/aws/ apply -auto-approve
 # Install T2-Project
 source $K8S_DIR/start.sh
 
+# Enable autoscaling (ensure that the prometheus-adapter is enabled)
+kubectl apply -f $K8S_DIR/autoscaling/
+
 # Expose Grafana and wait for the hostname
 kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 until kubectl get service/prometheus-grafana-nlb -n monitoring --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done

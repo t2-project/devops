@@ -1,6 +1,7 @@
 locals {
-  prometheus_values_absolute_path        = abspath(format("%s/../../../prometheus/prometheus-values.yaml", path.module))
-  blackbox_exporter_values_absolute_path = abspath(format("%s/../../../prometheus/blackbox-exporter-values.yaml", path.module))
+  prometheus_values_path         = abspath(format("%s/../../../prometheus/prometheus-values.yaml", path.module))
+  blackbox_exporter_values_path  = abspath(format("%s/../../../prometheus/blackbox-exporter-values.yaml", path.module))
+  prometheus_adapter_values_path = abspath(format("%s/../../../prometheus/prometheus-adapter-values.yaml", path.module))
 }
 
 resource "helm_release" "prometheus" {
@@ -12,7 +13,7 @@ resource "helm_release" "prometheus" {
   version          = "56.6.2"
 
   values = [
-    "${file("${local.prometheus_values_absolute_path}")}"
+    "${file("${local.prometheus_values_path}")}"
   ]
   timeout = 2000
 
@@ -56,7 +57,36 @@ resource "helm_release" "blackbox-exporter" {
   version          = "8.10.1"
 
   values = [
-    "${file("${local.blackbox_exporter_values_absolute_path}")}"
+    "${file("${local.blackbox_exporter_values_path}")}"
+  ]
+
+  # Prometheus ServiceMonitors must be created first
+  depends_on = [helm_release.prometheus]
+}
+
+resource "helm_release" "prometheus-adapter" {
+
+  count = var.create_adapter ? 1 : 0
+
+  name       = "prometheus-adapter"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "prometheus-adapter"
+  version    = "4.9.0"
+  namespace  = var.namespace
+
+  set {
+    name  = "prometheus.url"
+    value = "http://prometheus-kube-prometheus-prometheus.${var.namespace}.svc"
+  }
+
+  set {
+    name  = "prometheus.port"
+    value = 9090
+  }
+
+  # Use default resource metrics that can be used for HPA
+  values = [
+    "${file("${local.prometheus_adapter_values_path}")}"
   ]
 
   # Prometheus ServiceMonitors must be created first

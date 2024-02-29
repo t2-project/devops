@@ -9,6 +9,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 kubectl create namespace monitoring
 helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring -f $MY_DIR/prometheus-values.yaml
 helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter -n monitoring -f $MY_DIR/blackbox-exporter-values.yaml
+helm install prometheus-adapter prometheus-community/prometheus-adapter -n monitoring -f $MY_DIR/prometheus-adapter-values.yaml
 
 #Expose Prometheus
 #kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
