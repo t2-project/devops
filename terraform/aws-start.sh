@@ -24,11 +24,19 @@ terraform -chdir=./environments/aws/ apply -auto-approve
 # Install T2-Project
 source $K8S_DIR/start.sh
 
-# Enable autoscaling (ensure that the prometheus-adapter is enabled)
-kubectl apply -f $K8S_DIR/autoscaling/
-
 # Expose Grafana and wait for the hostname
 kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 until kubectl get service/prometheus-grafana-nlb -n monitoring --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
 GRAFANA_HOSTNAME=$(kubectl get service/prometheus-grafana-nlb -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 echo -e "\nGrafana URL: http://${GRAFANA_HOSTNAME}"
+
+# Enable autoscaling (requires that the prometheus-adapter is enabled)
+# Wait until every app is ready to avoid unnecessary scaling during boot
+kubectl wait pods -n default -l app=cart --for condition=Ready --timeout=60s
+kubectl wait pods -n default -l app=creditinstitute --for condition=Ready --timeout=60s
+kubectl wait pods -n default -l app=inventory --for condition=Ready --timeout=60s
+kubectl wait pods -n default -l app=orchestrator --for condition=Ready --timeout=60s
+kubectl wait pods -n default -l app=order --for condition=Ready --timeout=60s
+kubectl wait pods -n default -l app=payment --for condition=Ready --timeout=60s
+kubectl wait pods -n default -l app=uibackend --for condition=Ready --timeout=60s
+kubectl apply -f $K8S_DIR/autoscaling/
