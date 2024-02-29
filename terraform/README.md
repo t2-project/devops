@@ -8,19 +8,19 @@ This folder contains the files to deploy the T2-Project with [Terraform](https:/
 
 ## Quick Start
 
-*For illustration purposes, AWS is used here as the target environment, but can easily be replaced with Azure or Kind.*
+*For illustration purposes, AWS is used here as the target environment, but can easily be replaced with Azure or kind.*
 
 1. Take a look into the file `environments/aws/main.tf` to check if your desired modules are enabled/disabled.
 2. Login to AWS in your terminal.
 3. Run the start script: `./aws-start.sh`
-4. Get yourself a cup of tea, make yourself comfortable and wait for around 30 minutes
+4. Get yourself a cup of tea, make yourself comfortable and wait for around 15-20 minutes
 5. Check if everything works:
    - `kubectl cluster-info`
    - `kubectl get pods`
 
-If you don't need the cluster anymore, stop it: `./aws-stop.sh`
+If you don't need the cluster anymore, stop everything and delete the cluster: `./aws-stop.sh`
 
-## Folder structure
+## Folder Structure
 
 [Isolation via file layout](https://blog.gruntwork.io/how-to-manage-terraform-state-28f5697e68fa#a921) is used to separate the different environments and state files from each other:
 
@@ -38,9 +38,26 @@ terraform -chdir=./environments/aws/ init  -upgrade
 
 If you are using the scripts provided in this folder (see section [Scripts](#scripts) below), the correct environment directory is used automatically.
 
+## Terraform Providers
+
+Terraform requires that providers know their configuration during plan time.
+However, the providers `kubernetes`, `helm` and `kubectl` know how to connect to the cluster after it was created by Terraform.
+
+Therefore, we have to ensure that the cluster is created as a separate `apply`-step to prevent any errors. For that we are using the Terraform apply parameter `-target` in the start scripts.
+
+Example:
+
+```sh
+terraform -chdir=./environments/aws/ apply -target="module.eks" -auto-approve
+```
+
+For more information see:
+- [Stacking with managed Kubernetes cluster resources – Terraform Docs](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs#stacking-with-managed-kubernetes-cluster-resources)
+- [How to make Terraform provider dependent on a resource being created – Stack Overflow](https://stackoverflow.com/a/69996957/9556565)
+
 ## Modules
 
-To see which modules are used if you execute `terraform apply` take a look into the file `main.tf` for your target environment (e.g. `environments/aws/main.tf`).
+To see which modules are used when executing `terraform apply` take a look into the file `main.tf` for your target environment (e.g. `environments/aws/main.tf`).
 To disable a module you don't need, e.g. Kepler, comment out the respective module in the file `main.tf`.
 
 ## Scripts
@@ -57,9 +74,9 @@ Example:
 ./run.sh aws init -upgrade
 ```
 
-## Clean-up
+## Rigorous Clean-up
 
-`terraform destroy` typically leaves some resources. If you want to delete all AWS resources associated with your account in a specific region, you can use [cloud-nuke](https://github.com/gruntwork-io/cloud-nuke). This is a highly destructive operation! Please be aware of that!
+The stop scripts executes `terraform destroy` that deletes the most resources. However, typically, it leaves some resources. If you want to delete all AWS resources associated with your account in a specific region, you can use [cloud-nuke](https://github.com/gruntwork-io/cloud-nuke). This is a highly destructive operation! Please be aware of that!
 
 Run the script:
 

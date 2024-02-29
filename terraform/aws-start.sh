@@ -17,10 +17,6 @@ then
 fi
 
 # Setup AWS environment
-# EKS cluster has to be created first explicitly (using `-target`), because of how Terraform handels providers.
-# See for more information:
-# - https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs#stacking-with-managed-kubernetes-cluster-resources
-# - https://stackoverflow.com/a/69996957/9556565
 terraform -chdir=./environments/aws/ init -upgrade
 terraform -chdir=./environments/aws/ apply -target="module.eks" -auto-approve
 terraform -chdir=./environments/aws/ apply -auto-approve
