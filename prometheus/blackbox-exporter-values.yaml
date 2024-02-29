@@ -16,19 +16,19 @@ serviceMonitor:
     #   labels:
     #     release: prometheus
     - name: creditinstitute-service
-      url: creditinstitute-cs.default/actuator/prometheus
+      url: creditinstitute.default/actuator/prometheus
       labels:
         release: prometheus
     - name: cart-service
-      url: cart-cs.default/actuator/prometheus
+      url: cart.default/actuator/prometheus
       labels:
         release: prometheus
     - name: inventory-service
-      url: inventory-cs.default/actuator/prometheus
+      url: inventory.default/actuator/prometheus
       labels:
         release: prometheus
     - name: orchestrator-service
-      url: orchestrator-cs.default/actuator/prometheus
+      url: orchestrator.default/actuator/prometheus
       labels:
         release: prometheus
     - name: order-service
@@ -40,11 +40,11 @@ serviceMonitor:
       labels:
         release: prometheus
     - name: ui-service
-      url: ui-cs.default/actuator/prometheus
+      url: ui.default/actuator/prometheus
       labels:
         release: prometheus
     - name: uibackend-service
-      url: uibackend-cs.default/actuator/prometheus
+      url: uibackend.default/actuator/prometheus
       labels:
         release: prometheus
 

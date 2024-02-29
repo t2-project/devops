@@ -11,7 +11,7 @@ prometheus:
         metrics_path: '/actuator/prometheus'
         scrape_interval: 10s
         static_configs:
-        - targets: ['creditinstitute-cs.default', 'cart-cs.default', 'inventory-cs.default', 'orchestrator-cs.default', 'order.default', 'payment.default', 'ui-cs.default', 'uibackend-cs.default']
+        - targets: ['creditinstitute.default', 'cart.default', 'inventory.default', 'orchestrator.default', 'order.default', 'payment.default', 'ui.default', 'uibackend.default']
 
 alertmanager:
 

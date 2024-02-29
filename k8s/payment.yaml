@@ -62,7 +62,7 @@ spec:
             - name: T2_PAYMENT_PROVIDER_ENABLED
               value: "TRUE"
             - name: T2_PAYMENT_PROVIDER_DUMMY_URL
-              value: http://creditinstitute-cs/pay
+              value: http://creditinstitute/pay
             - name: T2_PAYMENT_PROVIDER_TIMEOUT
               value: "5"
             - name: T2_JAEGER_ENABLED
