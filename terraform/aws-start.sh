@@ -31,12 +31,6 @@ GRAFANA_HOSTNAME=$(kubectl get service/prometheus-grafana-nlb -n monitoring -o j
 echo -e "\nGrafana URL: http://${GRAFANA_HOSTNAME}"
 
 # Enable autoscaling (requires that the prometheus-adapter is enabled)
-# Wait until every app is ready to avoid unnecessary scaling during boot
-kubectl wait pods -n default -l app=cart --for condition=Ready --timeout=60s
-kubectl wait pods -n default -l app=creditinstitute --for condition=Ready --timeout=60s
-kubectl wait pods -n default -l app=inventory --for condition=Ready --timeout=60s
-kubectl wait pods -n default -l app=orchestrator --for condition=Ready --timeout=60s
-kubectl wait pods -n default -l app=order --for condition=Ready --timeout=60s
-kubectl wait pods -n default -l app=payment --for condition=Ready --timeout=60s
-kubectl wait pods -n default -l app=uibackend --for condition=Ready --timeout=60s
+# Wait until every backend app is ready to avoid unnecessary scaling during boot
+kubectl wait pods -n default -l app.kubernetes.io/component=backend --for condition=Ready --timeout=60s
 kubectl apply -f $K8S_DIR/autoscaling/ -l t2-scenario=standard

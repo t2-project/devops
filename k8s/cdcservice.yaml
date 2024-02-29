@@ -2,7 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: cdcservice
+    app.kubernetes.io/name: cdcservice
+    app.kubernetes.io/instance: cdcservice
+    app.kubernetes.io/component: middleware
+    app.kubernetes.io/version: 0.16.0.RELEASE
+    app.kubernetes.io/part-of: t2project
   name: cdcservice
 spec:
   ports:
@@ -10,22 +14,32 @@ spec:
       port: 8099
       targetPort: 8080
   selector:
-    app: cdcservice
+    app.kubernetes.io/instance: cdcservice
+    app.kubernetes.io/part-of: t2project
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cdcservice
+    app.kubernetes.io/name: cdcservice
+    app.kubernetes.io/instance: cdcservice
+    app.kubernetes.io/component: middleware
+    app.kubernetes.io/version: 0.16.0.RELEASE
+    app.kubernetes.io/part-of: t2project
   name: cdcservice
 spec:
   selector:
     matchLabels:
-      app: cdcservice
+      app.kubernetes.io/instance: cdcservice
+      app.kubernetes.io/part-of: t2project
   template:
     metadata:
       labels:
-        app: cdcservice
+        app.kubernetes.io/name: cdcservice
+        app.kubernetes.io/instance: cdcservice
+        app.kubernetes.io/component: middleware
+        app.kubernetes.io/version: 0.16.0.RELEASE
+        app.kubernetes.io/part-of: t2project
     spec:
       containers:
         - name: cdcservice
