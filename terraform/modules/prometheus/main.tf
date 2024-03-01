@@ -49,6 +49,9 @@ resource "helm_release" "prometheus" {
 }
 
 resource "helm_release" "blackbox-exporter" {
+
+  count = var.create_blackbox_exporter ? 1 : 0
+
   name             = "blackbox-exporter"
   repository       = "https://prometheus-community.github.io/helm-charts"
   chart            = "prometheus-blackbox-exporter"
