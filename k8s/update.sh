@@ -2,8 +2,14 @@
 
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-helm upgrade mongo-cart --set auth.enabled=false bitnami/mongodb
-helm upgrade mongo-order --set auth.enabled=false bitnami/mongodb
-helm upgrade kafka bitnami/kafka
+if [ $# -gt 0 ]; then
+    NAMESPACE=$1
+else
+    NAMESPACE="default"
+fi
 
-kubectl apply -f $MY_DIR/
+helm upgrade mongo-cart --set auth.enabled=false bitnami/mongodb -n $NAMESPACE
+helm upgrade mongo-order --set auth.enabled=false bitnami/mongodb -n $NAMESPACE
+helm upgrade kafka bitnami/kafka -n $NAMESPACE
+
+kubectl apply -f $MY_DIR/ -n $NAMESPACE

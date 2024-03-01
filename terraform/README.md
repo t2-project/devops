@@ -64,6 +64,8 @@ To disable a module you don't need, e.g. Kepler, comment out the respective modu
 
 For each environment there are a start and a stop script, e.g. `aws-start.sh` and `aws-stop.sh`. The start script creates a cluster in the respective environment and installs everything required to run the T2-Project. The stop script deletes all resources and the cluster.
 
+Optionally you can provide an argument to the scripts that is used as the namespace for the T2-Project. For example, `./aws-start.sh t2-project` will deploy the services of the T2-Project in the namespace *t2-project*.
+
 The scripts are using the terraform apply parameter `-auto-approve`. Please be aware of that!
 
 There is another script called `run.sh` that can be used to execute arbitrary terraform commands for a specific environment in a simplified way.

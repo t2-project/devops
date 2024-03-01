@@ -2,8 +2,18 @@
 
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-kubectl delete -f $MY_DIR/
+if [ $# -gt 0 ]; then
+    NAMESPACE=$1
+else
+    NAMESPACE="default"
+fi
 
-helm uninstall mongo-cart
-helm uninstall mongo-order
-helm uninstall kafka
+kubectl delete -f $MY_DIR/ -n $NAMESPACE
+
+helm uninstall mongo-cart -n $NAMESPACE
+helm uninstall mongo-order -n $NAMESPACE
+helm uninstall kafka -n $NAMESPACE
+
+if [ $NAMESPACE != "default" ]; then
+  kubectl delete namespace $NAMESPACE
+fi
