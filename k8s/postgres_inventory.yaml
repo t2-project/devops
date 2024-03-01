@@ -56,9 +56,9 @@ spec:
               value: "true"
           args:
             - -c
-            - max_connections=1000
+            - max_connections=200 # default: 100
             - -c
-            - shared_buffers=512MB
+            - shared_buffers=256MB # default: 128MB
           ports:
             - containerPort: 5432
           volumeMounts:
@@ -66,12 +66,12 @@ spec:
             mountPath: /var/lib/postgresql/data
             subPath: postgres
           resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
+            # limits:
+            #   cpu: 500m
+            #   memory: 500Mi
             requests:
-              cpu: 100m
-              memory: 100Mi
+              cpu: 150m
+              memory: 150Mi
       restartPolicy: Always
   volumeClaimTemplates:
   - metadata:
