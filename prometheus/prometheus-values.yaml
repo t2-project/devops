@@ -2,6 +2,10 @@ prometheus:
   prometheusSpec:
     probeNamespaceSelector: {}
     probeSelector: {}
+
+    scrapeInterval: 5s # scrape interval of monitored targets, default: 30s
+    evaluationInterval: 5s # evaluation interval for rules (used for new time series and alerting), default: 30s
+
     # Additional Scrape Config Secret
     additionalScrapeConfigs:
       - job_name: 'spring-actuator'
@@ -23,11 +27,8 @@ prometheus:
         # - targets: ['creditinstitute.default', 'cart.default', 'inventory.default', 'orchestrator.default', 'order.default', 'payment.default', 'ui.default', 'uibackend.default']
 
 alertmanager:
-
-  enabled: true
-
+  enabled: false
   config:
-
     route:
       group_by: ['alertname']
       group_wait: 10s
