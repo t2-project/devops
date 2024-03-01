@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: cdcservice
   labels:
     app.kubernetes.io/name: cdcservice
     app.kubernetes.io/instance: cdcservice
     app.kubernetes.io/component: middleware
     app.kubernetes.io/version: 0.16.0.RELEASE
     app.kubernetes.io/part-of: t2project
-  name: cdcservice
 spec:
   ports:
     - name: "8099"
@@ -20,13 +20,13 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: cdcservice
   labels:
     app.kubernetes.io/name: cdcservice
     app.kubernetes.io/instance: cdcservice
     app.kubernetes.io/component: middleware
     app.kubernetes.io/version: 0.16.0.RELEASE
     app.kubernetes.io/part-of: t2project
-  name: cdcservice
 spec:
   selector:
     matchLabels:

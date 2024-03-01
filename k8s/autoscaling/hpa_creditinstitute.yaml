@@ -2,7 +2,6 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: creditinstitute
-  namespace: default
   labels:
     t2-scenario: standard
 spec:
