@@ -21,7 +21,7 @@ if ! [[ $current_context == *"kind"* ]]; then
 fi
 
 # Uninstall T2-Project
-source $K8S_DIR/stop.sh -n $T2_NAMESPACE
+source $K8S_DIR/stop.sh $T2_NAMESPACE
 
 # Delete kind cluster
 terraform -chdir=./environments/kind/ destroy -auto-approve

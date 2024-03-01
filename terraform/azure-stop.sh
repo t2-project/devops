@@ -24,7 +24,7 @@ if ! [[ $current_context == *"aks"* ]]; then
 fi
 
 # Uninstall T2-Project
-source $K8S_DIR/stop.sh -n $T2_NAMESPACE
+source $K8S_DIR/stop.sh $T2_NAMESPACE
 
 # Delete cluster
 terraform -chdir=./environments/azure/ destroy -auto-approve

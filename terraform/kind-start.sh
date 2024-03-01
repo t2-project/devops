@@ -22,4 +22,4 @@ terraform -chdir=./environments/kind/ apply -target="module.kind" -auto-approve
 terraform -chdir=./environments/kind/ apply -auto-approve
 
 # Install T2-Project
-source $K8S_DIR/start.sh -n $T2_NAMESPACE
+source $K8S_DIR/start.sh $T2_NAMESPACE

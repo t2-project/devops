@@ -33,7 +33,7 @@ kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-uibackend.yaml -n $T2_
 
 # Uninstall T2-Project
 kubectl delete -f $K8S_DIR/autoscaling/ -l t2-scenario=standard -n $T2_NAMESPACE
-source $K8S_DIR/stop.sh -n $T2_NAMESPACE
+source $K8S_DIR/stop.sh $T2_NAMESPACE
 
 # Delete cluster with Terraform
 # It's necessary to remove access entry from state to avoid removing Terraform's permissions too soon
