@@ -1,5 +1,3 @@
-
-
 prometheus:
   prometheusSpec:
     probeNamespaceSelector: {}
@@ -7,11 +5,22 @@ prometheus:
     # Additional Scrape Config Secret
     additionalScrapeConfigs:
       - job_name: 'spring-actuator'
-        kubernetes_sd_configs:
+        scrape_interval: 5s # default: 30s
         metrics_path: '/actuator/prometheus'
-        scrape_interval: 10s
-        static_configs:
-        - targets: ['creditinstitute.default', 'cart.default', 'inventory.default', 'orchestrator.default', 'order.default', 'payment.default', 'ui.default', 'uibackend.default']
+        kubernetes_sd_configs:
+          - role: service
+        relabel_configs:
+          # Relabel to scrape only services that have
+          # the annotation `prometheus.io/scrape: "true"`.
+          - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+            action: keep
+            regex: true
+          # Relabel to scrape only services that are part of the t2-project
+          - source_labels: [__meta_kubernetes_service_label_app_kubernetes_io_part_of]
+            action: keep
+            regex: (t2project|t2monolith)
+        # static_configs:
+        # - targets: ['creditinstitute.default', 'cart.default', 'inventory.default', 'orchestrator.default', 'order.default', 'payment.default', 'ui.default', 'uibackend.default']
 
 alertmanager:
 

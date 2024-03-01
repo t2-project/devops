@@ -7,6 +7,8 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/version: "1.3"
     app.kubernetes.io/part-of: t2project
+  annotations:
+    prometheus.io/scrape: "true"
   name: orchestrator
 spec:
   selector:
