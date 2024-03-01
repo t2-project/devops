@@ -58,14 +58,14 @@ module "eks" {
     node-group-1 = {
       platform       = "bottlerocket"
       ami_type       = "BOTTLEROCKET_x86_64"
-      instance_types = ["m5.large"]
+      instance_types = ["c5.large"]
 
       # Not required nor used - avoid tagging two security groups with same tag as well
       create_security_group = false
 
       min_size     = 1
       max_size     = 10
-      desired_size = 4
+      desired_size = 6
 
       block_device_mappings = {
         xvdb = {
