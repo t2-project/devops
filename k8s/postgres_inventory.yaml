@@ -54,16 +54,17 @@ spec:
               value: inventory
             - name: USE_DB_ID
               value: "true"
+          args:
+            - -c
+            - max_connections=1000
+            - -c
+            - shared_buffers=512MB
           ports:
             - containerPort: 5432
           volumeMounts:
           - name: datadir
             mountPath: /var/lib/postgresql/data
             subPath: postgres
-          - name: postgres-config
-            mountPath: /etc/postgresql/postgresql.conf
-            subPath: postgresql.conf
-            readOnly: true
           resources:
             limits:
               cpu: 500m
@@ -72,13 +73,6 @@ spec:
               cpu: 100m
               memory: 100Mi
       restartPolicy: Always
-      volumes:
-      - name: postgres-config
-        configMap:
-          name: postgres-config
-          items:
-            - key: postgresql.conf
-              path: postgresql.conf
   volumeClaimTemplates:
   - metadata:
       name: datadir
