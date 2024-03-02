@@ -8,6 +8,8 @@ metadata:
     app.kubernetes.io/component: backend
     app.kubernetes.io/version: "1.3"
     app.kubernetes.io/part-of: t2-microservices
+  annotations:
+    prometheus.io/scrape: "true"
 spec:
   ports:
     - port: 80
@@ -62,11 +64,18 @@ spec:
             - name: T2_PAYMENT_PROVIDER_ENABLED
               value: "TRUE"
             - name: T2_PAYMENT_PROVIDER_DUMMY_URL
-              value: http://e2etest/fakepay
+              value: http://creditinstitute/pay
             - name: T2_PAYMENT_PROVIDER_TIMEOUT
               value: "5"
             - name: T2_JAEGER_ENABLED
               value: "FALSE"
             - name: T2_JAEGER_HOST
               value: simplest-agent #todo
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 250m
+              memory: 250Mi
       restartPolicy: Always

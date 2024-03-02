@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ui-nlb
+  name: backend-nlb
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: external 
     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
@@ -13,5 +13,5 @@ spec:
       targetPort: 8080
       name: http
   selector:
-    app.kubernetes.io/instance: ui
-    app.kubernetes.io/part-of: t2-microservices
+    app.kubernetes.io/instance: backend
+    app.kubernetes.io/part-of: t2-monolith

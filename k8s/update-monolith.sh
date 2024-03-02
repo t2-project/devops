@@ -8,5 +8,6 @@ else
     NAMESPACE="default"
 fi
 
-kubectl delete -f $MY_DIR/saga-e2e-test/e2etest.yaml -n $NAMESPACE
-source $MY_DIR/stop-microservices.sh -n $NAMESPACE
+helm upgrade mongo -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE
+
+kubectl apply -f $MY_DIR/t2-monolith/ -n $NAMESPACE
