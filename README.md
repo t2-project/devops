@@ -1,8 +1,12 @@
 # DevOps
 
-This repository includes all the files that are relevant to deploy and test the T2-Project microservices.
+This repository includes all the files that are relevant to deploy, test and operate the T2-Project microservices.
 
-For more information read the [https://t2-documentation.readthedocs.io/en/latest/](documentation).
+The deployment files for the T2-Modulith with Docker or Kubernetes are located inside its repository: [t2-project/modulith](https://github.com/t2-project/modulith/)
+
+However, for executing energy measurements with Kepler you can find slightly modified deployment files for both, microservices and monolith, in the subdirectory [./energy-tests/kepler/](./energy-tests/kepler/).
+
+For more information read the [documentation](https://t2-documentation.readthedocs.io/en/latest/).
 
 ## Directory structure
 
