@@ -25,7 +25,7 @@ fi
 
 # Install T2-Project
 echo -e "\nInstalling T2-Project"
-$K8S_DIR/start.sh
+$K8S_DIR/start-microservices.sh
 
 # Optional: Install Prometheus
 echo -e "\nInstalling Prometheus Stack"

@@ -8,7 +8,7 @@ else
     NAMESPACE="default"
 fi
 
-kubectl delete -f $MY_DIR/ -n $NAMESPACE
+kubectl delete -f $MY_DIR/t2-microservices/ -n $NAMESPACE
 
 helm uninstall mongo-cart -n $NAMESPACE
 helm uninstall mongo-order -n $NAMESPACE

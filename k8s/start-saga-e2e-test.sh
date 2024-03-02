@@ -8,5 +8,5 @@ else
     NAMESPACE="default"
 fi
 
-source $MY_DIR/start.sh $NAMESPACE
+source $MY_DIR/start-microservices.sh $NAMESPACE
 kubectl apply -f $MY_DIR/saga-e2e-test/ -n $NAMESPACE

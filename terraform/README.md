@@ -62,9 +62,9 @@ To disable a module you don't need, e.g. Kepler, comment out the respective modu
 
 ## Scripts
 
-For each environment there are a start, a start-with-services and a stop script, e.g. `aws-start.sh`, `aws-start-with-services.sh` and `aws-stop.sh`. The basic start script only creates a cluster in the respective environment. The start-with-services script creates the cluster and installs also the T2-Project services. The stop script deletes all resources and the cluster.
+For each environment there are a start, a start-with-microservices and a stop script, e.g. `aws-start.sh`, `aws-start-with-microservices.sh` and `aws-stop.sh`. The basic start script only creates a cluster in the respective environment. The start-with-services script creates the cluster and installs also the T2-Project services. The stop script deletes all resources and the cluster.
 
-Optionally you can provide an argument to the scripts that is used as the namespace for the T2-Project services. For example, `./aws-start-with-services.sh t2-project` will deploy the services of the T2-Project in the namespace *t2-project*.
+Optionally you can provide an argument to the scripts that is used as the namespace for the T2-Project services. For example, `./aws-start-with-microservices.sh t2-project` will deploy the services of the T2-Project in the namespace *t2-project*.
 
 The scripts are using the terraform apply parameter `-auto-approve`. Please be aware of that!
 

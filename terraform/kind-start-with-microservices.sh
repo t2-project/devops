@@ -20,4 +20,4 @@ fi
 source ./kind-start.sh
 
 # Install T2-Project
-source $K8S_DIR/start.sh $T2_NAMESPACE
+source $K8S_DIR/start-microservices.sh $T2_NAMESPACE

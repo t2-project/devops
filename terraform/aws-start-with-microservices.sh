@@ -20,7 +20,7 @@ fi
 source ./aws-start.sh
 
 # Install T2-Project
-source $K8S_DIR/start.sh $T2_NAMESPACE
+source $K8S_DIR/start-microservices.sh $T2_NAMESPACE
 
 # Use AWS Load Balancer to expose the UI
 kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-ui.yaml -n $T2_NAMESPACE

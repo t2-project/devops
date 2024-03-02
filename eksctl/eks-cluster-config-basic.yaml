@@ -9,17 +9,8 @@ metadata:
 # A capacity for a minimum of ~60 pods is required
 nodeGroups:
   - name: ng-1
-    instanceType: m5.2xlarge # m5.2xlarge: 8 vCPU, 32 GB RAM
-    desiredCapacity: 1
-  # - name: ng-1
-  #   instanceType: m5.large # m5.large: 2 vCPU, 8 GB RAM
-  #   desiredCapacity: 1
-  # - name: ng-2
-  #   instanceType: m5.large # m5.large: 2 vCPU, 8 GB RAM
-  #   desiredCapacity: 1
-  # - name: ng-3
-  #   instanceType: m5.large # m5.large: 2 vCPU, 8 GB RAM
-  #   desiredCapacity: 1
+    instanceType: m5.large # m5.large: 2 vCPU, 8 GB RAM
+    desiredCapacity: 4
 
 iam:
   withOIDC: true

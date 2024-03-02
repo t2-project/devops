@@ -12,7 +12,7 @@ then
 fi
 
 # Uninstall T2-Project
-$K8S_DIR/stop.sh
+$K8S_DIR/stop-microservices.sh
 
 kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 helm uninstall aws-load-balancer-controller -n kube-system
