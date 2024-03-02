@@ -198,10 +198,10 @@ log.info(&quot;${currentTimeMicroseconds} ${note}&quot;)
                 <stringProp name="RegexExtractor.refname">ID</stringProp>
                 <stringProp name="RegexExtractor.regex">&quot;id&quot;:&quot;(.*?)&quot;</stringProp>
                 <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default">foooo</stringProp>
-                <stringProp name="RegexExtractor.match_number">0</stringProp>
-                <stringProp name="TestPlan.comments">seletct a random product id and save it to variable ID</stringProp>
+                <stringProp name="RegexExtractor.default">unknown</stringProp>
+                <stringProp name="TestPlan.comments">select a random product id and save it to variable ID</stringProp>
                 <boolProp name="RegexExtractor.default_empty_value">false</boolProp>
+                <stringProp name="RegexExtractor.match_number">0</stringProp>
               </RegexExtractor>
               <hashTree/>
             </hashTree>
@@ -274,7 +274,6 @@ log.info(&quot;${currentTimeMicroseconds} ${note}&quot;)
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&quot;content&quot; : { &quot;${ID}&quot; : ${__Random(1,5)}}}&#xd;
-&#xd;
 </stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
@@ -336,7 +335,8 @@ log.info(&quot;${currentTimeMicroseconds} ${note}&quot;)
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">{&quot;cardNumber&quot;:&quot;cardNumber&quot;,&quot;cardOwner&quot;:&quot;cardOwner&quot;,&quot;checksum&quot;:&quot;checksum&quot;, &quot;sessionId&quot;:&quot;${sessionId}&quot;}</stringProp>
+                  <stringProp name="Argument.value">{&quot;cardNumber&quot;:&quot;cardNumber&quot;,&quot;cardOwner&quot;:&quot;cardOwner&quot;,&quot;checksum&quot;:&quot;checksum&quot;, &quot;sessionId&quot;:&quot;${sessionId}&quot;}&#xd;
+</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
