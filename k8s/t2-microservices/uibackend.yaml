@@ -54,6 +54,10 @@ spec:
               value: http://inventory/inventory
             - name: T2_RESERVATION_ENDPOINT
               value: reservation
+            - name: T2_COMPUTATION_SIMULATOR_ENABLED
+              value: "FALSE"
+            - name: T2_COMPUTATION_SIMULATOR_URL
+              value: http://computation-simulator/compute
             - name: T2_JAEGER_ENABLED
               value: "FALSE"
             - name: T2_JAEGER_HOST
