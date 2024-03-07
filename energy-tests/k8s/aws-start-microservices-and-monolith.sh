@@ -73,8 +73,7 @@ kubectl apply -f $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NA
 #########################
 
 if [ $ENABLE_INTENSIVE_COMPUTATION_SCENARIO == true]; then
-    kubectl apply -f $K8S_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE_MICROSERVICES
-    kubectl set env deployment/uibackend T2_COMPUTATION_SIMULATOR_ENABLED=TRUE -n $NAMESPACE_MICROSERVICES
-    kubectl set env deployment/backend T2_COMPUTATION_SIMULATOR_ENABLED=TRUE -n $NAMESPACE_MONOLITH
+    kubectl apply -k $K8S_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE_MICROSERVICES
+    kubectl apply -k $K8S_DIR/t2-monolith/computation-simulation/ -n $NAMESPACE_MONOLITH
     kubectl apply -f $K8S_DIR/t2-microservices/autoscaling/ -l t2-scenario=intensive-computation -n $NAMESPACE_MICROSERVICES
 fi

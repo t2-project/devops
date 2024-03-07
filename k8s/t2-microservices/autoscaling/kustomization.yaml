@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- hpa_cart.yaml
+- hpa_computation-simulator.yaml
+- hpa_creditinstitute.yaml
+- hpa_inventory.yaml
+- hpa_orchestrator.yaml
+- hpa_order.yaml
+- hpa_payment.yaml
+- hpa_uibackend.yaml
