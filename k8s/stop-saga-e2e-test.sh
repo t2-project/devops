@@ -8,5 +8,5 @@ else
     NAMESPACE="default"
 fi
 
-kubectl delete -f $MY_DIR/saga-e2e-test/e2etest.yaml -n $NAMESPACE
+kubectl delete -k $MY_DIR/saga-e2e-test/e2etest.yaml -n $NAMESPACE
 source $MY_DIR/stop-microservices.sh -n $NAMESPACE

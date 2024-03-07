@@ -19,7 +19,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 helm install mongo -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE
 
-kubectl apply -f $MY_DIR/t2-monolith/ -n $NAMESPACE
+kubectl apply -k $MY_DIR/t2-monolith/base/ -n $NAMESPACE
 
 # Optional: Autoscaling
 # kubectl apply -f $MY_DIR/t2-monolith/autoscaling/ -n $NAMESPACE

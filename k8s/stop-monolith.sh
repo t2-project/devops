@@ -8,7 +8,7 @@ else
     NAMESPACE="default"
 fi
 
-kubectl delete -f $MY_DIR/t2-monolith/ -n $NAMESPACE
+kubectl delete -f $MY_DIR/t2-monolith/base/ -n $NAMESPACE
 
 helm uninstall mongo -n $NAMESPACE
 

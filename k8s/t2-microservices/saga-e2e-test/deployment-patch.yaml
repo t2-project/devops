@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+# Specifies a Kubernetes deployment object
+kind: Deployment 
+metadata:
+  name: payment
+spec:
+  # Specifies four instances of the Apache HTTP Server that should be created
+  replicas: 2
+  

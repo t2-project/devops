@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+spec:
+  template:
+    spec:
+      containers:
+        - name: payment
+          env:
+            - name: T2_PAYMENT_PROVIDER_DUMMY_URL
+              value: http://e2etest/fakepay

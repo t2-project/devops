@@ -12,10 +12,10 @@ For more information read the [https://t2-documentation.readthedocs.io/en/latest
 | [load-balancer/](./load-balancer/) | K8s manifests for load balancing |
 | [mongodb/](./mongodb/) | Helm values for MongoDB |
 | [saga-e2e-test/](./saga-e2e-test/) | K8s manifests for the e2e test scenario |
-| [t2-microservices/](./t2-microservices/) | K8s manifests for microservices |
+| [t2-microservices/base/](./t2-microservices/) | K8s manifests for microservices |
 | [t2-microservices/autoscaling/](./t2-microservices/autoscaling/) | Enable auto-scaling for t2-microservices |
 | [t2-microservices/computation-simulation/](./t2-microservices/computation-simulation/) | Add optional intensive computation simulator |
-| [t2-monolith/](./t2-monolith/) | K8s manifests for t2-monolith |
+| [t2-monolith/base/](./t2-monolith/) | K8s manifests for t2-monolith |
 | [t2-monolith/autoscaling/](./t2-monolith/autoscaling/) | Enable auto-scaling for t2-monolith backend |
 | [start-microservices.sh](./start-microservices.sh) | Script to deploy t2-microservices |
 | [start-monolith.sh](./start-monolith.sh) | Script to deploy t2-monolith |

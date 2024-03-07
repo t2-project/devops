@@ -21,10 +21,10 @@ helm install mongo-cart -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n 
 helm install mongo-order -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE
 helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=3 -n $NAMESPACE
 
-kubectl apply -f $MY_DIR/t2-microservices/ -n $NAMESPACE
+kubectl apply -k $MY_DIR/t2-microservices/base/ -n $NAMESPACE
 
 # Optional: Autoscaling
 # kubectl apply -f $MY_DIR/t2-microservices/autoscaling/ -n $NAMESPACE
 
 # Optional: Computation Simulator
-# kubectl apply -f $MY_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE
+# kubectl apply -k $MY_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE

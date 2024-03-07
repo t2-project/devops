@@ -9,4 +9,4 @@ else
 fi
 
 source $MY_DIR/start-microservices.sh $NAMESPACE
-kubectl apply -f $MY_DIR/saga-e2e-test/ -n $NAMESPACE
+kubectl apply -k $MY_DIR/t2-microservices/saga-e2e-test/ -n $NAMESPACE
