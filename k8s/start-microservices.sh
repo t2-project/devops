@@ -19,7 +19,7 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 helm install mongo-cart -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE
 helm install mongo-order -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE
-helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=3 -n $NAMESPACE
+helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=1 -n $NAMESPACE
 
 kubectl apply -k $MY_DIR/t2-microservices/base/ -n $NAMESPACE
 
