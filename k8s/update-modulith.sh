@@ -10,4 +10,4 @@ fi
 
 helm upgrade mongo -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE
 
-kubectl apply -k $MY_DIR/t2-monolith/base/ -n $NAMESPACE
+kubectl apply -k $MY_DIR/t2-modulith/base/ -n $NAMESPACE

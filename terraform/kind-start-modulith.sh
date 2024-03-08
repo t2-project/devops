@@ -20,4 +20,4 @@ fi
 $MY_DIR/kind-start.sh
 
 # Install T2-Project
-$K8S_DIR/start-monolith.sh $T2_NAMESPACE
+$K8S_DIR/start-modulith.sh $T2_NAMESPACE

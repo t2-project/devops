@@ -1,6 +1,6 @@
 # DevOps
 
-This repository includes all the files that are relevant to deploy, test and operate the T2-Project, for both variants, microservices and monolith.
+This repository includes all the files that are relevant to deploy, test and operate the T2-Project, for both variants, T2-Microservices and T2-Modulith.
 
 For more information read the [documentation](https://t2-documentation.readthedocs.io/en/latest/).
 

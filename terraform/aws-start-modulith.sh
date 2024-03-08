@@ -20,4 +20,4 @@ fi
 $MY_DIR/aws-start.sh
 
 # Install T2-Project
-$K8S_DIR/start-monolith.sh $NAMESPACE_MODULITH
+$K8S_DIR/start-modulith.sh $NAMESPACE_MODULITH

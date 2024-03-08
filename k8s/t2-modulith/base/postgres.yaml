@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/instance: postgres
     app.kubernetes.io/component: database
     app.kubernetes.io/version: 12.16-bullseye
-    app.kubernetes.io/part-of: t2-monolith
+    app.kubernetes.io/part-of: t2-modulith
   name: postgres
 spec:
   ports:
@@ -15,7 +15,7 @@ spec:
   clusterIP: None
   selector:
     app.kubernetes.io/instance: postgres
-    app.kubernetes.io/part-of: t2-monolith
+    app.kubernetes.io/part-of: t2-modulith
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -25,7 +25,7 @@ metadata:
     app.kubernetes.io/instance: postgres
     app.kubernetes.io/component: database
     app.kubernetes.io/version: 12.16-bullseye
-    app.kubernetes.io/part-of: t2-monolith
+    app.kubernetes.io/part-of: t2-modulith
   name: postgres
 spec:
   serviceName: postgres
@@ -33,7 +33,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/instance: postgres
-      app.kubernetes.io/part-of: t2-monolith
+      app.kubernetes.io/part-of: t2-modulith
   template:
     metadata:
       labels:
@@ -41,7 +41,7 @@ spec:
         app.kubernetes.io/instance: postgres
         app.kubernetes.io/component: database
         app.kubernetes.io/version: 12.16-bullseye
-        app.kubernetes.io/part-of: t2-monolith
+        app.kubernetes.io/part-of: t2-modulith
     spec:
       containers:
         - name: postgres

@@ -9,10 +9,10 @@ cd $MY_DIR
 # Use optional argument as the namespace for the T2-Project
 if [ $# -gt 0 ]; then
     NAMESPACE_MICROSERVICES=$1
-    NAMESPACE_MONOLITH=$2
+    NAMESPACE_MODULITH=$2
 else
     NAMESPACE_MICROSERVICES="default"
-    NAMESPACE_MONOLITH="default"
+    NAMESPACE_MODULITH="default"
 fi
 
 # Check if the current cluster is an EKS cluster
@@ -25,15 +25,15 @@ fi
 # Delete load balancers
 kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-uibackend.yaml -n $NAMESPACE_MICROSERVICES
-kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-monolith-backend.yaml -n $NAMESPACE_MONOLITH
+kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-modulith-backend.yaml -n $NAMESPACE_MODULITH
 
 # Uninstall T2-Microservices
 kubectl delete -k $K8S_DIR/t2-microservices/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MICROSERVICES
 $K8S_DIR/stop-microservices.sh $NAMESPACE_MICROSERVICES
 
 # Uninstall T2-Modulith
-kubectl delete -k $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MONOLITH
-$K8S_DIR/stop-monolith.sh $NAMESPACE_MONOLITH
+kubectl delete -k $MY_DIR/t2-modulith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MODULITH
+$K8S_DIR/stop-modulith.sh $NAMESPACE_MODULITH
 
 # Delete cluster
 $MY_DIR/aws-stop.sh

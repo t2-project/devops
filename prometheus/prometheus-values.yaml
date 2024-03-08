@@ -19,7 +19,7 @@ prometheus:
           - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
             action: keep
             regex: true
-          # Relabel to scrape only services that are part of the t2-microservices / t2-monolith
+          # Relabel to scrape only services that are part of the t2-microservices / t2-modulith
           - source_labels: [__meta_kubernetes_service_label_app_kubernetes_io_part_of]
             action: keep
             regex: t2.+

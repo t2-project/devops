@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAMESPACE_MICROSERVICES=t2-microservices
-NAMESPACE_MONOLITH=t2-monolith
+NAMESPACE_MODULITH=t2-modulith
 ENABLE_INTENSIVE_COMPUTATION_SCENARIO=false
 
 # Exit immediately if a command returns an error code
@@ -38,10 +38,10 @@ $TERRAFORM_DIR/aws-start.sh
 ##################
 
 # $K8S_DIR/start-microservices.sh $NAMESPACE_MICROSERVICES
-# $K8S_DIR/start-monolith.sh $NAMESPACE_MONOLITH
+# $K8S_DIR/start-modulith.sh $NAMESPACE_MODULITH
 
 kubectl create namespace $NAMESPACE_MICROSERVICES --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace $NAMESPACE_MONOLITH --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace $NAMESPACE_MODULITH --dry-run=client -o yaml | kubectl apply -f -
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
@@ -50,22 +50,22 @@ helm install mongo-cart -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n 
 helm install mongo-order -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
 helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=3 -n $NAMESPACE_MICROSERVICES
 
-helm install mongo -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MONOLITH
+helm install mongo -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MODULITH
 
 kubectl apply -k $MY_DIR/t2-microservices/ -n $NAMESPACE_MICROSERVICES
-kubectl apply -k $MY_DIR/t2-monolith/ -n $NAMESPACE_MICROSERVICES
+kubectl apply -k $MY_DIR/t2-modulith/ -n $NAMESPACE_MICROSERVICES
 
 ##################
 # LOAD BALANCERS #
 ##################
 
-# Use AWS Load Balancers to expose Grafana, UIBackend (microservice) and Backend (monolith)
+# Use AWS Load Balancers to expose Grafana, UIBackend (microservice) and Backend (modulith)
 # We expose Grafana because there are issues with Grafana and port-forward.
 # We expose UIBackend and Backend because port-forward does no load-balancing (it just picks one pod).
 
 kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-uibackend.yaml -n $NAMESPACE_MICROSERVICES
-kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-monolith-backend.yaml -n $NAMESPACE_MONOLITH
+kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-modulith-backend.yaml -n $NAMESPACE_MODULITH
 
 until kubectl get service/prometheus-grafana-nlb -n monitoring --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
 GRAFANA_HOSTNAME=$(kubectl get service/prometheus-grafana-nlb -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
@@ -75,9 +75,9 @@ until kubectl get service/uibackend-nlb -n $NAMESPACE_MICROSERVICES --output=jso
 export UIBACKEND_HOSTNAME=$(kubectl get service/uibackend-nlb -n $NAMESPACE_MICROSERVICES -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 echo -e "\nUIBackend URL: http://${UIBACKEND_HOSTNAME}\n"
 
-until kubectl get service/backend-nlb -n $NAMESPACE_MONOLITH --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
-export MONOLITH_BACKEND_HOSTNAME=$(kubectl get service/backend-nlb -n $NAMESPACE_MONOLITH -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-echo -e "\nMonolith Backend URL: http://${MONOLITH_BACKEND_HOSTNAME}\n"
+until kubectl get service/backend-nlb -n $NAMESPACE_MODULITH --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
+export MODULITH_BACKEND_HOSTNAME=$(kubectl get service/backend-nlb -n $NAMESPACE_MODULITH -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+echo -e "\Modulith Backend URL: http://${MODULITH_BACKEND_HOSTNAME}\n"
 
 ###############
 # AUTOSCALING #
@@ -87,8 +87,8 @@ echo -e "\nMonolith Backend URL: http://${MONOLITH_BACKEND_HOSTNAME}\n"
 kubectl wait pods -n $NAMESPACE_MICROSERVICES -l app.kubernetes.io/component=backend --for condition=Ready --timeout=60s
 kubectl apply -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MICROSERVICES
 
-kubectl wait pods -n $NAMESPACE_MONOLITH -l app.kubernetes.io/component=backend --for condition=Ready --timeout=60s
-kubectl apply -k $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MONOLITH
+kubectl wait pods -n $NAMESPACE_MODULITH -l app.kubernetes.io/component=backend --for condition=Ready --timeout=60s
+kubectl apply -k $MY_DIR/t2-modulith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MODULITH
 
 #########################
 # COMPUTATION SIMULATOR #
@@ -96,6 +96,6 @@ kubectl apply -k $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NA
 
 if [ $ENABLE_INTENSIVE_COMPUTATION_SCENARIO == true]; then
     kubectl apply -k $K8S_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE_MICROSERVICES
-    kubectl apply -k $K8S_DIR/t2-monolith/computation-simulation/ -n $NAMESPACE_MONOLITH
+    kubectl apply -k $K8S_DIR/t2-modulith/computation-simulation/ -n $NAMESPACE_MODULITH
     kubectl apply -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=intensive-computation -n $NAMESPACE_MICROSERVICES
 fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAMESPACE_MICROSERVICES=t2-microservices
-NAMESPACE_MONOLITH=t2-monolith
+NAMESPACE_MODULITH=t2-modulith
 
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 TERRAFORM_DIR=$(builtin cd $MY_DIR/../../terraform; pwd)
@@ -33,7 +33,7 @@ fi
 # Delete load balancers
 kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-uibackend.yaml -n $NAMESPACE_MICROSERVICES
-kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-monolith-backend.yaml -n $NAMESPACE_MONOLITH
+kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-modulith-backend.yaml -n $NAMESPACE_MODULITH
 
 # Uninstall T2-Microservices
 kubectl delete -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MICROSERVICES
@@ -44,10 +44,10 @@ helm uninstall kafka -n $NAMESPACE_MICROSERVICES
 kubectl delete namespace $NAMESPACE_MICROSERVICES
 
 # Uninstall T2-Modulith
-kubectl delete -k $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MONOLITH
-kubectl delete -k $MY_DIR/t2-monolith/ -n $NAMESPACE_MONOLITH
-helm uninstall mongo -n $NAMESPACE_MONOLITH
-kubectl delete namespace $NAMESPACE_MONOLITH
+kubectl delete -k $MY_DIR/t2-modulith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MODULITH
+kubectl delete -k $MY_DIR/t2-modulith/ -n $NAMESPACE_MODULITH
+helm uninstall mongo -n $NAMESPACE_MODULITH
+kubectl delete namespace $NAMESPACE_MODULITH
 
 # Delete cluster with Terraform
 $TERRAFORM_DIR/aws-stop.sh

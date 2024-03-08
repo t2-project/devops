@@ -9,10 +9,10 @@ cd $MY_DIR
 # Use optional argument as the namespace for the T2-Project
 if [ $# -gt 0 ]; then
     NAMESPACE_MICROSERVICES=$1
-    NAMESPACE_MONOLITH=$2
+    NAMESPACE_MODULITH=$2
 else
     NAMESPACE_MICROSERVICES="default"
-    NAMESPACE_MONOLITH="default"
+    NAMESPACE_MODULITH="default"
 fi
 
 # Check if the cluster is a "kind" cluster
@@ -26,7 +26,7 @@ fi
 $K8S_DIR/stop-microservices.sh $NAMESPACE_MICROSERVICES
 
 # Uninstall T2-Modulith
-$K8S_DIR/stop-monolith.sh $NAMESPACE_MONOLITH
+$K8S_DIR/stop-modulith.sh $NAMESPACE_MODULITH
 
 # Delete kind cluster
 $MY_DIR/kind-stop.sh

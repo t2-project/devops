@@ -14,4 +14,4 @@ spec:
       name: http
   selector:
     app.kubernetes.io/instance: backend
-    app.kubernetes.io/part-of: t2-monolith
+    app.kubernetes.io/part-of: t2-modulith
