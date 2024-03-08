@@ -32,7 +32,7 @@ kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-grafana.yaml
 kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-uibackend.yaml -n $T2_NAMESPACE
 
 # Uninstall T2-Project
-kubectl delete -f $K8S_DIR/autoscaling/ -l t2-scenario=standard -n $T2_NAMESPACE
+kubectl delete -k $K8S_DIR/t2-microservices/autoscaling/ -l t2-scenario=standard -n $T2_NAMESPACE
 source $K8S_DIR/stop-microservices.sh $T2_NAMESPACE
 
 # Delete cluster with Terraform

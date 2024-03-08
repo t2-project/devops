@@ -63,10 +63,10 @@ echo -e "\nMonolith Backend URL: http://${MONOLITH_BACKEND_HOSTNAME}\n"
 
 # Wait until every backend app is ready to avoid unnecessary scaling during boot
 kubectl wait pods -n $NAMESPACE_MICROSERVICES -l app.kubernetes.io/component=backend --for condition=Ready --timeout=60s
-kubectl apply -f $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MICROSERVICES
+kubectl apply -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MICROSERVICES
 
 kubectl wait pods -n $NAMESPACE_MONOLITH -l app.kubernetes.io/component=backend --for condition=Ready --timeout=60s
-kubectl apply -f $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MONOLITH
+kubectl apply -k $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MONOLITH
 
 #########################
 # COMPUTATION SIMULATOR #
@@ -75,5 +75,5 @@ kubectl apply -f $MY_DIR/t2-monolith/autoscaling/ -l t2-scenario=standard -n $NA
 if [ $ENABLE_INTENSIVE_COMPUTATION_SCENARIO == true]; then
     kubectl apply -k $K8S_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE_MICROSERVICES
     kubectl apply -k $K8S_DIR/t2-monolith/computation-simulation/ -n $NAMESPACE_MONOLITH
-    kubectl apply -f $K8S_DIR/t2-microservices/autoscaling/ -l t2-scenario=intensive-computation -n $NAMESPACE_MICROSERVICES
+    kubectl apply -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=intensive-computation -n $NAMESPACE_MICROSERVICES
 fi

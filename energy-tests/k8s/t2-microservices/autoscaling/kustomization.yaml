@@ -3,6 +3,6 @@ kind: Kustomization
 bases:
   - ../../../../k8s/t2-microservices/autoscaling/
 patches:
-- patch: update_hpa.yaml
-  target:
-    kind: HorizontalPodAutoscaler
+  - target:
+      kind: HorizontalPodAutoscaler
+    path: update_hpa.yaml

@@ -3,15 +3,7 @@ kind: Kustomization
 bases:
   - ../../../k8s/t2-monolith/base/
 patches:
-- target:
-    kind: Deployment
-  patch: |- 
-    - op: replace
-      path: /spec/template/spec/containers/0/resources
-      value:
-        limits:
-          cpu: 500m
-          memory: 500Mi
-        requests:
-          cpu: 500m
-          memory: 250Mi
+  - path: resource_limits.yaml
+    target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/part-of=t2-monolith

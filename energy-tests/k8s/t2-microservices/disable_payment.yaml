@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+spec:
+  template:
+    spec:
+      containers:
+        - name: payment
+          env:
+            - name: T2_PAYMENT_PROVIDER_ENABLED
+              value: "FALSE"
+---
+$patch: delete
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: creditinstitute
+---
+$patch: delete
+apiVersion: v1
+kind: Service
+metadata:
+  name: creditinstitute
