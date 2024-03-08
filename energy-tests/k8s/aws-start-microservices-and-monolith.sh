@@ -20,6 +20,13 @@ if [ ! -d "$K8S_DIR" ]; then
     exit 1
 fi
 
+# Ensure that you are logged-in
+if ! aws sts get-caller-identity &> /dev/null
+then
+  echo "You have to login first!"
+  exit 1
+fi
+
 ###############
 # EKS Cluster #
 ###############

@@ -11,13 +11,13 @@ cd $MY_DIR
 
 # Use optional argument as the namespace for the T2-Project
 if [ $# -gt 0 ]; then
-    T2_NAMESPACE=$1
+    NAMESPACE_MODULITH=$1
 else
-    T2_NAMESPACE="default"
+    NAMESPACE_MODULITH="default"
 fi
 
 # Create cluster
-source ./kind-start.sh
+$MY_DIR/aws-start.sh
 
 # Install T2-Project
-source $K8S_DIR/start-microservices.sh $T2_NAMESPACE
+$K8S_DIR/start-monolith.sh $NAMESPACE_MODULITH

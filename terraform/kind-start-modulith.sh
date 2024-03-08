@@ -17,7 +17,7 @@ else
 fi
 
 # Create cluster
-source ./azure-start.sh
+$MY_DIR/kind-start.sh
 
 # Install T2-Project
-source $K8S_DIR/start-microservices.sh $T2_NAMESPACE
+$K8S_DIR/start-monolith.sh $T2_NAMESPACE
