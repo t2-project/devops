@@ -30,8 +30,23 @@ $TERRAFORM_DIR/aws-start.sh
 # T2 DEPLOYMENTS #
 ##################
 
-$K8S_DIR/start-microservices.sh $NAMESPACE_MICROSERVICES
-$K8S_DIR/start-monolith.sh $NAMESPACE_MONOLITH
+# $K8S_DIR/start-microservices.sh $NAMESPACE_MICROSERVICES
+# $K8S_DIR/start-monolith.sh $NAMESPACE_MONOLITH
+
+kubectl create namespace $NAMESPACE_MICROSERVICES --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace $NAMESPACE_MONOLITH --dry-run=client -o yaml | kubectl apply -f -
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+helm install mongo-cart -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
+helm install mongo-order -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
+helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=3 -n $NAMESPACE_MICROSERVICES
+
+helm install mongo -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MONOLITH
+
+kubectl apply -k $MY_DIR/t2-microservices/ -n $NAMESPACE_MICROSERVICES
+kubectl apply -k $MY_DIR/t2-monolith/ -n $NAMESPACE_MICROSERVICES
 
 ##################
 # LOAD BALANCERS #
