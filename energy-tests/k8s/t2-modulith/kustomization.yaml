@@ -7,3 +7,6 @@ patches:
     target:
       kind: Deployment
       labelSelector: app.kubernetes.io/part-of=t2-modulith
+patchesStrategicMerge:
+  - disable_payment.yaml
+  - set_inventory_size.yaml
