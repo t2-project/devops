@@ -11,6 +11,11 @@ resource "helm_release" "kepler" {
   }
 
   set {
+    name  = "serviceMonitor.namespace"
+    value = var.namespace
+  }
+
+  set {
     name  = "serviceMonitor.labels.release"
     value = "kube-prometheus-stack"
   }
