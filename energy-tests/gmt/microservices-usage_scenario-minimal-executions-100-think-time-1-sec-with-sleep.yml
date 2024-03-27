@@ -1,7 +1,7 @@
 ---
-name: T2-Microservices (Minimal Scenario with JMeter - 100 executions, with sleep)
+name: T2-Microservices (Minimal Scenario with JMeter - 100 executions, 1 sec think time, 60 sec sleep)
 author: David Kopp
-description: Testing different number of executions. Sleep at the end to wait for all async operations. Logging is enabled. One user checks out the inventory, adds one random product to cart and finally confirms the order.
+description: Testing different number of executions. Logging is enabled. One user checks out the inventory, adds one random product to cart and finally confirms the order. Sleep phase after the executions to see and measure the asynchronous operations that happen due to saga.
 
 compose-file: !include microservices-compose.yml
 
@@ -31,7 +31,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false
