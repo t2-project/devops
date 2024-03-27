@@ -8,8 +8,6 @@ services:
   ### Databases ###
   postgres-orchestrator:
     image: t2project/eventuate-tram-sagas-postgres:0.23.0.RELEASE-fixed # see PR https://github.com/eventuate-foundation/eventuate-common/pull/135
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: eventuate
       POSTGRES_PASSWORD: eventuate
@@ -21,8 +19,6 @@ services:
 
   postgres-inventory:
     image: t2project/eventuate-tram-sagas-postgres:0.23.0.RELEASE-fixed # see PR https://github.com/eventuate-foundation/eventuate-common/pull/135
-    ports:
-      - "5433:5432"
     environment:
       POSTGRES_USER: inventory
       POSTGRES_PASSWORD: inventory
@@ -34,14 +30,14 @@ services:
 
   mongo-cart:
     image: bitnami/mongodb:7.0
-    ports:
+    expose:
       - "27017"
     networks:
       - t2-network
 
   mongo-order:
     image: bitnami/mongodb:7.0
-    ports:
+    expose:
       - "27017"
     networks:
       - t2-network
@@ -76,8 +72,8 @@ services:
 
   cdcservice:
     image: eventuateio/eventuate-cdc-service:0.16.0.RELEASE
-    ports:
-      - "8099:8080"
+    expose:
+      - "8080"
     depends_on:
       - postgres-orchestrator
       - postgres-inventory
