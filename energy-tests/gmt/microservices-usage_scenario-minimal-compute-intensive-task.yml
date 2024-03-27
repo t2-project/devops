@@ -1,11 +1,19 @@
 ---
-name: T2-Microservices (Minimal Scenario with JMeter, compute intensive task)
+name: T2-Microservices (Minimal Scenario with JMeter, simulate compute intensive task)
 author: David Kopp
-description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, a compute intensive calculation method gets used to calculate the order total.
+description: Scenario to simulate a compute intensive task. Each time an order is confirmed, a compute intensive task is executed that takes a few seconds (depending on the configuration and machine).
 
 compose-file: !include microservices-compose.yml
 
 services:
+  computation-simulator:
+    image: t2project/computation-simulator:main
+    expose:
+      - "8080"
+    environment:
+      T2_COMPUTATION_SIMULATOR_PI_TOTAL_POINTS: 50000000 # requires a few seconds
+    setup-commands:
+      - sleep 15 # wait some time to ensure that the computation-simulator is ready
   orchestrator:
     log-stdout: true
     read-notes-stdout: true
@@ -22,10 +30,11 @@ services:
     setup-commands:
       - sleep 10 # wait some time to ensure that kafka is ready
   uibackend:
-    environment:
-      T2_COMPUTATION_SIMULATOR_ENABLED: true
     setup-commands:
       - sleep 60 # wait some time to ensure that all T2 service are ready before starting the flow
+    environment:
+      T2_COMPUTATION_SIMULATOR_ENABLED: "TRUE"
+      T2_COMPUTATION_SIMULATOR_URL: http://computation-simulator:8080/
 
 sci:
   R_d: order
@@ -36,7 +45,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=5000 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false

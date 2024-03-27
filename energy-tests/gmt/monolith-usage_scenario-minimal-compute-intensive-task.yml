@@ -1,19 +1,28 @@
 ---
-name: T2-Modulith (Minimal Scenario with JMeter, compute intensive task)
+name: T2-Modulith (Minimal Scenario with JMeter, simulate compute intensive task)
 author: David Kopp
-description: One user checks out the inventory, adds one random product to cart and finally confirms the order. In this base scenario, a compute intensive calculation method gets used to calculate the order total.
+description: Scenario to simulate a compute intensive task. Each time an order is confirmed, a compute intensive task is executed that takes a few seconds (depending on the configuration and machine).
 
 compose-file: !include monolith-compose.yml
 
 services:
+  computation-simulator:
+    image: t2project/computation-simulator:main
+    expose:
+      - "8080"
+    environment:
+      T2_COMPUTATION_SIMULATOR_PI_TOTAL_POINTS: 50000000 # requires a few seconds
+    setup-commands:
+      - sleep 15 # wait some time to ensure that the computation-simulator is ready
   postgres:
     setup-commands:
       - sleep 5 # wait some time to ensure that the database is ready
   backend:
-    environment:
-      T2_COMPUTATION_SIMULATOR_ENABLED: true
     setup-commands:
       - sleep 10 # wait some time to ensure that the backend is ready
+    environment:
+      T2_COMPUTATION_SIMULATOR_ENABLED: "TRUE"
+      T2_COMPUTATION_SIMULATOR_URL: http://computation-simulator:8080/
 
 sci:
   R_d: order
