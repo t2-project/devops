@@ -136,9 +136,9 @@ services:
       T2_INVENTORY_TASKRATE: "0"
       T2_INVENTORY_TTL: "0"
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
-      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_PASSWORD: inventory
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-inventory/inventory
-      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_USERNAME: inventory
       SPRING_PROFILES_ACTIVE: saga
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
