@@ -6,7 +6,7 @@ networks:
 services:
 
   ### Databases ###
-  postgres-orchestrator:
+  postgres:
     image: t2project/eventuate-tram-sagas-postgres:0.23.0.RELEASE-fixed # see PR https://github.com/eventuate-foundation/eventuate-common/pull/135
     environment:
       POSTGRES_USER: eventuate
@@ -17,25 +17,7 @@ services:
     networks:
       - t2-network
 
-  postgres-inventory:
-    image: t2project/eventuate-tram-sagas-postgres:0.23.0.RELEASE-fixed # see PR https://github.com/eventuate-foundation/eventuate-common/pull/135
-    environment:
-      POSTGRES_USER: inventory
-      POSTGRES_PASSWORD: inventory
-      USE_DB_ID: "true"
-    expose:
-      - "5432"
-    networks:
-      - t2-network
-
-  mongo-cart:
-    image: bitnami/mongodb:7.0
-    expose:
-      - "27017"
-    networks:
-      - t2-network
-
-  mongo-order:
+  mongo:
     image: bitnami/mongodb:7.0
     expose:
       - "27017"
@@ -75,32 +57,23 @@ services:
     expose:
       - "8080"
     depends_on:
-      - postgres-orchestrator
-      - postgres-inventory
+      - postgres
       - kafka
       - zookeeper
     environment:
-      JAVA_OPTS: -Xmx64m
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
+      SPRING_DATASOURCE_USERNAME: eventuate
+      SPRING_DATASOURCE_PASSWORD: eventuate
+      SPRING_DATASOURCE_TEST_ON_BORROW: "true"
+      SPRING_DATASOURCE_VALIDATION_QUERY: SELECT 1
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      EVENTUATE_CDC_PIPELINE_PIPELINE1_TYPE: eventuate-tram
-      EVENTUATE_CDC_PIPELINE_PIPELINE1_READER: reader1
-      EVENTUATE_CDC_PIPELINE_PIPELINE2_TYPE: eventuate-tram
-      EVENTUATE_CDC_PIPELINE_PIPELINE2_READER: reader2
-      EVENTUATE_CDC_READER_READER1_TYPE: postgres-wal
-      EVENTUATE_CDC_READER_READER1_DATASOURCEURL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
-      EVENTUATE_CDC_READER_READER1_DATASOURCEUSERNAME: eventuate
-      EVENTUATE_CDC_READER_READER1_DATASOURCEPASSWORD: eventuate
-      EVENTUATE_CDC_READER_READER1_DATASOURCEDRIVERCLASSNAME: org.postgresql.Driver
-      EVENTUATE_CDC_READER_READER1_LEADERSHIPLOCKPATH: /eventuate/cdc/leader/orchestrator
-      EVENTUATE_CDC_READER_READER1_OUTBOXID: 1
-      EVENTUATE_CDC_READER_READER2_TYPE: postgres-wal
-      EVENTUATE_CDC_READER_READER2_DATASOURCEURL: jdbc:postgresql://postgres-inventory:5432/inventory
-      EVENTUATE_CDC_READER_READER2_DATASOURCEUSERNAME: inventory
-      EVENTUATE_CDC_READER_READER2_DATASOURCEPASSWORD: inventory
-      EVENTUATE_CDC_READER_READER2_DATASOURCEDRIVERCLASSNAME: org.postgresql.Driver
-      EVENTUATE_CDC_READER_READER2_LEADERSHIPLOCKPATH: /eventuate/cdc/leader/inventory_service
-      EVENTUATE_CDC_READER_READER2_OUTBOXID: 2
+      EVENTUATELOCAL_CDC_READER_NAME: PostgresPollingReader
+      SPRING_PROFILES_ACTIVE: EventuatePolling # alternative: PostgresWal
+      EVENTUATELOCAL_CDC_POLLING_INTERVAL_IN_MILLISECONDS: 500 # default: 500
+      EVENTUATE_OUTBOX_ID: 1
+      JAVA_OPTS: -Xmx64m
     networks:
       - t2-network
 
@@ -110,9 +83,9 @@ services:
     expose:
       - "8080"
     depends_on:
-      - mongo-cart
+      - mongo
     environment:
-      MONGO_HOST: mongo-cart
+      MONGO_HOST: mongo
       T2_CART_TTL: "0"
       T2_CART_TASKRATE: "0"
       T2_JAEGER_ENABLED: "FALSE"
@@ -126,7 +99,7 @@ services:
       - "8080"
     depends_on:
       - cdcservice
-      - postgres-inventory
+      - postgres
       - kafka
       - zookeeper
     environment:
@@ -137,7 +110,7 @@ services:
       T2_INVENTORY_TTL: "0"
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       SPRING_DATASOURCE_PASSWORD: eventuate
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-inventory/inventory
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_PROFILES_ACTIVE: saga
       T2_JAEGER_ENABLED: "FALSE"
@@ -151,11 +124,11 @@ services:
       - "8080"
     depends_on:
       - cdcservice
-      - postgres-orchestrator
+      - postgres
       - kafka
       - zookeeper
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_DATASOURCE_PASSWORD: eventuate
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
@@ -171,19 +144,19 @@ services:
     expose:
       - "8080"
     depends_on:
-      - mongo-order
+      - mongo
       - cdcservice
-      - postgres-orchestrator
+      - postgres
       - kafka
       - zookeeper
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_DATASOURCE_PASSWORD: eventuate
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
-      MONGO_HOST: mongo-order
+      MONGO_HOST: mongo
       T2_JAEGER_ENABLED: "FALSE"
       T2_JAEGER_HOST: localhost
     networks:
@@ -195,14 +168,14 @@ services:
       - "8080"
     depends_on:
       - cdcservice
-      - postgres-orchestrator
+      - postgres
       - kafka
       - zookeeper
     environment:
       T2_PAYMENT_PROVIDER_ENABLED: "FALSE"
       T2_PAYMENT_PROVIDER_DUMMY_URL: http://dummy:8080/pay
       T2_PAYMENT_PROVIDER_TIMEOUT: 5
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
       SPRING_DATASOURCE_PASSWORD: eventuate
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver

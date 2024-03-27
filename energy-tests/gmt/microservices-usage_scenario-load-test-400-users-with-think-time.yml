@@ -6,10 +6,7 @@ description: Load test with 400 users in parallel. Each user checks out the inve
 compose-file: !include microservices-compose.yml
 
 services:
-  postgres-orchestrator:
-    setup-commands:
-      - sleep 5 # wait some time to ensure that postgres is ready
-  postgres-inventory:
+  postgres:
     setup-commands:
       - sleep 5 # wait some time to ensure that postgres is ready
   kafka:
