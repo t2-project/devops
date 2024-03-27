@@ -6,12 +6,20 @@ description: Logging is enabled for all relevant containers
 compose-file: !include microservices-compose.yml
 
 services:
-  postgres:
+  postgres-inventory:
     log-stdout: true
     log-stderr: true
     setup-commands:
       - sleep 5
-  mongo:
+  postgres-orchestrator:
+    log-stdout: true
+    log-stderr: true
+    setup-commands:
+      - sleep 5
+  mongo-cart:
+    log-stdout: true
+    log-stderr: true
+  mongo-order:
     log-stdout: true
     log-stderr: true
   kafka:

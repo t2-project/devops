@@ -6,7 +6,10 @@ description: Testing different number of executions. Sleep after each flow to wa
 compose-file: !include microservices-compose.yml
 
 services:
-  postgres:
+  postgres-orchestrator:
+    setup-commands:
+      - sleep 5 # wait some time to ensure that postgres is ready
+  postgres-inventory:
     setup-commands:
       - sleep 5 # wait some time to ensure that postgres is ready
   kafka:
