@@ -1,5 +1,5 @@
 ---
-name: T2-Microservices (Minimal Scenario with JMeter - 100 executions, with sleep)
+name: T2-Microservices (Minimal Scenario with JMeter - 100 executions, 60 sec sleep)
 author: David Kopp
 description: Testing different number of executions. Sleep at the end to wait for all async operations. Logging is enabled. One user checks out the inventory, adds one random product to cart and finally confirms the order.
 

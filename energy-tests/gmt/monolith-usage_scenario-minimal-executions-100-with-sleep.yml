@@ -1,7 +1,7 @@
 ---
-name: T2-Modulith (Minimal Scenario with JMeter - 100 executions, 1 sec think time, 60 sec sleep)
+name: T2-Modulith (Minimal Scenario with JMeter - 100 executions, 60 sec sleep)
 author: David Kopp
-description: Testing different number of executions. Logging is enabled.One user checks out the inventory, adds one random product to cart and finally confirms the order. Sleep phase after the executions to make a better comparison with the microservices system that has asynchronous operations.
+description: Testing different number of executions. One user checks out the inventory, adds one random product to cart and finally confirms the order. Sleep phase after the executions to have a better comparison with the microservices system that has asynchronous operations.
 
 compose-file: !include monolith-compose.yml
 
@@ -22,7 +22,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -JloggingSCIEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -JloggingSCIEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: true
