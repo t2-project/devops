@@ -68,7 +68,7 @@ spec:
             - name: T2_INVENTORY_TTL
               value: "0"
             - name: T2_PAYMENT_PROVIDER_ENABLED
-              value: "FALSE"
+              value: "TRUE"
             - name: T2_PAYMENT_PROVIDER_DUMMY_URL
               value: http://creditinstitute/pay
             - name: T2_PAYMENT_PROVIDER_TIMEOUT

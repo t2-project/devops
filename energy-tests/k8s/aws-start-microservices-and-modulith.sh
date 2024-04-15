@@ -46,14 +46,14 @@ kubectl create namespace $NAMESPACE_MODULITH --dry-run=client -o yaml | kubectl 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
-helm install mongo-cart -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
-helm install mongo-order -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
+helm install mongo-cart -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
+helm install mongo-order -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
 helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=3 -n $NAMESPACE_MICROSERVICES
 
-helm install mongo -f $MY_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MODULITH
+helm install mongo -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MODULITH
 
 kubectl apply -k $MY_DIR/t2-microservices/ -n $NAMESPACE_MICROSERVICES
-kubectl apply -k $MY_DIR/t2-modulith/ -n $NAMESPACE_MICROSERVICES
+kubectl apply -k $MY_DIR/t2-modulith/ -n $NAMESPACE_MODULITH
 
 ##################
 # LOAD BALANCERS #
