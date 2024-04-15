@@ -94,7 +94,7 @@ kubectl apply -k $MY_DIR/t2-modulith/autoscaling/ -l t2-scenario=standard -n $NA
 # COMPUTATION SIMULATOR #
 #########################
 
-if [ $ENABLE_INTENSIVE_COMPUTATION_SCENARIO == true]; then
+if [ $ENABLE_INTENSIVE_COMPUTATION_SCENARIO == true ]; then
     kubectl apply -k $K8S_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE_MICROSERVICES
     kubectl apply -k $K8S_DIR/t2-modulith/computation-simulation/ -n $NAMESPACE_MODULITH
     kubectl apply -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=intensive-computation -n $NAMESPACE_MICROSERVICES
