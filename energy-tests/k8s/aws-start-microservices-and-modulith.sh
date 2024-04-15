@@ -69,15 +69,12 @@ kubectl apply -f $K8S_DIR/load-balancer/aws-loadbalancer-modulith-backend.yaml -
 
 until kubectl get service/prometheus-grafana-nlb -n monitoring --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
 GRAFANA_HOSTNAME=$(kubectl get service/prometheus-grafana-nlb -n monitoring -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-echo -e "\nGrafana URL: http://${GRAFANA_HOSTNAME}\n"
 
 until kubectl get service/uibackend-nlb -n $NAMESPACE_MICROSERVICES --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
 export UIBACKEND_HOSTNAME=$(kubectl get service/uibackend-nlb -n $NAMESPACE_MICROSERVICES -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-echo -e "\nUIBackend URL: http://${UIBACKEND_HOSTNAME}\n"
 
 until kubectl get service/backend-nlb -n $NAMESPACE_MODULITH --output=jsonpath='{.status.loadBalancer}' | grep "ingress"; do : ; done
 export MODULITH_BACKEND_HOSTNAME=$(kubectl get service/backend-nlb -n $NAMESPACE_MODULITH -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-echo -e "\Modulith Backend URL: http://${MODULITH_BACKEND_HOSTNAME}\n"
 
 ###############
 # AUTOSCALING #
@@ -99,3 +96,16 @@ if [ $ENABLE_INTENSIVE_COMPUTATION_SCENARIO == true ]; then
     kubectl apply -k $K8S_DIR/t2-modulith/computation-simulation/ -n $NAMESPACE_MODULITH
     kubectl apply -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=intensive-computation -n $NAMESPACE_MICROSERVICES
 fi
+
+####################
+# URLs & HOSTNAMES #
+####################
+
+echo "---"
+
+echo -e "Grafana:\nhttp://${GRAFANA_HOSTNAME}\n"
+echo -e "T2-Microservices API:\nhttp://${UIBACKEND_HOSTNAME}/swagger-ui/index.html\n"
+echo -e "T2-Modulith API:\nhttp://${MODULITH_BACKEND_HOSTNAME}/swagger-ui/index.html\n"
+
+echo -e "UI Backend Hostname:\n${UIBACKEND_HOSTNAME}\n"
+echo -e "Modulith Hostname:\n${MODULITH_BACKEND_HOSTNAME}\n"
