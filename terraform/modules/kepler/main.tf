@@ -25,8 +25,20 @@ resource "helm_release" "kepler" {
     value = "kube-prometheus-stack"
   }
 
+  # Scrape interval determines how often Prometheus should scrape the metrics exposed by Kepler
+  set {
+    name  = "serviceMonitor.interval"
+    value = "5s" # default: 30s
+  }
+
   # --- Extra environment variables ---
   # For available extra environment variables see file https://github.com/sustainable-computing-io/kepler/blob/main/pkg/config/config.go
+
+  # sample period determines the time in seconds that Kepler will wait before reading the metrics again (default: 3)
+  set {
+    name  = "extraEnvVars.SAMPLE_PERIOD_SEC"
+    value = "1"
+  }
 
   # expose hardware counter metrics as prometheus metrics (default: true)
   set {
