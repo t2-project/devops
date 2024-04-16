@@ -48,7 +48,7 @@ helm repo update
 
 helm install mongo-cart -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
 helm install mongo-order -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
-helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=3 -n $NAMESPACE_MICROSERVICES
+helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=1 -n $NAMESPACE_MICROSERVICES
 
 helm install mongo -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MODULITH
 
