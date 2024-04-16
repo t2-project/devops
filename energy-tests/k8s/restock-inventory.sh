@@ -10,8 +10,8 @@ NAMESPACE_MICROSERVICES=t2-microservices
 NAMESPACE_MODULITH=t2-modulith
 
 # Modulith
-MODULITH_BACKEND_HOSTNAME=$(kubectl get service/backend-nlb -n $NAMESPACE_MODULITH -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-curl "http://${MODULITH_BACKEND_HOSTNAME}/restock"
+MODULITH_HOSTNAME=$(kubectl get service/backend-nlb -n $NAMESPACE_MODULITH -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+curl "http://${MODULITH_HOSTNAME}/restock"
 
 # Microservices
 # UIBackend has no restock endpoint yet, call inventory service manually

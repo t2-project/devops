@@ -33,5 +33,4 @@ legacy/
 **/*.describe*
 **/*.swp
 **/*local.*
-loadprofiles/results*
 login*.sh
