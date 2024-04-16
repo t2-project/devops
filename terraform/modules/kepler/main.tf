@@ -101,7 +101,8 @@ resource "kubernetes_config_map_v1" "kepler_grafana_dashboards" {
   }
 
   data = {
-    "Kepler-Exporter.json" = file("${abspath(path.module)}/dashboard/Kepler-Exporter.json")
+    "Default-Kepler-Dashboard.json"    = file("${abspath(path.module)}/dashboard/Default-Kepler-Dashboard.json"),
+    "T2-Project-Kepler-Dashboard.json" = file("${abspath(path.module)}/dashboard/T2-Project-Kepler-Dashboard.json")
   }
 
   depends_on = [helm_release.kepler]
