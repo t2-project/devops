@@ -1,0 +1,10 @@
+# Purpose: Same total resources than microservices
+- op: replace
+  path: /spec/template/spec/containers/0/resources
+  value:
+    limits:
+      cpu: 1.5
+      memory: 3Gi
+    requests:
+      cpu: 1.5
+      memory: 1.5Gi
