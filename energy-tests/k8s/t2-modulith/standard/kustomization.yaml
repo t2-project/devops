@@ -1,12 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 bases:
-  - ../../../k8s/t2-microservices/base/
+  - ../../../../k8s/t2-modulith/base/
 patches:
-  - path: resource_limits.yaml
+  - path: resource_limits_high.yaml
     target:
       kind: Deployment
-      labelSelector: app.kubernetes.io/part-of=t2-microservices
+      labelSelector: app.kubernetes.io/part-of=t2-modulith
 patchesStrategicMerge:
   - disable_payment.yaml
   - set_inventory_size.yaml

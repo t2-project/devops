@@ -52,8 +52,8 @@ helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=1 -n $NAMES
 
 helm install mongo -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MODULITH
 
-kubectl apply -k $MY_DIR/t2-microservices/ -n $NAMESPACE_MICROSERVICES
-kubectl apply -k $MY_DIR/t2-modulith/ -n $NAMESPACE_MODULITH
+kubectl apply -k $MY_DIR/t2-microservices/standard/ -n $NAMESPACE_MICROSERVICES
+kubectl apply -k $MY_DIR/t2-modulith/standard/ -n $NAMESPACE_MODULITH
 
 ##################
 # LOAD BALANCERS #
@@ -92,9 +92,7 @@ kubectl apply -k $MY_DIR/t2-modulith/autoscaling/ -l t2-scenario=standard -n $NA
 #########################
 
 if [ $ENABLE_INTENSIVE_COMPUTATION_SCENARIO == true ]; then
-    kubectl apply -k $K8S_DIR/t2-microservices/computation-simulation/ -n $NAMESPACE_MICROSERVICES
-    kubectl apply -k $K8S_DIR/t2-modulith/computation-simulation/ -n $NAMESPACE_MODULITH
-    kubectl apply -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=intensive-computation -n $NAMESPACE_MICROSERVICES
+    source $MY_DIR/enable-compute-intensive-scenario.sh
 fi
 
 ####################

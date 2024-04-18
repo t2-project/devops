@@ -37,7 +37,7 @@ kubectl delete -f $K8S_DIR/load-balancer/aws-loadbalancer-modulith-backend.yaml 
 
 # Uninstall T2-Microservices
 kubectl delete -k $MY_DIR/t2-microservices/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MICROSERVICES
-kubectl delete -k $MY_DIR/t2-microservices/ -n $NAMESPACE_MICROSERVICES
+kubectl delete -k $MY_DIR/t2-microservices/standard/ -n $NAMESPACE_MICROSERVICES
 helm uninstall mongo-cart -n $NAMESPACE_MICROSERVICES
 helm uninstall mongo-order -n $NAMESPACE_MICROSERVICES
 helm uninstall kafka -n $NAMESPACE_MICROSERVICES
@@ -45,7 +45,7 @@ kubectl delete namespace $NAMESPACE_MICROSERVICES
 
 # Uninstall T2-Modulith
 kubectl delete -k $MY_DIR/t2-modulith/autoscaling/ -l t2-scenario=standard -n $NAMESPACE_MODULITH
-kubectl delete -k $MY_DIR/t2-modulith/ -n $NAMESPACE_MODULITH
+kubectl delete -k $MY_DIR/t2-modulith/standard/ -n $NAMESPACE_MODULITH
 helm uninstall mongo -n $NAMESPACE_MODULITH
 kubectl delete namespace $NAMESPACE_MODULITH
 
