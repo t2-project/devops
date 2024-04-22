@@ -10,3 +10,5 @@ spec:
           env:
             - name: T2_INVENTORY_SIZE
               value: "1000"
+            - name: T2_INVENTORY_SET_UNITS_TO_MAX
+              value: "TRUE"

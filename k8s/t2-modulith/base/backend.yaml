@@ -69,6 +69,8 @@ spec:
               value: "0"
             - name: T2_INVENTORY_TTL
               value: "0"
+            - name: T2_INVENTORY_SET_UNITS_TO_MAX
+              value: "FALSE"
             - name: T2_PAYMENT_PROVIDER_ENABLED
               value: "TRUE"
             - name: T2_PAYMENT_PROVIDER_DUMMY_URL

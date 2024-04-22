@@ -56,6 +56,8 @@ spec:
               value: "0"
             - name: T2_INVENTORY_TTL
               value: "0"
+            - name: T2_INVENTORY_SET_UNITS_TO_MAX
+              value: "FALSE"
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: org.postgresql.Driver
             - name: SPRING_DATASOURCE_PASSWORD
