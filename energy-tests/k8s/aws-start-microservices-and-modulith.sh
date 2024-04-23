@@ -46,11 +46,11 @@ kubectl create namespace $NAMESPACE_MODULITH --dry-run=client -o yaml | kubectl 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
-helm install mongo-cart -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
-helm install mongo-order -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
-helm install kafka bitnami/kafka --version 18.5.0 --set replicaCount=1 -n $NAMESPACE_MICROSERVICES
+helm upgrade -i mongo-cart -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
+helm upgrade -i mongo-order -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MICROSERVICES
+helm upgrade -i kafka bitnami/kafka --version 18.5.0 --set replicaCount=1 -n $NAMESPACE_MICROSERVICES
 
-helm install mongo -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MODULITH
+helm upgrade -i mongo -f $K8S_DIR/mongodb/mongo-values.yaml bitnami/mongodb -n $NAMESPACE_MODULITH
 
 kubectl apply -k $MY_DIR/t2-microservices/standard/ -n $NAMESPACE_MICROSERVICES
 kubectl apply -k $MY_DIR/t2-modulith/standard/ -n $NAMESPACE_MODULITH
