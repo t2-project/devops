@@ -76,4 +76,10 @@ spec:
               value: "FALSE"
             - name: T2_JAEGER_HOST
               value: simplest-agent #todo
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
       restartPolicy: Always
