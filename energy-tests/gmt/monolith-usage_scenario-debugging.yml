@@ -26,14 +26,6 @@ services:
     log-stderr: true
 
 flow:
-  - name: ls
-    container: jmeter
-    commands:
-      - type: console
-        command: ls -la /tmp/repo/
-        log-stdout: true
-        log-stderr: true
-        read-notes-stdout: true
   - name: debugging
     container: jmeter
     commands:
