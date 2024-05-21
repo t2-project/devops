@@ -12,17 +12,23 @@ services:
       - "8080"
     environment:
       T2_COMPUTATION_SIMULATOR_PI_TOTAL_POINTS: 50000000 # requires a few seconds
-    setup-commands:
-      - sleep 15 # wait some time to ensure that the computation-simulator is ready
-  postgres:
-    setup-commands:
-      - sleep 5 # wait some time to ensure that the database is ready
+    healthcheck:
+      test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
+      interval: "5s"
+      timeout: "5s"
+      retries: 10
+      start_period: "10s"
   backend:
-    setup-commands:
-      - sleep 10 # wait some time to ensure that the backend is ready
     environment:
       T2_COMPUTATION_SIMULATOR_ENABLED: "TRUE"
       T2_COMPUTATION_SIMULATOR_URL: http://computation-simulator:8080/
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongo:
+        condition: service_healthy
+      computation-simulator:
+        condition: service_healthy
 
 sci:
   R_d: order

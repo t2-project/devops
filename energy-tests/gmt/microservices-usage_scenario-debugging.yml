@@ -9,13 +9,9 @@ services:
   postgres-inventory:
     log-stdout: true
     log-stderr: true
-    setup-commands:
-      - sleep 5
   postgres-orchestrator:
     log-stdout: true
     log-stderr: true
-    setup-commands:
-      - sleep 5
   mongo-cart:
     log-stdout: true
     log-stderr: true
@@ -25,8 +21,6 @@ services:
   kafka:
     log-stdout: true
     log-stderr: true
-    setup-commands:
-      - sleep 10
   cdcservice:
     log-stdout: true
     log-stderr: true
@@ -62,8 +56,6 @@ services:
     log-stderr: true
     environment:
       LOGGING_LEVEL_DE_UNISTUTTGART_T2: DEBUG
-    setup-commands:
-      - sleep 60
   jmeter:
     log-stdout: true
     log-stderr: true

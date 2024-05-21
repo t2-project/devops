@@ -5,14 +5,6 @@ description: Testing different number of executions. One user checks out the inv
 
 compose-file: !include monolith-compose.yml
 
-services:
-  postgres:
-    setup-commands:
-      - sleep 5 # wait some time to ensure that the database is ready
-  backend:
-    setup-commands:
-      - sleep 10 # wait some time to ensure that the backend is ready
-
 flow:
   # Restock the inventory first, so there won't be any errors during the load test
   - name: Restock inventory

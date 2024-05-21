@@ -12,18 +12,6 @@ services:
     read-sci-stdout: true
     environment:
       T2_GMT_LOGGING_ENABLED: true # SCI note get logged by orchestrator after Saga completed
-  postgres-orchestrator:
-    setup-commands:
-      - sleep 5 # wait some time to ensure that postgres is ready
-  postgres-inventory:
-    setup-commands:
-      - sleep 5 # wait some time to ensure that postgres is ready
-  kafka:
-    setup-commands:
-      - sleep 10 # wait some time to ensure that kafka is ready
-  uibackend:
-    setup-commands:
-      - sleep 60 # wait some time to ensure that all T2 services are ready before starting the flow
 
 sci:
   R_d: order
