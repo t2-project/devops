@@ -34,7 +34,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false
@@ -47,7 +47,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false
@@ -60,7 +60,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false
@@ -73,7 +73,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false
@@ -86,7 +86,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JloggingEnabled=true -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: false

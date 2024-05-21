@@ -26,11 +26,19 @@ services:
     log-stderr: true
 
 flow:
+  - name: ls
+    container: jmeter
+    commands:
+      - type: console
+        command: ls -la /tmp/repo/
+        log-stdout: true
+        log-stderr: true
+        read-notes-stdout: true
   - name: debugging
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JpauseBeforeExecution=1000 -JpauseAfterExecution=1000 -JloggingEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx -l results.csv
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=1 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=1000 -JthinkTimeAdditionalRange=0 -JpauseBeforeExecution=1000 -JpauseAfterExecution=1000 -JloggingEnabled=true -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx -l results.csv
         log-stdout: true
         log-stderr: true
         read-notes-stdout: true

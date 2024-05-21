@@ -22,7 +22,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -JloggingSCIEnabled=true -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=backend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JpauseAfterExecution=0 -JloggingEnabled=true -JloggingSCIEnabled=true -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
         log-stdout: true
         read-notes-stdout: true
         read-sci-stdout: true

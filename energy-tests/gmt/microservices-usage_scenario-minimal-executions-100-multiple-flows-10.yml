@@ -34,7 +34,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 1. sleep
     container: jmeter
     commands:
@@ -44,7 +44,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 2. sleep
     container: jmeter
     commands:
@@ -54,7 +54,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 3. sleep
     container: jmeter
     commands:
@@ -64,7 +64,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 4. sleep
     container: jmeter
     commands:
@@ -74,7 +74,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 5. sleep
     container: jmeter
     commands:
@@ -84,7 +84,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 6. sleep
     container: jmeter
     commands:
@@ -94,7 +94,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 7. sleep
     container: jmeter
     commands:
@@ -104,7 +104,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 8. sleep
     container: jmeter
     commands:
@@ -114,7 +114,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 9. sleep
     container: jmeter
     commands:
@@ -124,7 +124,7 @@ flow:
     container: jmeter
     commands:
       - type: console
-        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/t2-project-flexible.jmx
+        command: jmeter -Jhostname=uibackend -Jport=8080 -JnumExecutions=100 -JnumUser=1 -JrampUp=0 -JnumProducts=1 -JthinkTimeMin=0 -JthinkTimeAdditionalRange=0 -JloggingEnabled=false -JloggingSCIEnabled=false -n -t /tmp/repo/loadprofiles/t2-project-flexible.jmx
   - name: 10. sleep
     container: jmeter
     commands:
