@@ -10,3 +10,5 @@ spec:
           env:
             - name: T2_COMPUTATION_SIMULATOR_ENABLED
               value: "TRUE"
+            - name: T2_COMPUTATION_SIMULATOR_PI_TOTAL_POINTS
+              value: "10000000" # requires 500-1000 ms

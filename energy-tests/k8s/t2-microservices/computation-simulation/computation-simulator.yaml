@@ -47,7 +47,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: T2_COMPUTATION_SIMULATOR_PI_TOTAL_POINTS
-              value: "100000000"
+              value: "10000000" # requires 500-1000 ms
             - name: T2_JAEGER_ENABLED
               value: "FALSE"
             - name: T2_JAEGER_HOST

@@ -56,9 +56,9 @@ spec:
               value: "true"
           args:
             - -c
-            - max_connections=500 # default: 100
+            - max_connections=1000 # default: 100
             - -c
-            - shared_buffers=512MB # default: 128MB
+            - shared_buffers=256MB # default: 128MB
           ports:
             - containerPort: 5432
           volumeMounts:

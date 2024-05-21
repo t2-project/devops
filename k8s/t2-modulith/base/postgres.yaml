@@ -53,9 +53,9 @@ spec:
               value: postgres
           args:
             - -c
-            - max_connections=100 # default: 100
+            - max_connections=1000 # default: 100
             - -c
-            - shared_buffers=128MB # default: 128MB
+            - shared_buffers=256MB # default: 128MB
           ports:
             - containerPort: 5432
           volumeMounts:

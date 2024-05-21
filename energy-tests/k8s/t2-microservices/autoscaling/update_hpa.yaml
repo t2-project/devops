@@ -3,11 +3,11 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: any # is not used
 spec:
-  maxReplicas: 20
+  maxReplicas: 100
   metrics:
   - type: Resource
     resource:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 70 # % of the specified resource "requests" in the deployment
+        averageUtilization: 50 # % of the specified resource "requests" in the deployment
