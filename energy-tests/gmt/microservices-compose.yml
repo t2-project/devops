@@ -13,10 +13,9 @@ services:
       - t2-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   postgres-inventory:
     image: t2project/eventuate-tram-sagas-postgres:0.23.0.RELEASE-fixed # see PR https://github.com/eventuate-foundation/eventuate-common/pull/135
@@ -30,10 +29,9 @@ services:
       - t2-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   mongo-cart:
     image: bitnami/mongodb:7.0
@@ -42,11 +40,10 @@ services:
     networks:
       - t2-network
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      test: mongosh --eval 'db.runCommand("ping").ok' --quiet
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   mongo-order:
     image: bitnami/mongodb:7.0
@@ -55,11 +52,10 @@ services:
     networks:
       - t2-network
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      test: mongosh --eval 'db.runCommand("ping").ok' --quiet
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   ### Eventuate SAGA Services ###
   zookeeper:
@@ -129,10 +125,9 @@ services:
       - t2-network
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health | grep "{\"status\":\"UP\"" || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   ### T2 Services ###
   cart:
@@ -152,10 +147,9 @@ services:
       - t2-network
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   inventory:
     image: t2project/inventory:main
@@ -164,10 +158,10 @@ services:
     depends_on:
       postgres-inventory:
         condition: service_healthy
-      cdcservice:
-        condition: service_healthy
       kafka:
         condition: service_healthy
+      cdcservice:
+        condition: service_started
     environment:
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
@@ -186,10 +180,9 @@ services:
       - t2-network
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "60s"
+      start_interval: "1s"
+      interval: "1h"
 
   orchestrator:
     image: t2project/orchestrator:main
@@ -198,10 +191,10 @@ services:
     depends_on:
       postgres-orchestrator:
         condition: service_healthy
-      cdcservice:
-        condition: service_healthy
       kafka:
         condition: service_healthy
+      cdcservice:
+        condition: service_started
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
@@ -215,10 +208,9 @@ services:
       - t2-network
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   order:
     image: t2project/order:main
@@ -229,10 +221,10 @@ services:
         condition: service_healthy
       postgres-orchestrator:
         condition: service_healthy
-      cdcservice:
-        condition: service_healthy
       kafka:
         condition: service_healthy
+      cdcservice:
+        condition: service_started
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-orchestrator:5432/eventuate
       SPRING_DATASOURCE_USERNAME: eventuate
@@ -247,10 +239,9 @@ services:
       - t2-network
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   payment:
     image: t2project/payment:main
@@ -259,10 +250,10 @@ services:
     depends_on:
       postgres-orchestrator:
         condition: service_healthy
-      cdcservice:
-        condition: service_healthy
       kafka:
         condition: service_healthy
+      cdcservice:
+        condition: service_started
     environment:
       T2_PAYMENT_PROVIDER_ENABLED: "FALSE"
       T2_PAYMENT_PROVIDER_DUMMY_URL: http://dummy:8080/pay
@@ -279,10 +270,9 @@ services:
       - t2-network
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   uibackend:
     image: t2project/uibackend:main
@@ -290,11 +280,11 @@ services:
       - "8080"
     depends_on:
       cart:
-        condition: service_healthy
+        condition: service_started
       inventory:
-        condition: service_healthy
+        condition: service_started
       orchestrator:
-        condition: service_healthy
+        condition: service_started
     environment:
       T2_ORCHESTRATOR_URL: http://orchestrator:8080/order
       T2_CART_URL: http://cart:8080/cart
@@ -307,15 +297,17 @@ services:
       - t2-network
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "60s"
+      start_interval: "1s"
+      interval: "1h"
 
   # ui:
   #   image: t2project/ui:main
   #   expose:
   #     - "8080"
+  #   depends_on:
+  #     uibackend:
+  #       condition: service_started
   #   environment:
   #     T2_UIBACKEND_URL: http://uibackend:8080
   #     T2_JAEGER_ENABLED: "FALSE"

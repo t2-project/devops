@@ -11,10 +11,9 @@ services:
       - t2-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
   
   mongo:
     image: bitnami/mongodb:7.0
@@ -23,11 +22,10 @@ services:
     networks:
       - t2-network
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      test: mongosh --eval 'db.runCommand("ping").ok' --quiet
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   backend:
     image: t2project/modulith:main
@@ -45,11 +43,10 @@ services:
     networks:
       - t2-network
     healthcheck:
-      test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      test: "curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
 
   jmeter:
     image: t2project/jmeter:5.6.2

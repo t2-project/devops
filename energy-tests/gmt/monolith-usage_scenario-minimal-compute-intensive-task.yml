@@ -14,10 +14,9 @@ services:
       T2_COMPUTATION_SIMULATOR_PI_TOTAL_POINTS: 50000000 # requires a few seconds
     healthcheck:
       test: curl -m 5 -f -s http://localhost:8080/actuator/health/readiness | grep UP || exit 1
-      interval: "5s"
-      timeout: "5s"
-      retries: 10
-      start_period: "10s"
+      start_period: "30s"
+      start_interval: "1s"
+      interval: "1h"
   backend:
     environment:
       T2_COMPUTATION_SIMULATOR_ENABLED: "TRUE"
@@ -28,7 +27,7 @@ services:
       mongo:
         condition: service_healthy
       computation-simulator:
-        condition: service_healthy
+        condition: service_started
 
 sci:
   R_d: order
