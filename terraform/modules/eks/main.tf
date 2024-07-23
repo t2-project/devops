@@ -150,7 +150,7 @@ resource "null_resource" "merge_kubeconfig" {
     command     = <<EOT
       set -e
       echo 'Applying Auth ConfigMap with kubectl...'
-      aws eks wait cluster-active --name '${module.eks.cluster_name}'
+      aws eks wait cluster-active --name '${module.eks.cluster_name}' --region ${var.region}
       aws eks update-kubeconfig --name '${module.eks.cluster_name}' --alias '${module.eks.cluster_name}-${var.region}' --region ${var.region}
     EOT
   }
