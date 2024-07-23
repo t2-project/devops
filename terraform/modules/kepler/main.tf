@@ -4,7 +4,7 @@ resource "helm_release" "kepler" {
   repository       = "https://sustainable-computing-io.github.io/kepler-helm-chart"
   namespace        = var.namespace
   create_namespace = true
-  version          = "0.5.5" # version "0.5.6" has issues (reports 0 values for the most services), chart version 0.5.5 -> kepler version: 0.7.2, releases: https://github.com/sustainable-computing-io/kepler-helm-chart/releases
+  version          = "0.5.7"
 
   # for available values see https://github.com/sustainable-computing-io/kepler-helm-chart/blob/main/chart/kepler/values.yaml
 
