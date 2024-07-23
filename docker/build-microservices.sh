@@ -11,11 +11,9 @@ set -e
 echo -e "Building T2-Project\n-------------------"
 
 # set dir
-T2_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && cd .. && pwd )"
+dir="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+T2_DIR=$dir/../../microservices
 echo -e "\nWorking directory: $T2_DIR"
-
-# set env vars
-source $T2_DIR/devops/setenv.sh
 
 # compile projects
 declare -a projects=("common" "cart" "creditinstitute" "inventory" "orchestrator" "order" "payment" "ui" "uibackend" "e2e-tests")
@@ -30,11 +28,6 @@ do
         ./mvnw install
     else
         ./mvnw install -DskipTests
-    fi
-
-    # Install dependencies of E2E Test to local maven repository
-    if [ "$project" == 'payment' ] || [ "$project" == 'inventory' ] || [ "$project" == 'order' ] ; then
-        ./mvnw install:install-file -Dfile=./target/$project-0.0.1-SNAPSHOT.jar.original
     fi
 
     # Docker build everything, except 'common' and 'e2e-tests'

@@ -1,7 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 TAG=local
 
-cd ..
+dir="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+
+cd $dir/../../microservices
 
 docker build -t t2project/cart:$TAG -f cart/Dockerfile cart
 docker build -t t2project/creditinstitute:$TAG -f creditinstitute/Dockerfile creditinstitute

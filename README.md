@@ -15,4 +15,3 @@ For more information read the [documentation](https://t2-documentation.readthedo
 | [loadprofiles/](./loadprofiles/) | load profiles for the Apache JMeter load generator |
 | [prometheus/](./prometheus/) | config / rules / alerts for Prometheus |
 | [terraform/](./terraform/) | files to deploy the T2-Project to different environments with Terraform |
-| [setenv.sh](./setenv.sh) | export environment variables required do build the T2-Project locally |
