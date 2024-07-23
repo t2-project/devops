@@ -11,7 +11,6 @@
 # →
 # T2_ORCHESTRATOR_URL: http://host.docker.internal:8085/order
 
-version: "2"
 services:
 
   mongo-cart:
