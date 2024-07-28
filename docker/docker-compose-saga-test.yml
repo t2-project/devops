@@ -63,6 +63,7 @@ services:
       T2_INVENTORY_SIZE: "25"
       T2_INVENTORY_TASKRATE: "0"
       T2_INVENTORY_TTL: "0"
+      T2_INVENTORY_SET_UNITS_TO_MAX: "FALSE"
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
       SPRING_DATASOURCE_PASSWORD: inventory
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-inventory/inventory
