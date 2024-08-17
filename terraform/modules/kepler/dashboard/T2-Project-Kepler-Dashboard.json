@@ -686,7 +686,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by (container_namespace) (\r\n    increase(\r\n        (kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[1m])\r\n    )\r\n)",
+          "expr": "sum( increase( kepler_container_joules_total{container_namespace=~\"$namespace\", pod_name=~\"$pod\"}[$__range] ) )",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -696,7 +696,7 @@
           "useBackend": false
         }
       ],
-      "title": "Energy Consumption (Ws / J)",
+      "title": "Energy Consumption (J)",
       "type": "stat"
     },
     {
