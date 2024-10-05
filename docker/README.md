@@ -6,7 +6,7 @@ This directory contains the Docker Compose files to run the entire t2-project in
 git clone git@github.com:t2-project/devops.git
 cd devops/docker
 
-docker-compose up -d
+docker compose up -d
 ```
 
 This should start up 13 containers.
