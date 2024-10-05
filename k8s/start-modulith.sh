@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Documentation: https://t2-documentation.readthedocs.io/en/latest/monolith/deploy.html
+# Documentation: https://t2-documentation.readthedocs.io/en/latest/modulith/deploy.html
 
 MY_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
