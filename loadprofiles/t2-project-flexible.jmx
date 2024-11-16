@@ -83,12 +83,6 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
-          <collectionProp name="CookieManager.cookies"/>
-          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
-          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
-        </CookieManager>
-        <hashTree/>
         <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Generate session ID">
           <stringProp name="TestPlan.comments">Session ID has to be generated only once per user</stringProp>
         </OnceOnlyController>

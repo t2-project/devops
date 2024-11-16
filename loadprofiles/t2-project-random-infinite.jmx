@@ -124,12 +124,6 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager">
-          <collectionProp name="CookieManager.cookies"/>
-          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
-          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
-        </CookieManager>
-        <hashTree/>
         <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="SessionId">
           <stringProp name="TestPlan.comments">fake sessionId</stringProp>
           <stringProp name="variableName">sessionId</stringProp>

@@ -70,12 +70,6 @@
         <stringProp name="TestPlan.comments">fixed number of concurrent users, number of executions is determined by the total time</stringProp>
       </com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup>
       <hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-          <collectionProp name="CookieManager.cookies"/>
-          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
-          <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
-        </CookieManager>
-        <hashTree/>
         <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Generate session ID" enabled="true">
           <stringProp name="TestPlan.comments">Session ID has to be generated only once per user</stringProp>
         </OnceOnlyController>
